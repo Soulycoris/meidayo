@@ -1,0 +1,2 @@
+# pridenotes
+idoly pride
