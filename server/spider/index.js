@@ -5,12 +5,12 @@ import Path from "path";
 import axios from "axios";
 import unitList from "./unit-list.json";
 import unitDetail from "./unit-detail.json";
-console.log(unitList.length, unitDetail.length);
+// console.log(unitList.length, unitDetail.length);
 const x = xray();
 const spiderBaseUrl = "https://appmedia.jp";
 
 /**
- * 获取角色列表
+ * 获取卡牌列表
  */
 const getUnitList = () => {
   x(
@@ -43,18 +43,13 @@ const getUnitList = () => {
         type,
       });
     });
-    const filePath = Path.resolve(process.cwd(), `./spider/unit-list.json`);
     let str = JSON.stringify(unit, null, "\t");
-    fs.writeFile(filePath, str, function (err) {
-      if (err) {
-        res.status(500).send("Server is error...");
-      }
-    });
+    fs.writeFileSync("./spider/unit-list.json", str);
   });
 };
 
 /**
- * 获取角色信息
+ * 获取卡牌信息
  */
 const getUnitDetail = (unit) => {
   return new Promise((resolve, reject) => {
@@ -197,7 +192,7 @@ const getEstertionImg = async (url, filePath) => {
 };
 
 /**
- * 获取角色头像
+ * 获取卡牌头像
  */
 const getIcon = async () => {
   unitList.forEach(async (e) => {
@@ -210,7 +205,7 @@ const getIcon = async () => {
 };
 
 /**
- * 获取角色立绘
+ * 获取卡牌立绘
  */
 const getImgFull = () => {
   unitDetail.forEach(async (e) => {
@@ -225,3 +220,57 @@ const getImgFull = () => {
 };
 
 // getImgFull()
+
+/**
+ * 获取角色列表
+ */
+const getCharacterList = () => {
+  x(
+    "https://appmedia.jp/idolypride/6389167",
+    ".post-content@html"
+  )((err, html) => {
+    if (!html) {
+      return;
+    }
+    fs.writeFileSync("./spider/test.txt", html);
+    // const $ = cheerio.load(html);
+    // let unit = [];
+    // $("#search_result_table tr[data-name]").each((index, element) => {
+    //   const url = $(element).find("td:nth-child(1) a").attr("href") || null;
+    //   const nameText = $(element).find("td:nth-child(1)").text();
+    //   const title = nameText.replace(/【(.*?)】(.*)/, "$1");
+    //   const name = nameText.replace(/【(.*?)】(.*)/, "$2");
+    //   const icon = $(element).find("td:nth-child(1) img").attr("src");
+    //   const rarity = $(element).find("td:nth-child(2)").text();
+    //   const propensity = $(element).find("td:nth-child(3)").text();
+    //   const type = $(element).find("td:nth-child(4)").text();
+    //   const id = `1${(index + 1 + "").padStart(3, "0")}01`;
+    //   unit.push({
+    //     id,
+    //     url,
+    //     title,
+    //     name,
+    //     icon,
+    //     rarity,
+    //     propensity,
+    //     type,
+    //   });
+    // });
+    // const filePath = Path.resolve(process.cwd(), `./spider/unit-list.json`);
+    // let str = JSON.stringify(unit, null, "\t");
+    // fs.writeFile(filePath, str, function (err) {
+    //   if (err) {
+    //     res.status(500).send("Server is error...");
+    //   }
+    // });
+  });
+};
+// getCharacterList()
+
+const html = fs.readFileSync('./spider/test.txt', "utf-8");
+const $ = cheerio.load(html);
+
+$("table").eq(0).find("tr").each((index,element)=>{
+  let text = $(element).text()
+  console.log(text);
+})
