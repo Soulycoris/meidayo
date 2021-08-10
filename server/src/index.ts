@@ -37,8 +37,6 @@
 // app.use(router.routes());
 // app.listen(3000);
 
-// console.log("app started at port 3000...");
-
 // // updateDatabase();
 import Koa from "koa";
 import bodyParser from "koa-bodyparser";
@@ -59,4 +57,3 @@ app.listen(port, () => {
   console.log(`seccess start server`);
   console.log(`local: http://127.0.0.1:${port}`);
 });
-console.log(port);

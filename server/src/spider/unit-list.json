@@ -647,5 +647,49 @@
 		"rarity": "5",
 		"propensity": "ボーカル",
 		"type": "サポーター"
+	},
+	{
+		"id": "106001",
+		"member_id": "100012",
+		"url": "https://appmedia.jp/idolypride/6680884",
+		"title": "真夏の恥じらいショット",
+		"name": "天動瑠衣",
+		"icon": "https://appmedia.jp/wp-content/themes/appmedia/lib/idolypride/chara_icon/card-rui-05-mizg-01_icon.jpg",
+		"rarity": "5",
+		"propensity": "ビジュアル",
+		"type": "バッファー"
+	},
+	{
+		"id": "106101",
+		"member_id": "100002",
+		"url": "https://appmedia.jp/idolypride/26676643",
+		"title": "はにかみサマームーン",
+		"name": "長瀬琴乃",
+		"icon": "https://appmedia.jp/wp-content/themes/appmedia/lib/idolypride/chara_icon/card-ktn-05-mizg-01_icon.jpg",
+		"rarity": "5",
+		"propensity": "ダンス",
+		"type": "スコアラー"
+	},
+	{
+		"id": "106201",
+		"member_id": "100006",
+		"url": "https://appmedia.jp/idolypride/26676823",
+		"title": "二人きりのサンセットビーチ",
+		"name": "早坂芽衣",
+		"icon": "https://appmedia.jp/wp-content/themes/appmedia/lib/idolypride/chara_icon/card-mei-05-mizg-01_icon.jpg",
+		"rarity": "5",
+		"propensity": "ボーカル",
+		"type": "バッファー"
+	},
+	{
+		"id": "106301",
+		"member_id": "100004",
+		"url": "https://appmedia.jp/idolypride/26677060",
+		"title": "夏の夜に輝く星",
+		"name": "白石沙季",
+		"icon": "https://appmedia.jp/wp-content/themes/appmedia/lib/idolypride/chara_icon/card-ski-02-mizg-01_icon.jpg",
+		"rarity": "2",
+		"propensity": "ボーカル",
+		"type": "サポーター"
 	}
 ]

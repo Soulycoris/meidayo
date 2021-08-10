@@ -7,8 +7,22 @@ import unitList from "./unit-list.json";
 import unitDetail from "./unit-detail.json";
 import memberList from "./member-list.json";
 import memberDetail from "./member-detail.json";
+
 const x = xray();
 const spiderBaseUrl = "https://appmedia.jp";
+if (!unitList) {
+  unitList = [];
+}
+if (!unitDetail) {
+  unitDetail = [];
+}
+if (!memberList) {
+  memberList = [];
+}
+if (!memberDetail) {
+  memberDetail = [];
+}
+// console.log(unitList.length);
 
 /**
  * 获取角色列表
@@ -54,9 +68,10 @@ const getMemberList = () => {
     }
     // console.log(member);
     let str = JSON.stringify(member, null, "\t");
-    fs.writeFileSync("./spider/member-list.json", str);
+    fs.writeFileSync("./src/spider/member-list.json", str);
   });
 };
+// getMemberList()
 
 const getMemberDetail = (unit) => {
   return new Promise((resolve, reject) => {
@@ -140,12 +155,14 @@ const handleGetMemberDetail = async () => {
     if (data) {
       memberDetail.push(data);
       let str = JSON.stringify(memberDetail, null, "\t");
-      fs.writeFileSync("./spider/member-detail.json", str);
+      fs.writeFileSync("./src/spider//member-detail.json", str);
     } else {
       return;
     }
   }
 };
+
+// handleGetMemberDetail()
 /**
  * 获取卡牌列表
  */
@@ -171,7 +188,7 @@ const getUnitList = () => {
       const type = $(element).find("td:nth-child(4)").text();
       const id = `1${(index + 1 + "").padStart(3, "0")}01`;
       const res = memberList.find((e) => name.includes(e.nike_name));
-      // console.log(res);
+      console.log(name);
       unit.push({
         id,
         member_id: res.id,
@@ -185,7 +202,7 @@ const getUnitList = () => {
       });
     });
     let str = JSON.stringify(unit, null, "\t");
-    fs.writeFileSync("./spider/unit-list.json", str);
+    fs.writeFileSync("./src/spider/unit-list.json", str);
   });
 };
 // getUnitList();
@@ -277,6 +294,7 @@ const getUnitDetail = (unit) => {
       const skill_yell_text = $(table).eq(3).find("tr:nth-child(2) td").html();
       let data = {
         unit_id: unit.id,
+        member_id: unit.member_id,
         full,
         sp_skill,
         yell_skill,
@@ -308,7 +326,7 @@ const handleGetUnitDetail = async () => {
     if (data) {
       unitDetail.push(data);
       let str = JSON.stringify(unitDetail, null, "\t");
-      fs.writeFileSync("./spider/unit-detail.json", str);
+      fs.writeFileSync("./src/spider/unit-detail.json", str);
     } else {
       return;
     }
@@ -329,16 +347,20 @@ const getEstertionImg = async (url, filePath) => {
     axios({
       url,
       responseType: "stream",
-    }).then((res) => {
-      const writer = fs.createWriteStream(filePath);
-      res.data.pipe(writer);
-      writer.on("finish", () => {
-        resolve("success");
-      });
-      writer.on("error", (err) => {
+    })
+      .then((res) => {
+        const writer = fs.createWriteStream(filePath);
+        res.data.pipe(writer);
+        writer.on("finish", () => {
+          resolve("success");
+        });
+        writer.on("error", (err) => {
+          reject(err);
+        });
+      })
+      .catch((err) => {
         reject(err);
       });
-    });
   });
 };
 
@@ -348,19 +370,21 @@ const getEstertionImg = async (url, filePath) => {
 const getIcon = async () => {
   for (const element of unitList) {
     const filePath = Path.resolve(process.cwd(), `./img/icon/unit/${element.id}.jpg`);
-    const resPath = `${spiderBaseUrl}${element.icon}`;
+    const resPath = `${element.icon}`;
     console.log(resPath);
     let data = await getEstertionImg(resPath, filePath);
     console.log(data);
   }
 };
 
+// getIcon()
+
 /**
  * 获取卡牌立绘
  */
 const getImgFull = async () => {
   for (const element of unitDetail) {
-    const filePath = Path.resolve(process.cwd(), `./img/card/full/${e.unit_id}.jpg`);
+    const filePath = Path.resolve(process.cwd(), `./img/card/full/${element.unit_id}.jpg`);
     const resPath = element.full;
     console.log(resPath);
     if (resPath) {
@@ -369,6 +393,8 @@ const getImgFull = async () => {
     }
   }
 };
+
+// getImgFull()
 
 /**
  * 获取角色头像
@@ -385,6 +411,7 @@ const getMemberIcon = async () => {
   }
 };
 
+// getMemberIcon()
 /**
  * 获取角色立绘和服装
  */
@@ -411,3 +438,14 @@ const getMemberClothesOrPrefab = async () => {
 
 // let str = JSON.stringify(member, null, "\t");
 // fs.writeFileSync("./spider/member-list.json", str);
+
+unitDetail.forEach((element) => {
+  memberList.forEach((e) => {
+    if (element.member_id === e.id) {
+      element.name = e.name;
+    }
+  });
+});
+
+let str = JSON.stringify(unitDetail, null, "\t");
+fs.writeFileSync("./src/spider/unit-detail.json", str);
