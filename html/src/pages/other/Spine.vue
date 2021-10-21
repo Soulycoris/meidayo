@@ -1,30 +1,50 @@
 <template>
-  <div>
+  <div class="container">
+    <el-form :model="form" size="mini" class="form" label-width="50px">
+      <el-form-item label="骨骼:">
+        <el-select v-model="form.skeleton.value" placeholder="骨骼" @change="eventChange($event, 'skeleton')">
+          <el-option :label="item" :value="item" v-for="(item, index) in skeletonsList" :key="index"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="动画:">
+        <el-select v-model="form.animation.value" placeholder="动画" @change="eventChange($event, 'animation')">
+          <el-option :label="item.name" :value="item.name" v-for="(item, index) in animationList" :key="index"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="皮肤:">
+        <el-select v-model="form.skin.value" placeholder="皮肤" @change="eventChange($event, 'skin')">
+          <el-option :label="item.name" :value="item.name" v-for="(item, index) in skinsList" :key="index"></el-option>
+        </el-select>
+      </el-form-item>
+    </el-form>
     <canvas id="canvas"></canvas>
-    <center>
-      <div style="color: #fff; position: fixed; top: 0; width: 100%">
-        <span>Format:</span
-        ><select id="formatList"></select>
-        <span>Skeleton:</span
-        ><select id="skeletonList"></select>
-        <span>Animation:</span
-        ><select id="animationList"></select>
-        <span>Skin:</span
-        ><select id="skinList"></select>
-        <span>Vertex Effect:</span
-        ><select id="effectList"></select>
-        <span>Debug:</span><input type="checkbox" id="debug" />
-      </div>
-    </center>
   </div>
 </template>
-<script setup>
-import { defineComponent, reactive, toRefs, onMounted } from 'vue';
+<script setup lang="ts">
+import { defineComponent, reactive, toRefs, onMounted, computed, ref, Ref } from 'vue';
 import * as spine from '@esotericsoftware/spine-webgl';
 // import name from '../../assets/Spine/name.js';
 
-let canvas;
-let gl;
+interface Form {
+  skeleton: Ref<string>;
+  animation: Ref<string>;
+  skins: Ref<string[]>;
+  skin: Ref<string>;
+}
+interface skeletonData {
+  skeleton: spine.Skeleton;
+  state: spine.AnimationState;
+  bounds: {
+    offset: spine.Vector2;
+    size: spine.Vector2;
+  };
+  premultipliedAlpha: boolean;
+}
+interface Skeletons {
+  [skeletonName: string]: skeletonData;
+}
+let canvas: HTMLCanvasElement;
+let gl: WebGLRenderingContext | null;
 let shader;
 let batcher;
 let mvp = new spine.Matrix4();
@@ -35,26 +55,32 @@ let debugRenderer;
 let shapes;
 
 let lastFrameTime;
-let skeletons = {};
-let format = 'JSON';
-let activeSkeleton = 'spineboy';
-let pow2 = new spine.Pow(2);
-let swirlEffect = new spine.SwirlEffect(0);
-let jitterEffect = new spine.JitterEffect(20, 20);
-let swirlTime = 0;
-let debugShader = null
+let skeletons: Skeletons = {};
+let activeSkeleton = 'mei-idol';
+// let activeSkeleton = 'spineboy';
+let debugShader;
+
+let form: Form = {
+  skeleton: ref('mei-idol'),
+  animation: ref('loop_idle'),
+  skin: ref('body_FL'),
+  skins: ref([]),
+};
+
 onMounted(() => {
   init();
 });
 
+let skeletonsList: Ref<string[]> = ref([]);
+let animationList: Ref<spine.Animation[]> = ref([]);
+let skinsList: Ref<spine.Skin[]> = ref([]);
+
 function init() {
   // Setup canvas and WebGL context. We pass alpha: false to canvas.getContext() so we don't use premultiplied alpha when
   // loading textures. That is handled separately by PolygonBatcher.
-  canvas = document.getElementById('canvas');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  var config = { alpha: false };
-  gl = canvas.getContext('webgl', config) || canvas.getContext('experimental-webgl', config);
+  canvas = document.getElementById('canvas') as HTMLCanvasElement;
+  let config = { alpha: false };
+  gl = (canvas.getContext('webgl', config) as WebGLRenderingContext | null) || (canvas.getContext('experimental-webgl', config) as WebGLRenderingContext | null);
   if (!gl) {
     alert('WebGL is unavailable.');
     return;
@@ -64,7 +90,8 @@ function init() {
   shader = spine.Shader.newTwoColoredTextured(gl);
   batcher = new spine.PolygonBatcher(gl);
   mvp.ortho2d(0, 0, canvas.width - 1, canvas.height - 1);
-  skeletonRenderer = new spine.SkeletonRenderer(gl);
+  let context = new spine.ManagedWebGLRenderingContext(gl);
+  skeletonRenderer = new spine.SkeletonRenderer(context);
   assetManager = new spine.AssetManager(gl, 'spine/');
 
   // Create a debug renderer and the ShapeRenderer it needs to render lines.
@@ -79,30 +106,13 @@ function init() {
 
   // Tell AssetManager to load the resources for each skeleton, including the exported data file, the .atlas file and the .png
   // file for the atlas. We then wait until all resources are loaded in the load() method.
-  assetManager.loadBinary('spineboy-pro.skel');
-  assetManager.loadText('spineboy-pro.json');
-  assetManager.loadTextureAtlas('spineboy-pma.atlas');
-  assetManager.loadBinary('raptor-pro.skel');
-  assetManager.loadText('raptor-pro.json');
-  assetManager.loadTextureAtlas('raptor-pma.atlas');
-  assetManager.loadBinary('tank-pro.skel');
-  assetManager.loadText('tank-pro.json');
-  assetManager.loadTextureAtlas('tank-pma.atlas');
-  assetManager.loadBinary('goblins-pro.skel');
-  assetManager.loadText('goblins-pro.json');
-  assetManager.loadTextureAtlas('goblins-pma.atlas');
-  assetManager.loadBinary('vine-pro.skel');
-  assetManager.loadText('vine-pro.json');
-  assetManager.loadTextureAtlas('vine-pma.atlas');
-  assetManager.loadBinary('stretchyman-pro.skel');
-  assetManager.loadText('stretchyman-pro.json');
-  assetManager.loadTextureAtlas('stretchyman-pma.atlas');
-  assetManager.loadBinary('coin-pro.skel');
-  assetManager.loadText('coin-pro.json');
-  assetManager.loadTextureAtlas('coin-pma.atlas');
-  assetManager.loadBinary('mix-and-match-pro.skel');
-  assetManager.loadText('mix-and-match-pro.json');
-  assetManager.loadTextureAtlas('mix-and-match-pma.atlas');
+  assetManager.loadText('spineboy.json');
+  assetManager.loadTextureAtlas('spineboy.atlas');
+  assetManager.loadText('spi_sd_chr_cos_mei-casl-00.json');
+  assetManager.loadTextureAtlas('spi_sd_chr_cos_mei-casl-00.atlas');
+  assetManager.loadText('spi_sd_chr_cos_mei-idol-01.json');
+  assetManager.loadTextureAtlas('spi_sd_chr_cos_mei-idol-01.atlas');
+
   requestAnimationFrame(load);
 }
 
@@ -110,38 +120,9 @@ function load() {
   // Wait until the AssetManager has loaded all resources, then load the skeletons.
   if (assetManager.isLoadingComplete()) {
     skeletons = {
-      coin: {
-        Binary: loadSkeleton('coin-pro.skel', 'animation', true),
-        JSON: loadSkeleton('coin-pro.json', 'animation', true),
-      },
-      goblins: {
-        Binary: loadSkeleton('goblins-pro.skel', 'walk', true, 'goblin'),
-        JSON: loadSkeleton('goblins-pro.json', 'walk', true, 'goblin'),
-      },
-      'mix-and-match-pro': {
-        Binary: loadSkeleton('mix-and-match-pro.skel', 'dance', true, 'full-skins/girl-blue-cape'),
-        JSON: loadSkeleton('mix-and-match-pro.json', 'dance', true, 'full-skins/girl-blue-cape'),
-      },
-      raptor: {
-        Binary: loadSkeleton('raptor-pro.skel', 'walk', true),
-        JSON: loadSkeleton('raptor-pro.json', 'walk', true),
-      },
-      spineboy: {
-        Binary: loadSkeleton('spineboy-pro.skel', 'run', true),
-        JSON: loadSkeleton('spineboy-pro.json', 'run', true),
-      },
-      stretchyman: {
-        Binary: loadSkeleton('stretchyman-pro.skel', 'sneak', true),
-        JSON: loadSkeleton('stretchyman-pro.json', 'sneak', true),
-      },
-      tank: {
-        Binary: loadSkeleton('tank-pro.skel', 'drive', true),
-        JSON: loadSkeleton('tank-pro.json', 'drive', true),
-      },
-      vine: {
-        Binary: loadSkeleton('vine-pro.skel', 'grow', true),
-        JSON: loadSkeleton('vine-pro.json', 'grow', true),
-      },
+      spineboy: loadSkeleton('spineboy', 'aim', true, 'default'),
+      'mei-casl': loadSkeleton('spi_sd_chr_cos_mei-casl-00', 'loop_idle', false, 'body_FL'),
+      'mei-idol': loadSkeleton('spi_sd_chr_cos_mei-idol-01', 'loop_idle', false, 'body_FL'),
     };
     setupUI();
     lastFrameTime = Date.now() / 1000;
@@ -149,46 +130,35 @@ function load() {
   } else requestAnimationFrame(load);
 }
 
-function loadSkeleton(name, initialAnimation, premultipliedAlpha, skin) {
+function loadSkeleton(name: string, initialAnimation: string, premultipliedAlpha = false, skin: string): skeletonData {
   if (skin === undefined) skin = 'default';
 
   // Load the texture atlas using name.atlas from the AssetManager.
-  var atlas = assetManager.require(name.replace(/(?:-ess|-pro)\.(skel|json)/, '') + (premultipliedAlpha ? '-pma' : '') + '.atlas');
+  let atlas = assetManager.require(name + '.atlas');
 
   // Create an AtlasAttachmentLoader that resolves region, mesh, boundingbox and path attachments
-  var atlasLoader = new spine.AtlasAttachmentLoader(atlas);
+  let atlasLoader = new spine.AtlasAttachmentLoader(atlas);
 
   // Create a skeleton loader instance for parsing the skeleton data file.
-  var skeletonLoader = name.endsWith('.skel') ? new spine.SkeletonBinary(atlasLoader) : new spine.SkeletonJson(atlasLoader);
+  let skeletonLoader = new spine.SkeletonJson(atlasLoader);
 
   // Set the scale to apply during parsing, parse the file, and create a new skeleton.
-  skeletonLoader.scale = 1;
-  console.log(name);
-  var skeletonData = skeletonLoader.readSkeletonData(assetManager.require(name));
-  var skeleton = new spine.Skeleton(skeletonData);
+  skeletonLoader.scale = 0.5;
+  let assets = assetManager.require(name + '.json');
+  let skeletonData = skeletonLoader.readSkeletonData(assets);
+  let skeleton = new spine.Skeleton(skeletonData);
   skeleton.setSkinByName(skin);
-  var bounds = calculateSetupPoseBounds(skeleton);
-  
+  let bounds = calculateSetupPoseBounds(skeleton);
+
   // Create an AnimationState, and set the initial animation in looping mode.
-  var animationStateData = new spine.AnimationStateData(skeleton.data);
-  var animationState = new spine.AnimationState(animationStateData);
-  if (name == 'spineboy-pro.skel' || name == 'spineboy-pro.json') {
-    animationStateData.setMix('walk', 'run', 1.5);
-    animationStateData.setMix('run', 'jump', 0.2);
-    animationStateData.setMix('jump', 'run', 0.4);
-    animationState.setEmptyAnimation(0, 0);
-    var entry = animationState.addAnimation(0, 'walk', true, 0);
-    entry.mixDuration = 1;
-    animationState.addAnimation(0, 'run', true, 1.5);
-    animationState.addAnimation(0, 'jump', false, 2);
-    animationState.addAnimation(0, 'run', true, 0);
-    animationState.addEmptyAnimation(0, 1, 1);
-    entry = animationState.addAnimation(0, 'walk', true, 1.5);
-    entry.mixDuration = 1;
-  } else animationState.setAnimation(0, initialAnimation, true);
+  let animationStateData = new spine.AnimationStateData(skeleton.data);
+  let animationState = new spine.AnimationState(animationStateData);
+
+  animationState.setAnimation(0, initialAnimation, true);
 
   function log(message) {
-    if ($('#debug').is(':checked')) console.log(message);
+    // if ($('#debug').is(':checked'))
+    console.log(message);
   }
   animationState.addListener({
     start: function (track) {
@@ -200,9 +170,6 @@ function loadSkeleton(name, initialAnimation, premultipliedAlpha, skin) {
     end: function (track) {
       log('Animation on track ' + track.trackIndex + ' ended');
     },
-    disposed: function (track) {
-      log('Animation on track ' + track.trackIndex + ' disposed');
-    },
     complete: function (track) {
       log('Animation on track ' + track.trackIndex + ' completed');
     },
@@ -212,100 +179,52 @@ function loadSkeleton(name, initialAnimation, premultipliedAlpha, skin) {
   });
 
   // Pack everything up and return to caller.
-  return { skeleton: skeleton, state: animationState, bounds: bounds, premultipliedAlpha: premultipliedAlpha };
+  return { skeleton, state: animationState, bounds, premultipliedAlpha };
 }
 
 function calculateSetupPoseBounds(skeleton) {
   skeleton.setToSetupPose();
   skeleton.updateWorldTransform();
-  var offset = new spine.Vector2();
-  var size = new spine.Vector2();
+  let offset = new spine.Vector2();
+  let size = new spine.Vector2();
   skeleton.getBounds(offset, size, []);
   return { offset: offset, size: size };
 }
 
+function eventChange(val: string, tag: string) {
+  console.log(val, tag);
+  let skeleton = skeletons[activeSkeleton].skeleton;
+  let state = skeletons[activeSkeleton].state;
+  if (tag === 'animation') {
+    skeleton.setToSetupPose();
+    state.setAnimation(0, val, true);
+  } else if (tag === 'skin') {
+    skeleton.setSkinByName(val);
+    skeleton.setSlotsToSetupPose();
+  } else if (tag === 'skeleton') {
+    form.animation.value = '';
+    form.skin.value = '';
+    activeSkeleton = val;
+    setupUI();
+  }
+}
+
 function setupUI() {
-  var formatList = $('#formatList');
-  formatList.append($('<option>Binary</option>'));
-  formatList.append($('<option>JSON</option>'));
-  var skeletonList = $('#skeletonList');
-  for (var skeletonName in skeletons) {
-    var option = $('<option></option>');
-    option.attr('value', skeletonName).text(skeletonName);
-    if (skeletonName === activeSkeleton) option.attr('selected', 'selected');
-    skeletonList.append(option);
+  if (!skeletonsList.value.length) {
+    skeletonsList.value = Object.keys(skeletons);
   }
-  var effectList = $('#effectList');
-  var effects = ['None', 'Swirl', 'Jitter'];
-  for (var effect in effects) {
-    var effectName = effects[effect];
-    var option = $('<option></option>');
-    option.attr('value', effectName).text(effectName);
-    effectList.append(option);
-  }
-  var setupAnimationUI = function () {
-    var animationList = $('#animationList');
-    animationList.empty();
-    var skeleton = skeletons[activeSkeleton][format].skeleton;
-    var state = skeletons[activeSkeleton][format].state;
-    var activeAnimation = state.tracks[0].animation.name;
-    for (var i = 0; i < skeleton.data.animations.length; i++) {
-      var name = skeleton.data.animations[i].name;
-      var option = $('<option></option>');
-      option.attr('value', name).text(name);
-      if (name === activeAnimation) option.attr('selected', 'selected');
-      animationList.append(option);
-    }
 
-    animationList.change(function () {
-      var state = skeletons[activeSkeleton][format].state;
-      var skeleton = skeletons[activeSkeleton][format].skeleton;
-      var animationName = $('#animationList option:selected').text();
-      skeleton.setToSetupPose();
-      state.setAnimation(0, animationName, true);
-    });
-  };
+  let skeleton = skeletons[activeSkeleton].skeleton;
+  animationList.value.splice(0);
+  skinsList.value.splice(0);
 
-  var setupSkinUI = function () {
-    var skinList = $('#skinList');
-    skinList.empty();
-    var skeleton = skeletons[activeSkeleton][format].skeleton;
-    var activeSkin = skeleton.skin == null ? 'default' : skeleton.skin.name;
-    for (var i = 0; i < skeleton.data.skins.length; i++) {
-      var name = skeleton.data.skins[i].name;
-      var option = $('<option></option>');
-      option.attr('value', name).text(name);
-      if (name === activeSkin) option.attr('selected', 'selected');
-      skinList.append(option);
-    }
-
-    skinList.change(function () {
-      var skeleton = skeletons[activeSkeleton][format].skeleton;
-      var skinName = $('#skinList option:selected').text();
-      skeleton.setSkinByName(skinName);
-      skeleton.setSlotsToSetupPose();
-    });
-  };
-
-  skeletonList.change(function () {
-    activeSkeleton = $('#skeletonList option:selected').text();
-    setupAnimationUI();
-    setupSkinUI();
-  });
-
-  formatList.change(function () {
-    format = $('#formatList option:selected').text();
-    setupAnimationUI();
-    setupSkinUI();
-  });
-
-  setupAnimationUI();
-  setupSkinUI();
+  animationList.value.push(...skeleton.data.animations);
+  skinsList.value.push(...skeleton.data.skins);
 }
 
 function render() {
-  var now = Date.now() / 1000;
-  var delta = now - lastFrameTime;
+  let now = Date.now() / 1000;
+  let delta = now - lastFrameTime;
   lastFrameTime = now;
 
   // Update the MVP matrix to adjust for canvas size changes
@@ -315,10 +234,10 @@ function render() {
   gl.clear(gl.COLOR_BUFFER_BIT);
 
   // Apply the animation state based on the delta time.
-  var skeleton = skeletons[activeSkeleton][format].skeleton;
-  var state = skeletons[activeSkeleton][format].state;
-  var bounds = skeletons[activeSkeleton][format].bounds;
-  var premultipliedAlpha = skeletons[activeSkeleton][format].premultipliedAlpha;
+  let skeleton = skeletons[activeSkeleton].skeleton;
+  let state = skeletons[activeSkeleton].state;
+  let bounds = skeletons[activeSkeleton].bounds;
+  let premultipliedAlpha = skeletons[activeSkeleton].premultipliedAlpha;
   state.update(delta);
   state.apply(skeleton);
   skeleton.updateWorldTransform();
@@ -331,20 +250,7 @@ function render() {
   // Start the batch and tell the SkeletonRenderer to render the active skeleton.
   batcher.begin(shader);
 
-  var effect = $('#effectList option:selected').text();
-  if (effect == 'None') {
-    skeletonRenderer.vertexEffect = null;
-  } else if (effect == 'Swirl') {
-    swirlTime += delta;
-    var percent = swirlTime % 2;
-    if (percent > 1) percent = 1 - (percent - 1);
-    swirlEffect.angle = pow2.apply(-60, 60, percent);
-    swirlEffect.centerX = bounds.offset.x + bounds.size.x / 2;
-    swirlEffect.centerY = bounds.offset.y + bounds.size.y / 2;
-    swirlEffect.radius = Math.sqrt(bounds.size.x * bounds.size.x + bounds.size.y * bounds.size.y) * 0.75;
-    skeletonRenderer.vertexEffect = swirlEffect;
-  } else if (effect == 'Jitter') skeletonRenderer.vertexEffect = jitterEffect;
-
+  skeletonRenderer.vertexEffect = null;
   skeletonRenderer.premultipliedAlpha = premultipliedAlpha;
   skeletonRenderer.draw(batcher, skeleton);
   batcher.end();
@@ -352,7 +258,7 @@ function render() {
   shader.unbind();
 
   // Draw debug information.
-  var debug = $('#debug').is(':checked');
+  let debug = true;
   if (debug) {
     debugShader.bind();
     debugShader.setUniform4x4f(spine.Shader.MVP_MATRIX, mvp.values);
@@ -367,75 +273,41 @@ function render() {
 }
 
 function resize() {
-  var w = canvas.clientWidth;
-  var h = canvas.clientHeight;
+  let w = canvas.clientWidth;
+  let h = canvas.clientHeight;
   if (canvas.width != w || canvas.height != h) {
     canvas.width = w;
     canvas.height = h;
   }
 
   // Calculations to center the skeleton in the canvas.
-  var bounds = skeletons[activeSkeleton][format].bounds;
-  var centerX = bounds.offset.x + bounds.size.x / 2;
-  var centerY = bounds.offset.y + bounds.size.y / 2;
-  var scaleX = bounds.size.x / canvas.width;
-  var scaleY = bounds.size.y / canvas.height;
-  var scale = Math.max(scaleX, scaleY) * 2;
+  let bounds = skeletons[activeSkeleton].bounds;
+  let centerX = bounds.offset.x + bounds.size.x / 2;
+  let centerY = bounds.offset.y + bounds.size.y / 2;
+  let scaleX = bounds.size.x / canvas.width;
+  let scaleY = bounds.size.y / canvas.height;
+  let scale = Math.max(scaleX, scaleY) * 2;
   if (scale < 1) scale = 1;
-  var width = canvas.width * scale;
-  var height = canvas.height * scale;
-
+  let width = canvas.width * scale;
+  let height = canvas.height * scale;
   mvp.ortho2d(centerX - width / 2, centerY - height / 2, width, height);
   gl.viewport(0, 0, canvas.width, canvas.height);
 }
 </script>
-<style lang="scss">
-body {
-  margin: 0;
+<style lang="scss" scope>
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
 }
-.spine {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-}
-.spine-tool {
-  position: fixed;
-  top: 30px;
-  left: 0;
-  width: 100%;
-  text-align: center;
-}
-.spine-tool .el-select {
-  margin-bottom: 10px;
-}
-.spine-scale {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  width: 410px;
-  margin-left: -205px;
-}
-.spine-loading {
-  position: fixed;
-  left: 50%;
-  bottom: 90px;
-  width: 100px;
-  height: 60px;
-  margin-left: -50px;
-}
-@media (max-width: 576px) {
-  .spine-tool {
-    top: 15px;
+.form {
+  flex: none;
+  padding: 16px;
+  .el-form-item--mini .el-form-item__label {
+    font-size: 16px;
   }
-  .spine-scale {
-    left: 0;
-    bottom: 15px;
-    width: 100%;
-    padding: 0 15px;
-    margin-left: 0;
-  }
-  .spine-loading {
-    bottom: 75px;
-  }
+}
+#canvas {
+  flex: 1;
 }
 </style>
