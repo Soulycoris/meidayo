@@ -18,17 +18,13 @@
     </transition>
   </div>
 </template>
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { defineProps } from 'vue';
 
-export default defineComponent({
-  name: "loading",
-  components: {},
-  props: {
-    loading: {
-      type: Boolean,
-      default: true,
-    },
+defineProps({
+  loading: {
+    type: Boolean,
+    default: true,
   },
 });
 </script>

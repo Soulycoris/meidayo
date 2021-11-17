@@ -823,5 +823,49 @@
 		"rarity": "5",
 		"propensity": "ボーカル",
 		"type": "サポーター"
+	},
+	{
+		"id": "107601",
+		"member_id": "100015",
+		"url": "https://appmedia.jp/idolypride/27012421",
+		"title": "その魅力、モンスター級",
+		"name": "神崎莉央",
+		"icon": "https://appmedia.jp/wp-content/themes/appmedia/lib/idolypride/chara_icon/card-rio-05-halw-00_icon.jpg",
+		"rarity": "5",
+		"propensity": "ダンス",
+		"type": "スコアラー"
+	},
+	{
+		"id": "107701",
+		"member_id": "100005",
+		"url": "https://appmedia.jp/idolypride/27048514",
+		"title": "撮れ高たっぷりショット",
+		"name": "成宮すず",
+		"icon": "https://appmedia.jp/wp-content/themes/appmedia/lib/idolypride/chara_icon/card-suz-05-anml-00_icon.jpg",
+		"rarity": "5",
+		"propensity": "ダンス",
+		"type": "サポーター"
+	},
+	{
+		"id": "107801",
+		"member_id": "100006",
+		"url": "https://appmedia.jp/idolypride/27048532",
+		"title": "いつかまた一緒に",
+		"name": "早坂芽衣",
+		"icon": "https://appmedia.jp/wp-content/themes/appmedia/lib/idolypride/chara_icon/card-mei-05-rock-00_icon.jpg",
+		"rarity": "5",
+		"propensity": "ビジュアル",
+		"type": "スコアラー"
+	},
+	{
+		"id": "107901",
+		"member_id": "100008",
+		"url": "https://appmedia.jp/idolypride/27048547",
+		"title": "ココロ Distance",
+		"name": "一ノ瀬怜",
+		"icon": "https://appmedia.jp/wp-content/themes/appmedia/lib/idolypride/chara_icon/card-rei-02-eve-01_icon.jpg",
+		"rarity": "2",
+		"propensity": "ダンス",
+		"type": "バッファー"
 	}
 ]

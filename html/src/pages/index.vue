@@ -2,34 +2,16 @@
   <!-- <home-loading :loading="loading"></home-loading> -->
   <div class="home"></div>
 </template>
-<script lang="ts">
-import { defineComponent, reactive, toRefs, onMounted } from "vue";
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import homeLoading from '../components/homeLoading.vue';
 
-import homeLoading from "../components/homeLoading.vue";
-export default defineComponent({
-  name: "home",
-  components: {
-    homeLoading,
-  },
-  setup: () => {
-    const data = reactive({
-      loading: true,
-    });
-    onMounted(() => {
-      setTimeout(() => {
-        data.loading = false;
-      }, 800);
-    });
+let loading = ref(true);
 
-    const refData = toRefs(data);
-
-    return {
-      ...refData,
-    };
-  },
+onMounted(() => {
+  setTimeout(() => {
+    loading.value = false;
+  }, 800);
 });
 </script>
-<style lang="scss">
-// .home {
-// }
-</style>
+<style lang="scss"></style>

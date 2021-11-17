@@ -202,12 +202,13 @@ const getUnitList = () => {
         type,
       });
     });
+    unitList = unit
     let str = JSON.stringify(unit, null, '\t');
     fs.writeFileSync('./src/spider/unit-list.json', str);
   });
 };
 
-// getUnitList();
+getUnitList();
 
 /**
  * 获取卡牌信息
