@@ -171,9 +171,9 @@ const getUnitList = () => {
     'https://appmedia.jp/idolypride/6574210',
     '.post-content@html'
   )((err, html) => {
-    console.log(err||'success');
+    console.log(err || 'success');
     if (!html) {
-      reject(null)
+      reject(null);
       return;
     }
     const $ = cheerio.load(html);
@@ -202,7 +202,7 @@ const getUnitList = () => {
         type,
       });
     });
-    unitList = unit
+    let unitList = unit;
     let str = JSON.stringify(unit, null, '\t');
     fs.writeFileSync('./src/spider/unit-list.json', str);
   });
@@ -221,6 +221,7 @@ const getUnitDetail = (unit) => {
         name: unit.name,
         unit_id: unit.id,
         member_id: unit.member_id,
+        title: unit.title,
         full: '',
         sp_skill: '',
         yell_skill: '',
@@ -246,7 +247,7 @@ const getUnitDetail = (unit) => {
       unit.url,
       '.post-content@html'
     )((err, html) => {
-      console.log(err||'success');
+      console.log(err || 'success');
       if (err || !html) {
         reject(null);
         return;
@@ -301,6 +302,7 @@ const getUnitDetail = (unit) => {
         name: unit.name,
         unit_id: unit.id,
         member_id: unit.member_id,
+        title: unit.title,
         full,
         sp_skill,
         yell_skill,
@@ -370,88 +372,3 @@ const getEstertionImg = async (url, filePath) => {
   });
 };
 
-/**
- * 获取卡牌头像
- */
-const getIcon = async () => {
-  for (const element of unitList) {
-    const filePath = Path.resolve(process.cwd(), `./img/icon/unit/${element.id}.jpg`);
-    const resPath = `${element.icon}`;
-    console.log(resPath);
-    let data = await getEstertionImg(resPath, filePath);
-    console.log(data);
-  }
-};
-
-// getIcon()
-
-/**
- * 获取卡牌立绘
- */
-const getImgFull = async () => {
-  for (const element of unitDetail) {
-    const filePath = Path.resolve(process.cwd(), `./img/card/full/${element.unit_id}.jpg`);
-    const resPath = element.full;
-    console.log(resPath);
-    if (resPath) {
-      let data = await getEstertionImg(resPath, filePath);
-      console.log(data);
-    }
-  }
-};
-
-// getImgFull()
-
-/**
- * 获取角色头像
- */
-const getMemberIcon = async () => {
-  for (const element of memberList) {
-    const filePath = Path.resolve(process.cwd(), `./img/icon/member/${e.id}.jpg`);
-    const resPath = element.icon;
-    console.log(resPath);
-    if (resPath) {
-      let data = await getEstertionImg(resPath, filePath);
-      console.log(data);
-    }
-  }
-};
-
-// getMemberIcon()
-/**
- * 获取角色立绘和服装
- */
-const getMemberClothesOrPrefab = async () => {
-  for (const element of memberDetail) {
-    const clothesPath = Path.resolve(process.cwd(), `./img/member/clothes/${element.member_id}.jpg`);
-    const prefabPath = Path.resolve(process.cwd(), `./img/member/prefab/${element.member_id}.jpg`);
-    const clothesRes = element.clothes;
-    const prefabRes = element.prefab;
-    // console.log(clothesRes);
-    // console.log(prefabRes);
-    if (clothesRes) {
-      let clothes = await getEstertionImg(clothesRes, clothesPath);
-      let prefab = await getEstertionImg(prefabRes, prefabPath);
-      console.log(clothes, prefab);
-    }
-  }
-};
-
-// getMemberClothesOrPrefab();
-
-// const html = fs.readFileSync("./spider/test.txt", "utf-8");
-// const $ = cheerio.load(html);
-
-// let str = JSON.stringify(member, null, "\t");
-// fs.writeFileSync("./spider/member-list.json", str);
-
-// unitDetail.forEach((element) => {
-//   memberList.forEach((e) => {
-//     if (element.member_id === e.id) {
-//       element.name = e.name;
-//     }
-//   });
-// });
-
-// let str = JSON.stringify(unitDetail, null, "\t");
-// fs.writeFileSync("./src/spider/unit-detail.json", str);

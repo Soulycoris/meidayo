@@ -22,7 +22,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="1技能">
-          <el-select clearable class="skill-icon-select" v-model="form.skill1" placeholder="请选择">
+          <el-select filterable clearable class="skill-icon-select" v-model="form.skill1" placeholder="请选择">
             <el-option v-for="(item, index) in skillIconList" :key="index" :label="item" :value="item">
               <div class="skill-icon-option">
                 <img class="img-invert" :src="`/public/img/skill_icon/${item}.png`" alt="" />
@@ -31,7 +31,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="2技能">
-          <el-select clearable class="skill-icon-select" v-model="form.skill2" placeholder="请选择">
+          <el-select filterable clearable class="skill-icon-select" v-model="form.skill2" placeholder="请选择">
             <el-option v-for="(item, index) in skillIconList" :key="index" :label="item" :value="item">
               <div class="skill-icon-option">
                 <img class="img-invert" :src="`/public/img/skill_icon/${item}.png`" alt="" />
@@ -40,7 +40,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="3技能">
-          <el-select clearable class="skill-icon-select" v-model="form.skill3" placeholder="请选择">
+          <el-select filterable clearable class="skill-icon-select" v-model="form.skill3" placeholder="请选择">
             <el-option v-for="(item, index) in skillIconList" :key="index" :label="item" :value="item">
               <div class="skill-icon-option">
                 <img class="img-invert" :src="`/public/img/skill_icon/${item}.png`" alt="" />
@@ -60,14 +60,17 @@
         <div class="generate-skill-3-mark" v-if="form.skill3"></div>
         <div class="generate-border">
           <div class="generate-skill-type">{{ form.skillType }}</div>
-          <div class="generate-skill-level"><span>Lv</span> {{ form.skillLevel }}</div>
+          <div class="generate-skill-level">
+            <span>Lv</span>
+            <span class="level-num">{{ form.skillLevel }}</span>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { reactive, ref, toRefs, onMounted } from 'vue';
+import { reactive, onMounted } from 'vue';
 
 const skillIconList = [
   'img_icon_skill-normal_active-skill-score-up',
@@ -174,7 +177,7 @@ const skillIconBgList = ['bg_score_1', 'bg_score_2', 'bg_score_3', 'bg_special_1
 let form = reactive({
   skillLevel: 5,
   skillType: 'SP',
-  skillBg: '',
+  skillBg: 'bg_score_1',
   skill1: '',
   skill2: '',
   skill3: '',
@@ -228,11 +231,12 @@ const sum = () => {
       position: absolute;
       top: -6px;
       left: -6px;
-      padding: 4px 2px 0px 4px;
+      padding: 4px 3px 0px 4px;
       color: white;
       background-color: #000;
       line-height: 1;
       border-top-left-radius: 15px;
+      font-size: 16px;
     }
     .generate-skill-level {
       position: absolute;
@@ -245,8 +249,12 @@ const sum = () => {
       letter-spacing: -2px;
       border-bottom-left-radius: 15px;
       span {
-        font-size: 14px;
+        font-size: 12px;
         letter-spacing: -1px;
+      }
+      .level-num {
+        margin-left: 2px;
+        font-size: 16px;
       }
     }
     .generate-skill-1 {
@@ -257,23 +265,23 @@ const sum = () => {
       width: 100%;
       height: auto;
       &.generate-skill-1-2 {
-        width: 50%;
-        top: 65%;
+        width: 85%;
+        top: 60%;
         left: 40%;
       }
     }
     .generate-skill-2 {
       position: absolute;
-      top: 8%;
-      right: 8%;
-      width: 30%;
+      top: 0;
+      right: 0;
+      width: 50%;
       height: auto;
     }
     .generate-skill-3 {
       position: absolute;
       bottom: 3%;
       right: 3%;
-      width: 28%;
+      width: 30%;
       height: auto;
       z-index: 1;
     }
@@ -292,6 +300,8 @@ const sum = () => {
 </style>
 <style lang="scss">
 .skill-icon-option {
+  display: flex;
+  align-items: center;
   img {
     width: 16px;
   }

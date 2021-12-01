@@ -796,7 +796,7 @@
 		"member_id": "100009",
 		"url": "https://appmedia.jp/idolypride/26935651",
 		"title": "図らずもバースデーライブ",
-		"name": "佐伯遥子",
+		"name": "佐伯遙子",
 		"icon": "https://appmedia.jp/wp-content/themes/appmedia/lib/idolypride/chara_icon/card-hrk-02-eve-01_icon.jpg",
 		"rarity": "2",
 		"propensity": "ボーカル",
@@ -805,7 +805,7 @@
 	{
 		"id": "107401",
 		"member_id": "100018",
-		"url": "https://appmedia.jp/idolypride/26955241",
+		"url": "https://appmedia.jp/idolypride/26955259",
 		"title": "私は私",
 		"name": "赤崎こころ",
 		"icon": "https://appmedia.jp/wp-content/themes/appmedia/lib/idolypride/chara_icon/card-kkr-05-seik-00_icon.jpg",
@@ -816,7 +816,7 @@
 	{
 		"id": "107501",
 		"member_id": "100010",
-		"url": "https://appmedia.jp/idolypride/26955259",
+		"url": "https://appmedia.jp/idolypride/26955241",
 		"title": "一夜限りの聖なるステージ",
 		"name": "白石千沙",
 		"icon": "https://appmedia.jp/wp-content/themes/appmedia/lib/idolypride/chara_icon/card-chs-05-seik-00_icon.jpg",
@@ -867,5 +867,60 @@
 		"rarity": "2",
 		"propensity": "ダンス",
 		"type": "バッファー"
+	},
+	{
+		"id": "108001",
+		"member_id": "100011",
+		"url": "https://appmedia.jp/idolypride/27115147",
+		"title": "夢は、きっと叶う",
+		"name": "兵藤雫",
+		"icon": "https://appmedia.jp/wp-content/themes/appmedia/lib/idolypride/chara_icon/card-szk-05-chna-00_icon.jpg",
+		"rarity": "5",
+		"propensity": "ビジュアル",
+		"type": "バッファー"
+	},
+	{
+		"id": "108101",
+		"member_id": "100003",
+		"url": "https://appmedia.jp/idolypride/27175333",
+		"title": "この瞬間の主役",
+		"name": "伊吹渚",
+		"icon": "https://appmedia.jp/wp-content/themes/appmedia/lib/idolypride/chara_icon/card-ngs-05-flow-00_icon.jpg",
+		"rarity": "5",
+		"propensity": "ボーカル",
+		"type": "スコアラー"
+	},
+	{
+		"id": "108201",
+		"member_id": "100014",
+		"url": "https://appmedia.jp/idolypride/27213565",
+		"title": "六花イルミネーション",
+		"name": "奥山すみれ",
+		"icon": "https://appmedia.jp/wp-content/themes/appmedia/lib/idolypride/chara_icon/card-smr-05-xmas-00_icon.jpg",
+		"rarity": "5",
+		"propensity": "ボーカル",
+		"type": "バッファー"
+	},
+	{
+		"id": "108301",
+		"member_id": "100012",
+		"url": "https://appmedia.jp/idolypride/27213577",
+		"title": "白息はずむホーリーナイト",
+		"name": "天動瑠依",
+		"icon": "https://appmedia.jp/wp-content/themes/appmedia/lib/idolypride/chara_icon/card-rui-05-xmas-00_icon.jpg",
+		"rarity": "5",
+		"propensity": "ダンス",
+		"type": "スコアラー"
+	},
+	{
+		"id": "108401",
+		"member_id": "100005",
+		"url": "https://appmedia.jp/idolypride/27213619",
+		"title": "期待で胸いっぱい",
+		"name": "成宮すず",
+		"icon": "https://appmedia.jp/wp-content/themes/appmedia/lib/idolypride/chara_icon/card-suz-02-eve-01_icon.jpg",
+		"rarity": "2",
+		"propensity": "ボーカル",
+		"type": "サポーター"
 	}
 ]
