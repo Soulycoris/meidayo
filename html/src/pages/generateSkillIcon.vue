@@ -3,12 +3,12 @@
     <div class="tool-left">
       <el-form :model="form" label-width="80px" :inline="false" size="mini">
         <el-form-item label="技能等级">
-          <el-select class="skill-icon-select" v-model="form.skillLevel" placeholder="请选择" @change="eventChange">
+          <el-select class="skill-icon-select" filterable allow-create clearable v-model="form.skillLevel" placeholder="请选择">
             <el-option v-for="(item, index) in [1, 2, 3, 4, 5]" :key="index" :label="item" :value="item"> </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="技能类型">
-          <el-select class="skill-icon-select" v-model="form.skillType" placeholder="请选择" @change="eventChange">
+          <el-select class="skill-icon-select" filterable allow-create clearable v-model="form.skillType" placeholder="请选择">
             <el-option v-for="(item, index) in ['SP', 'A', 'P', 'Y']" :key="index" :label="item" :value="item"> </el-option>
           </el-select>
         </el-form-item>
@@ -16,7 +16,7 @@
           <el-select class="skill-icon-select" v-model="form.skillBg" placeholder="请选择">
             <el-option v-for="(item, index) in skillIconBgList" :key="index" :label="item" :value="item">
               <div class="skill-icon-option">
-                <img :src="`/public/img/skill_icon/${item}.png`" alt="" />
+                <img :src="`/img/skill_icon/${item}.png`" alt="" />
               </div>
             </el-option>
           </el-select>
@@ -25,7 +25,7 @@
           <el-select filterable clearable class="skill-icon-select" v-model="form.skill1" placeholder="请选择">
             <el-option v-for="(item, index) in skillIconList" :key="index" :label="item" :value="item">
               <div class="skill-icon-option">
-                <img class="img-invert" :src="`/public/img/skill_icon/${item}.png`" alt="" />
+                <img class="img-invert" :src="`/img/skill_icon/${item}.png`" alt="" />
               </div>
             </el-option>
           </el-select>
@@ -34,7 +34,7 @@
           <el-select filterable clearable class="skill-icon-select" v-model="form.skill2" placeholder="请选择">
             <el-option v-for="(item, index) in skillIconList" :key="index" :label="item" :value="item">
               <div class="skill-icon-option">
-                <img class="img-invert" :src="`/public/img/skill_icon/${item}.png`" alt="" />
+                <img class="img-invert" :src="`/img/skill_icon/${item}.png`" alt="" />
               </div>
             </el-option>
           </el-select>
@@ -43,34 +43,24 @@
           <el-select filterable clearable class="skill-icon-select" v-model="form.skill3" placeholder="请选择">
             <el-option v-for="(item, index) in skillIconList" :key="index" :label="item" :value="item">
               <div class="skill-icon-option">
-                <img class="img-invert" :src="`/public/img/skill_icon/${item}.png`" alt="" />
+                <img class="img-invert" :src="`/img/skill_icon/${item}.png`" alt="" />
               </div>
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="">
+          <el-button type="text" @click="copy">复制</el-button>
+        </el-form-item>
       </el-form>
     </div>
-    <div class="generate-area">
-      <!-- <div class="title">技能生成</div> -->
-      <div class="generate-sikll-bg" v-if="form.skillBg">
-        <img :src="`/public/img/skill_icon/${form.skillBg}.png`" alt="" />
-        <img class="generate-skill-1 img-invert" v-if="form.skill1" :class="{ 'generate-skill-1-2': form.skill2 }" :src="`/public/img/skill_icon/${form.skill1}.png`" alt="" />
-        <img class="generate-skill-2 img-invert" v-if="form.skill2" :src="`/public/img/skill_icon/${form.skill2}.png`" alt="" />
-        <img class="generate-skill-3 img-invert" v-if="form.skill3" :src="`/public/img/skill_icon/${form.skill3}.png`" alt="" />
-        <div class="generate-skill-3-mark" v-if="form.skill3"></div>
-        <div class="generate-border">
-          <div class="generate-skill-type">{{ form.skillType }}</div>
-          <div class="generate-skill-level">
-            <span>Lv</span>
-            <span class="level-num">{{ form.skillLevel }}</span>
-          </div>
-        </div>
-      </div>
+    <div class="tool-right">
+      <skillGenerate :skill-level="form.skillLevel" :skill-type="form.skillType" :skill-bg="form.skillBg" :skill1="form.skill1" :skill2="form.skill2" :skill3="form.skill3"></skillGenerate>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { reactive, onMounted } from 'vue';
+import skillGenerate from '@components/skillGenerate/skillGenerate.vue';
+import { reactive } from 'vue';
 
 const skillIconList = [
   'img_icon_skill-normal_active-skill-score-up',
@@ -182,16 +172,19 @@ let form = reactive({
   skill2: '',
   skill3: '',
 });
-onMounted(() => {
-  console.log(form);
-});
-const eventChange = (val) => {
-  console.log(form.skillLevel);
-  console.log(val);
-};
-const sum = () => {
-  console.log(1352);
-  // form1.skillLevel.value++
+const copy = () => {
+  let clipboard = navigator.clipboard
+  if (!clipboard) {
+    console.log('浏览器不支持啊.');
+    return
+  }
+  let str = `<skillGenerate skill-level="${form.skillLevel}" skill-type="${form.skillType}" skill-bg="${form.skillBg}" skill1="${form.skill1}" skill2="${form.skill2}" skill3="${form.skill3}"></skillGenerate>`;
+  navigator.clipboard
+    .writeText(str)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {});
 };
 </script>
 <style lang="scss" scope>
@@ -201,100 +194,13 @@ const sum = () => {
     width: 240px;
     flex: none;
   }
-  .skill-option {
-    height: 40px;
-  }
-  .generate-area {
-    width: 100%;
+  .tool-right {
+    flex: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
-    position: relative;
-    .generate-sikll-bg {
-      width: 128px;
-      height: 128px;
-      position: relative;
-      overflow: hidden;
-    }
-    .generate-border {
-      box-sizing: border-box;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      border: 6px solid #000;
-      border-radius: 10px;
-      font-family: 'Yu Gothic';
-      font-weight: bold;
-    }
-    .generate-skill-type {
-      position: absolute;
-      top: -6px;
-      left: -6px;
-      padding: 4px 3px 0px 4px;
-      color: white;
-      background-color: #000;
-      line-height: 1;
-      border-top-left-radius: 15px;
-      font-size: 16px;
-    }
-    .generate-skill-level {
-      position: absolute;
-      bottom: -6px;
-      left: -6px;
-      padding: 1px 4px 4px 4px;
-      color: white;
-      background-color: #000;
-      line-height: 1;
-      letter-spacing: -2px;
-      border-bottom-left-radius: 15px;
-      span {
-        font-size: 12px;
-        letter-spacing: -1px;
-      }
-      .level-num {
-        margin-left: 2px;
-        font-size: 16px;
-      }
-    }
-    .generate-skill-1 {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100%;
-      height: auto;
-      &.generate-skill-1-2 {
-        width: 85%;
-        top: 60%;
-        left: 40%;
-      }
-    }
-    .generate-skill-2 {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 50%;
-      height: auto;
-    }
-    .generate-skill-3 {
-      position: absolute;
-      bottom: 3%;
-      right: 3%;
-      width: 30%;
-      height: auto;
-      z-index: 1;
-    }
-    .generate-skill-3-mark {
-      position: absolute;
-      bottom: 0;
-      right: -23%;
-      width: 75%;
-      height: 30%;
-      background-color: #d7d7d6;
-      transform: rotate(-45deg);
-      z-index: 0;
-    }
+  }
+  .skill-option {
+    height: 40px;
   }
 }
 </style>

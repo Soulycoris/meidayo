@@ -4,39 +4,60 @@
       <tbody>
         <tr>
           <th colspan="5" style="border-left: solid 1px; border-top: solid 1px; border-right: solid 1px">
-            <strong>No. 1 【<span lang="ja">夢の共演</span>】 川咲さくら</strong>
+            <strong>【<span lang="ja">夢の共演</span>】 川咲さくら</strong>
           </th>
         </tr>
-        <tr>
+        <!-- <tr>
           <td colspan="5" style="border-left: solid 1px; border-right: solid 1px; border-bottom: solid 1px">2021年6月24日作为初始卡登场</td>
-        </tr>
+        </tr> -->
         <tr>
           <th colspan="4" style="border-left: solid 1px">卡面</th>
           <th style="border-right: solid 1px">头像</th>
         </tr>
         <tr>
           <td colspan="4" style="border-left: solid 1px; border-bottom: solid 1px">
-            <!-- <img style="width: 960px" src="/img/card/full/img_card_full_1_skr-05-idol-00.png" />  -->
+            <!-- <img style="width: 720px" src="/img/card/full/img_card_full_1_skr-05-idol-00.png" />  -->
             <!-- <img style="width: 400px" src="https://as.lovelive.eu.org/images_b95/88423.png" /> -->
           </td>
           <td style="border-right: solid 1px; border-bottom: solid 1px">
-            <img style="width: 100px" src="/img/card/thumb/img_card_thumb_1_skr-05-idol-00.png" />
+            <!-- <img style="width: 100px" src="/img/card/thumb/img_card_thumb_1_skr-05-idol-00.png" /> -->
             <!-- <img style="width: 100px" src="/assets/icon/201073001_2.png" /> -->
           </td>
         </tr>
         <tr>
-          <th style="border-left: solid 1px">总和</th>
-          <th width="120"><div class="maskedimage maskedimage-vocal"></div><div>151235</div></th>
-          <th width="120"><div class="maskedimage maskedimage-dance"></div><div>123135</div></th>
-          <th width="120"><div class="maskedimage maskedimage-visual"></div><div>131235</div></th>
-          <th width="120" style="border-right: solid 1px"><div class="maskedimage maskedimage-stamina"></div><div>3456</div></th>
+          <th rowspan="2" style="border-left: solid 1px; border-right: 1px solid var(--border-color-base); border-bottom: solid 1px">总和</th>
+          <th width="120" style="border-right: 1px solid var(--border-color-base)">
+            <div class="maskedimage maskedimage-vocal"></div>
+          </th>
+          <th width="120" style="border-right: 1px solid var(--border-color-base)">
+            <div class="maskedimage maskedimage-dance"></div>
+          </th>
+          <th width="120" style="border-right: 1px solid var(--border-color-base)">
+            <div class="maskedimage maskedimage-visual"></div>
+          </th>
+          <th width="120" style="border-right: solid 1px">
+            <div class="maskedimage maskedimage-stamina"></div>
+          </th>
         </tr>
         <tr>
-          <th style="border-left: solid 1px; border-bottom: solid 1px">是否为暴击卡</th>
-          <td style="border-bottom: solid 1px">否</td>
-          <th style="border-bottom: solid 1px">初始合宿技能槽数</th>
-          <td style="border-bottom: solid 1px">2</td>
-          <td style="border-right: solid 1px; border-bottom: solid 1px">4</td>
+          <th width="120" style="border-right: 1px solid var(--border-color-base); border-bottom: solid 1px">
+            <div>151235</div>
+          </th>
+          <th width="120" style="border-right: 1px solid var(--border-color-base); border-bottom: solid 1px">
+            <div>123135</div>
+          </th>
+          <th width="120" style="border-right: 1px solid var(--border-color-base); border-bottom: solid 1px">
+            <div>131235</div>
+          </th>
+          <th width="120" style="border-right: solid 1px; border-bottom: solid 1px">
+            <div>3456</div>
+          </th>
+        </tr>
+        <tr>
+          <th style="border-left: solid 1px; border-bottom: solid 1px">类型</th>
+          <td style="border-bottom: solid 1px">得分</td>
+          <th style="border-bottom: solid 1px">初期稀有度</th>
+          <td colspan="2" style="border-right: solid 1px; border-bottom: solid 1px">5</td>
         </tr>
         <tr>
           <th style="border-left: solid 1px">技能信息</th>
@@ -46,34 +67,51 @@
         </tr>
         <tr>
           <th style="border-left: solid 1px">SP</th>
-          <td><img style="width: 32px" src="https://as.lovelive.eu.org/images_b95/26.png" /></td>
-          <td><span lang="ja">願いが届くといいな♪</span></td>
-          <td colspan="2" style="border-right: solid 1px">获得相当于自身Stamina的28%/31%/34%/37%/40%的盾<br />发动概率：33%</td>
+          <td>
+            <skillGenerate :scale="0.5" skill-level="" skill-type="SP" skill-bg="bg_special_2" skill1="img_icon_skill_sk-skr-05-idol-00-1" skill2="" skill3=""></skillGenerate>
+          </td>
+          <td><span lang="ja">太陽の光と共に</span></td>
+          <td colspan="2" style="border-right: solid 1px">1550%のスコア獲得、強化効果が多い程効果上昇<br />スタミナ:497</td>
+        </tr>
+        <tr>
+          <th style="border-left: solid 1px">A</th>
+          <td>
+            <skillGenerate :scale="0.5" skill-level="" skill-type="A" skill-bg="bg_strength_2" skill1="img_icon_skill-normal_vocal-up" skill2="img_icon_skill-normal_score-get" skill3=""></skillGenerate>
+          </td>
+          <td><span lang="ja">大好きなあのキャラ</span></td>
+          <td colspan="2" style="border-right: solid 1px">430%のスコア獲得<br />自身に9段階ボーカル上昇効果[25ビート]<br />スタミナ:148 CT:30</td>
         </tr>
         <tr>
           <th style="border-left: solid 1px">P</th>
-          <td><img style="width: 32px" src="https://as.lovelive.eu.org/images_b95/316.png" /></td>
-          <td><span lang="ja">スタミナ＋ :全員</span></td>
-          <td colspan="2" style="border-right: solid 1px">基本Stamina增加3%/3.3%/3.6%/3.9%/4.2%（对象：全员）</td>
+          <td>
+            <skillGenerate :scale="0.5" skill-level="5" skill-type="P" skill-bg="bg_strength_1" skill1="img_icon_skill-normal_vocal-up" skill2="img_icon_skill-normal_score-get" skill3=""></skillGenerate>
+          </td>
+          <td><span lang="ja">人生の倍返し</span></td>
+          <td colspan="2" style="border-right: solid 1px">100コンボ以上時<br />120%のスコア獲得<br />自身に8段階ボーカル上昇効果[32ビート]<br />スタミナ:378 ライプ中1回のみ</td>
         </tr>
         <tr>
-          <th style="border-left: solid 1px; border-bottom: solid 1px">P</th>
-          <td style="border-bottom: solid 1px"><img style="width: 32px" src="https://as.lovelive.eu.org/images_b95/706.png" /></td>
-          <td style="border-bottom: solid 1px"><span lang="ja">スタミナ回復 :アピール時</span></td>
-          <td colspan="2" style="border-right: solid 1px; border-bottom: solid 1px">回复相当于自身Stamina的10%的体力<br />条件：自身点击时；发动概率：20%</td>
+          <th style="border-left: solid 1px; border-bottom: solid 1px">Y</th>
+          <td style="border-bottom: solid 1px">
+            <skillGenerate :scale="0.5" skill-level="" skill-type="Y" skill-bg="bg_yell_1" skill1="img_icon_skill-normal_vocal-down" skill2="" skill3=""></skillGenerate>
+          </td>
+          <td style="border-bottom: solid 1px"><span lang="ja">ボーカルアップ</span></td>
+          <td colspan="2" style="border-right: solid 1px; border-bottom: solid 1px">ボーカル2%上昇</td>
         </tr>
         <tr>
-          <th style="border-left: solid 1px; border-bottom: solid 1px">可解锁的衣装</th>
-          <th style="border-bottom: solid 1px"><img style="width: 64px" src="https://as.lovelive.eu.org/images_b95/481136.png" /></th>
-          <td style="border-bottom: solid 1px"><span lang="ja">楽園からの使者</span></td>
-          <th style="border-bottom: solid 1px"><img style="width: 64px" src="https://as.lovelive.eu.org/images_b95/194797.png" /></th>
-          <td style="border-right: solid 1px; border-bottom: solid 1px"><span lang="ja">楽園からの使者[Y]</span></td>
+          <th style="border-left: solid 1px; border-bottom: solid 1px">衣装</th>
+          <th style="border-bottom: solid 1px">
+            <img style="width: 64px" src="/img/card/thumb/img_cos_thumb_skr-idol-00.png" />
+          </th>
+          <td colspan="3" style="border-right: solid 1px; border-bottom: solid 1px"><span lang="ja">アセンブルハーモニー</span></td>
         </tr>
       </tbody>
     </table>
   </div>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import skillGenerate from '@components/skillGenerate/skillGenerate.vue';
+</script>
+
 <style lang="scss">
 :root {
   --color-base-vocal: #ff4b9d;
@@ -130,6 +168,11 @@ table.wikitable tr:hover {
   background-color: var(--background-color-quiet--hover);
 }
 
+table.wikitable .generate-area {
+  // width: 64px;
+  // height: 64px;
+  // transform: scale(0.5);
+}
 
 .maskedimage {
   display: inline-block;
