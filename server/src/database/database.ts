@@ -1,54 +1,55 @@
-const sqlite3 = require('sqlite3').verbose();
+// const sqlite3 = require('sqlite3').verbose();
+import sqlite3 from 'sqlite3';
+import fs from 'fs-extra';
 
-const fs = require('fs');
 // Database.run(sql, [param, ...], [callback])
 //查询所有数据 Database.all(sql, [param, ...], [callback])
 
 class SqliteDB {
-  constructor(file) {
+  static instance: any;
+  db: sqlite3.Database;
+  constructor(file: string) {
     // 单例模式
     if (!SqliteDB.instance) {
       SqliteDB.instance = this;
-      this.db = new sqlite3.Database(file);
       if (!fs.existsSync(file)) {
         console.log('Creating db file!');
         fs.openSync(file, 'w');
       }
+      this.db = new sqlite3.Database(file);
     }
-
     return SqliteDB.instance;
   }
 
-  connect(file){
+  connect(file: string) {
     this.db = new sqlite3.Database(file);
   }
 
-  printErrorInfo(err) {
+  printErrorInfo(err: Error) {
     console.log('Error Message:' + err.message);
   }
 
-  createTable(sql) {
+  createTable(sql: string) {
     return new Promise((resolve, reject) => {
       this.db.run(sql, (err) => {
         if (null != err) {
           this.printErrorInfo(err);
           reject(err);
         }
-        resolve();
+        resolve(true);
       });
     });
   }
-
-  insertData(sql, objects) {
+  // tilesData format; [[level, column, row, content], [level, column, row, content]]
+  insertData(sql: string, objects: any[]) {
     var stmt = this.db.prepare(sql);
     for (var i = 0; i < objects.length; ++i) {
       stmt.run(objects[i]);
     }
-
     stmt.finalize();
   }
 
-  queryData(sql, params = {}) {
+  queryData(sql: string, params = {}) {
     return new Promise((resolve, reject) => {
       this.db.all(sql, params, (err, rows) => {
         if (null != err) {
@@ -60,14 +61,14 @@ class SqliteDB {
     });
   }
 
-  executeSql(sql) {
+  executeSql(sql: string) {
     return new Promise((resolve, reject) => {
       this.db.run(sql, (err) => {
         if (null != err) {
           this.printErrorInfo(err);
           reject(null);
         }
-        resolve();
+        resolve(true);
       });
     });
   }
@@ -76,12 +77,11 @@ class SqliteDB {
     this.db.close();
   }
 
-  static getInstance(file) {
+  static getInstance(file: string) {
     if (!this.instance) {
       return (this.instance = new SqliteDB(file));
     }
     return this.instance;
   }
 }
-module.exports = SqliteDB;
-// export default SqliteDB;
+export default SqliteDB;

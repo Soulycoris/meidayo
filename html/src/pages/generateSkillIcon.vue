@@ -212,7 +212,7 @@ const copy = () => {
     width: 16px;
   }
 }
-.img-invert {
+img.img-invert {
   filter: invert(100%);
 }
 </style>

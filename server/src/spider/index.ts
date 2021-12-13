@@ -3,26 +3,13 @@ import cheerio from 'cheerio';
 import fs from 'fs-extra';
 import Path from 'path';
 import axios from 'axios';
-import unitList from './unit-list.json';
-import unitDetail from './unit-detail.json';
-import memberList from './member-list.json';
-import memberDetail from './member-detail.json';
+let unitList: unit[] = JSON.parse(fs.readFileSync(Path.resolve(__dirname, './unit-list.json'), 'utf-8'));
+let unitDetail: unitDetail[] = JSON.parse(fs.readFileSync(Path.resolve(__dirname, './unit-detail.json'), 'utf-8'));
+let memberList: member[] = JSON.parse(fs.readFileSync(Path.resolve(__dirname, './member-list.json'), 'utf-8'));
+let memberDetail: memberDetail[] = JSON.parse(fs.readFileSync(Path.resolve(__dirname, './member-detail.json'), 'utf-8'));
 
 const x = xray();
 const spiderBaseUrl = 'https://appmedia.jp';
-if (!unitList) {
-  unitList = [];
-}
-if (!unitDetail) {
-  unitDetail = [];
-}
-if (!memberList) {
-  memberList = [];
-}
-if (!memberDetail) {
-  memberDetail = [];
-}
-// console.log(unitList.length);
 
 /**
  * 获取角色列表
@@ -31,38 +18,39 @@ const getMemberList = () => {
   x(
     'https://appmedia.jp/idolypride/6389167',
     '.post-content@html'
-  )((err, html) => {
+  )((_err, html) => {
     if (!html) {
       return;
     }
     // fs.writeFileSync("./spider/test.txt", html);
     const $ = cheerio.load(html);
-    let member = [];
-    let group = '';
+    let member: member[] = [];
+    let group_name = '';
     for (let index = 0; index < 2; index++) {
       $('table')
         .eq(index)
         .find('tr')
-        .each((ti, te) => {
+        .each((_ti, te) => {
           let a = $(te).find('a');
           if (a.length) {
-            if (!/社長/.test(group)) {
-              $(a).each((i, e) => {
+            if (!/社長/.test(group_name)) {
+              $(a).each((_i, e) => {
                 let name = $(e).text();
                 let url = $(e).attr('href');
-                let icon = $(e).find('img').attr('src');
+                let icon = '';
                 const id = `1000${(member.length + 1 + '').padStart(2, '0')}`;
                 member.push({
                   id,
                   name,
+                  nike_name: '',
                   url,
                   icon,
-                  group,
+                  group_name,
                 });
               });
             }
           } else {
-            group = $(te).find('th').text();
+            group_name = $(te).find('th').text();
           }
         });
     }
@@ -73,10 +61,10 @@ const getMemberList = () => {
 };
 // getMemberList()
 
-const getMemberDetail = (unit) => {
-  return new Promise((resolve, reject) => {
+const getMemberDetail = (member: member) => {
+  return new Promise((resolve: (value: memberDetail) => void, reject: (value: null) => void) => {
     x(
-      unit.url,
+      member.url,
       '.post-content@html'
     )((err, html) => {
       console.log(err);
@@ -89,8 +77,8 @@ const getMemberDetail = (unit) => {
       const $ = cheerio.load(html);
       let prefab = $('img.size-full').eq(0).attr('src');
       let table = $('table').eq(0);
-      let height = $(table).find('tr:nth-child(1) > td:nth-child(2)').text();
-      let weight = $(table).find('tr:nth-child(1) > td:nth-child(4)').text();
+      let height = $(table).find('tr:nth-child(1) > td:nth-child(2)').text().replace('cm', '');
+      let weight = $(table).find('tr:nth-child(1) > td:nth-child(4)').text().replace('kg', '');
       let bwh = $(table).find('tr:nth-child(2) > td:nth-child(2)').text();
       let birth = $(table)
         .find('tr:nth-child(2) > td:nth-child(4)')
@@ -103,34 +91,16 @@ const getMemberDetail = (unit) => {
       let favorite = $(table).find('tr:nth-child(3) > td:nth-child(2)').text().replace(/\n/g, '、');
       let school = $(table).find('tr:nth-child(3) > td:nth-child(4)').text();
       let voice = $(table).find('tr:nth-child(4) > td:nth-child(2)').text();
-      let group = $(table).find('tr:nth-child(4) > td:nth-child(4)').text();
+      let group_name = $(table).find('tr:nth-child(4) > td:nth-child(4)').text();
 
       let self_text = $('table + div')
         .eq(0)
         .text()
         .replace(/\n|公式サイト.*/g, '');
       let clothes = $('p > img').eq(1).attr('src');
-      // let music = [];
-      // $("table")
-      //   .eq(1)
-      //   .find("tr")
-      //   .each((index, element) => {
-      //     let img = $(element).find("img");
-      //     if (img.length) {
-      //       let cover = $(img).attr("src");
-      //       let title = $(element).find("td:nth-child(1)").text();
-      //       let singer = $(element).find("td:nth-child(2)").text();
-      //       music.push({
-      //         cover,
-      //         title,
-      //         singer,
-      //       });
-      //     }
-      //   });
-      // console.log(music);
       resolve({
-        member_id: unit.id,
-        name: unit.name,
+        member_id: member.id,
+        name: member.name,
         age,
         height,
         weight,
@@ -139,7 +109,7 @@ const getMemberDetail = (unit) => {
         favorite,
         school,
         voice,
-        group,
+        group_name,
         self_text,
         clothes,
         prefab,
@@ -173,11 +143,10 @@ const getUnitList = () => {
   )((err, html) => {
     console.log(err || 'success');
     if (!html) {
-      reject(null);
-      return;
+      return null;
     }
     const $ = cheerio.load(html);
-    let unit = [];
+    let unit: unit[] = [];
     $('#search_result_table tr[data-name]').each((index, element) => {
       const url = $(element).find('td:nth-child(1) a').attr('href') || null;
       const nameText = $(element).find('td:nth-child(1)').text();
@@ -202,19 +171,19 @@ const getUnitList = () => {
         type,
       });
     });
-    let unitList = unit;
+    unitList = unit;
     let str = JSON.stringify(unit, null, '\t');
     fs.writeFileSync('./src/spider/unit-list.json', str);
   });
 };
 
-getUnitList();
+// getUnitList();
 
 /**
  * 获取卡牌信息
  */
-const getUnitDetail = (unit) => {
-  return new Promise((resolve, reject) => {
+const getUnitDetail = (unit: unit) => {
+  return new Promise<unitDetail>((resolve, reject) => {
     console.log(unit.url);
     if (!unit.url) {
       resolve({
@@ -222,7 +191,7 @@ const getUnitDetail = (unit) => {
         unit_id: unit.id,
         member_id: unit.member_id,
         title: unit.title,
-        full: '',
+        prefab: '',
         sp_skill: '',
         yell_skill: '',
         clothes: '',
@@ -254,7 +223,7 @@ const getUnitDetail = (unit) => {
       }
       // fs.writeFileSync("./spider/text.txt", html);
       const $ = cheerio.load(html);
-      const full = $('img.aligncenter').attr('src');
+      const prefab = $('img.aligncenter').attr('src');
       let table = $('table');
       const sp_skill = $(table).eq(0).find('tr:nth-child(5) td').text();
       const yell_skill = $(table).eq(0).find('tr:nth-child(6) td').text();
@@ -303,7 +272,7 @@ const getUnitDetail = (unit) => {
         unit_id: unit.id,
         member_id: unit.member_id,
         title: unit.title,
-        full,
+        prefab,
         sp_skill,
         yell_skill,
         clothes,
@@ -341,9 +310,9 @@ const handleGetUnitDetail = async () => {
   }
 };
 
-handleGetUnitDetail();
+// handleGetUnitDetail();
 
-const getEstertionImg = async (url, filePath) => {
+const getEstertionImg = async (url: string, filePath: fs.PathLike) => {
   const exist = fs.existsSync(filePath);
   if (exist) {
     const imageStatus = await fs.stat(filePath);
@@ -372,3 +341,8 @@ const getEstertionImg = async (url, filePath) => {
   });
 };
 
+const handler = () => {
+  unitList.forEach((e) => {});
+};
+
+export { getMemberList, getMemberDetail, handleGetMemberDetail, getUnitList, getUnitDetail, handleGetUnitDetail };

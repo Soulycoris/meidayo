@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@types/cheerio": "^0.22.30",
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.10",
     "fs-extra": "^10.0.0",
@@ -26,15 +27,18 @@
     "@babel/plugin-transform-runtime": "^7.14.5",
     "@babel/preset-env": "^7.14.7",
     "@babel/preset-typescript": "^7.14.5",
+    "@types/fs-extra": "^9.0.13",
     "@types/koa": "^2.13.4",
     "@types/koa-bodyparser": "^4.3.2",
     "@types/koa-router": "^7.4.4",
-    "@types/koa2-cors": "^2.0.2"
+    "@types/koa2-cors": "^2.0.2",
+    "@types/sqlite3": "^3.1.7",
+    "@types/x-ray": "^2.3.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "babel-node --extensions \".ts\" ./src/index.ts",
-    "spider": "babel-node ./src/spider/index.js",
+    "spider": "babel-node --extensions \".ts\" ./src/spider/index.ts",
     "compile": "babel src --out-dir dist --extensions \".ts\""
   },
   "author": "",
