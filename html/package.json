@@ -2,7 +2,7 @@
   "name": "html",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview"
   },
@@ -10,8 +10,11 @@
     "axios": "^0.24.0",
     "element-plus": "^1.2.0-beta.3",
     "unplugin-vue-components": "^0.17.2",
+    "vconsole": "^3.9.5",
     "vue": "^3.2.16",
-    "vue-router": "^4.0.12"
+    "vue-router": "^4.0.12",
+    "vue3-lazy": "^1.0.0-alpha.1",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@types/node": "^16.11.11",

@@ -37,14 +37,13 @@ const getMemberList = () => {
               $(a).each((_i, e) => {
                 let name = $(e).text();
                 let url = $(e).attr('href');
-                let icon = '';
                 const id = `1000${(member.length + 1 + '').padStart(2, '0')}`;
                 member.push({
                   id,
                   name,
                   nike_name: '',
+                  spell: '',
                   url,
-                  icon,
                   group_name,
                 });
               });
@@ -75,7 +74,6 @@ const getMemberDetail = (member: member) => {
       // fs.writeFileSync("./spider/test.txt", html);
 
       const $ = cheerio.load(html);
-      let prefab = $('img.size-full').eq(0).attr('src');
       let table = $('table').eq(0);
       let height = $(table).find('tr:nth-child(1) > td:nth-child(2)').text().replace('cm', '');
       let weight = $(table).find('tr:nth-child(1) > td:nth-child(4)').text().replace('kg', '');
@@ -97,7 +95,7 @@ const getMemberDetail = (member: member) => {
         .eq(0)
         .text()
         .replace(/\n|公式サイト.*/g, '');
-      let clothes = $('p > img').eq(1).attr('src');
+
       resolve({
         member_id: member.id,
         name: member.name,
@@ -111,8 +109,6 @@ const getMemberDetail = (member: member) => {
         voice,
         group_name,
         self_text,
-        clothes,
-        prefab,
       });
       // console.log(member);
     });
@@ -153,6 +149,7 @@ const getUnitList = () => {
       const title = nameText.replace(/【(.*?)】(.*)/, '$1');
       const name = nameText.replace(/【(.*?)】(.*)/, '$2');
       const icon = $(element).find('td:nth-child(1) img').attr('src');
+      const prefab = icon.replace(/.*card-(.*?)-\d+-(.*)-(\d+).*/, '$1' + '-' + '$2' + '-' + '$3');
       const rarity = $(element).find('td:nth-child(2)').text();
       const propensity = $(element).find('td:nth-child(3)').text();
       const type = $(element).find('td:nth-child(4)').text();
@@ -165,7 +162,7 @@ const getUnitList = () => {
         url,
         title,
         name,
-        icon,
+        prefab,
         rarity,
         propensity,
         type,
@@ -191,13 +188,13 @@ const getUnitDetail = (unit: unit) => {
         unit_id: unit.id,
         member_id: unit.member_id,
         title: unit.title,
-        prefab: '',
         sp_skill: '',
         yell_skill: '',
         clothes: '',
-        vo: '',
-        da: '',
-        vi: '',
+        vocal: '',
+        dance: '',
+        visual: '',
+        stamina: '',
         skill_1: '',
         skill_1_type: '',
         skill_1_text: '',
@@ -228,45 +225,50 @@ const getUnitDetail = (unit: unit) => {
       const sp_skill = $(table).eq(0).find('tr:nth-child(5) td').text();
       const yell_skill = $(table).eq(0).find('tr:nth-child(6) td').text();
       const clothes = $(table).eq(0).find('tr:nth-child(7) td').text();
-      const vo = $(table).eq(1).find('tr:nth-child(1) td:nth-child(2) span').text();
-      const da = $(table).eq(1).find('tr:nth-child(2) td:nth-child(2) span').text();
-      const vi = $(table).eq(1).find('tr:nth-child(3) td:nth-child(2) span').text();
+      const vocal = $(table).eq(1).find('tr:nth-child(1) td:nth-child(2) span').text();
+      const dance = $(table).eq(1).find('tr:nth-child(2) td:nth-child(2) span').text();
+      const visual = $(table).eq(1).find('tr:nth-child(3) td:nth-child(2) span').text();
+      const stamina = $(table).eq(1).find('tr:nth-child(4) td:nth-child(2) span').text();
       table = $('table.align_left');
-      const skill_1 = $(table)
-        .eq(0)
-        .find('tr:nth-child(1)')
-        .text()
-        .replace(/【(.*?)】(.*)/, '$2');
+      const skill_1 =
+        $(table)
+          .eq(0)
+          .find('tr:nth-child(1)')
+          .text()
+          .replace(/【(.*?)】(.*)/, '$2') || '';
       const skill_1_type = $(table)
         .eq(0)
         .find('tr:nth-child(1)')
         .text()
         .replace(/【(.*?)】(.*)/, '$1');
-      const skill_1_text = $(table).eq(0).find('tr:nth-child(2) td').html();
-      const skill_2 = $(table)
-        .eq(1)
-        .find('tr:nth-child(1)')
-        .text()
-        .replace(/【(.*?)】(.*)/, '$2');
+      const skill_1_text = $(table).eq(0).find('tr:nth-child(2) td').html() || '';
+      const skill_2 =
+        $(table)
+          .eq(1)
+          .find('tr:nth-child(1)')
+          .text()
+          .replace(/【(.*?)】(.*)/, '$2') || '';
       const skill_2_type = $(table)
         .eq(1)
         .find('tr:nth-child(1)')
         .text()
         .replace(/【(.*?)】(.*)/, '$1');
-      const skill_2_text = $(table).eq(1).find('tr:nth-child(2) td').html();
-      const skill_3 = $(table)
-        .eq(2)
-        .find('tr:nth-child(1)')
-        .text()
-        .replace(/【(.*?)】(.*)/, '$2');
-      const skill_3_type = $(table)
-        .eq(2)
-        .find('tr:nth-child(1)')
-        .text()
-        .replace(/【(.*?)】(.*)/, '$1');
-      const skill_3_text = $(table).eq(2).find('tr:nth-child(2) td').html();
-      const skill_yell = $(table).eq(3).find('tr:nth-child(1)').text();
-      const skill_yell_text = $(table).eq(3).find('tr:nth-child(2) td').html();
+      const skill_2_text = $(table).eq(1).find('tr:nth-child(2) td').html() || '';
+      const skill_3 =
+        $(table)
+          .eq(2)
+          .find('tr:nth-child(1)')
+          .text()
+          .replace(/【(.*?)】(.*)/, '$2') || '';
+      const skill_3_type =
+        $(table)
+          .eq(2)
+          .find('tr:nth-child(1)')
+          .text()
+          .replace(/【(.*?)】(.*)/, '$1') || '';
+      const skill_3_text = $(table).eq(2).find('tr:nth-child(2) td').html() || '';
+      const skill_yell = $(table).eq(3).find('tr:nth-child(1)').text() || '';
+      const skill_yell_text = $(table).eq(3).find('tr:nth-child(2) td').html() || '';
       let data = {
         name: unit.name,
         unit_id: unit.id,
@@ -276,9 +278,10 @@ const getUnitDetail = (unit: unit) => {
         sp_skill,
         yell_skill,
         clothes,
-        vo,
-        da,
-        vi,
+        vocal,
+        dance,
+        visual,
+        stamina,
         skill_1,
         skill_1_type,
         skill_1_text,
@@ -339,10 +342,6 @@ const getEstertionImg = async (url: string, filePath: fs.PathLike) => {
         reject(err);
       });
   });
-};
-
-const handler = () => {
-  unitList.forEach((e) => {});
 };
 
 export { getMemberList, getMemberDetail, handleGetMemberDetail, getUnitList, getUnitDetail, handleGetUnitDetail };

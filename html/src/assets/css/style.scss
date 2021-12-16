@@ -1,0 +1,67 @@
+:root {
+  --color-base-vocal: #ff4b9d;
+  --color-base-dance: #38bbff;
+  --color-base-visual: #ffb100;
+  --color-base-stamina: #99dc66;
+  --background-color-quiet--hover: rgba(0, 0, 0, 0.07);
+  --background-color-quiet--active: rgba(0, 0, 0, 0.09);
+  --color-base: #54595d;
+  --color-base--emphasized: #202122;
+  --color-base--subtle: #72777d;
+  --border-color-base: rgba(0, 0, 0, 0.05);
+  --border-color-base--lighter: rgba(0, 0, 0, 0.02);
+  --border-color-base--darker: rgba(0, 0, 0, 0.08);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.base-vocal {
+  color: var(--color-base-vocal);
+}
+.base-dance {
+  color: var(--color-base-dance);
+}
+.base-visual {
+  color: var(--color-base-visual);
+}
+.base-stamina {
+  color: var(--color-base-stamina);
+}
+.maskedimage {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  mask-mode: alpha;
+  mask-size: cover;
+}
+
+.maskedimage-vocal {
+  mask-image: url('/img/icon/icon_parameter_vocal.png');
+  background-color: var(--color-base-vocal);
+}
+.maskedimage-dance {
+  mask-image: url('/img/icon/icon_parameter_dance.png');
+  background-color: var(--color-base-dance);
+}
+.maskedimage-visual {
+  mask-image: url('/img/icon/icon_parameter_visual.png');
+  background-color: var(--color-base-visual);
+}
+.maskedimage-stamina {
+  mask-image: url('/img/icon/icon_parameter_stamina.png');
+  background-blend-mode: match-source;
+  background-color: var(--color-base-stamina);
+}

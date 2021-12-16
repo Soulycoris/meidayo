@@ -29,16 +29,25 @@ router.get('/update', async (ctx) => {
   //   DBHelper.insertMemberDetail,
   //   memberDetail.map((e) => Object.values(e))
   // );
+
   // let unitList: unit[] = JSON.parse(fs.readFileSync(Path.resolve(process.cwd(), './src/spider/unit-list.json'), 'utf-8'));
   // db.insertData(
   //   DBHelper.insertUnitList,
   //   unitList.map((e) => Object.values(e))
   // );
-  // let unitDetail: unitDetail[] = JSON.parse(fs.readFileSync(Path.resolve(process.cwd(), './src/spider/unit-detail.json'), 'utf-8'));
+
+  let unitDetail: unitDetail[] = JSON.parse(fs.readFileSync(Path.resolve(process.cwd(), './src/spider/unit-detail.json'), 'utf-8'));
+  db.insertData(
+    DBHelper.insertUnitDetail,
+    unitDetail.map((e) => Object.values(e))
+  );
+
+  // let prefabList = JSON.parse(fs.readFileSync(Path.resolve(process.cwd(), './src/spider/prefab-list.json'), 'utf-8'));
   // db.insertData(
-  //   DBHelper.insertUnitDetail,
-  //   unitDetail.map((e) => Object.values(e))
+  //   DBHelper.insertPrefabList,
+  //   prefabList.map((e: { [s: string]: unknown } | ArrayLike<unknown>) => Object.values(e))
   // );
+
   ctx.body = true;
 });
 router.get('/version', async (ctx) => {

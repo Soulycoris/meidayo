@@ -1,41 +1,48 @@
 <template>
-  <div class="character">
+  <div class="unit">
     <!-- <uni-search-bar bgColor="#313131" @confirm="search" @input="searchInput" cancelButton="false"></uni-search-bar> -->
     <!-- <div class="fitter-bar">
       <uni-combox label="类型" :candidates="fitterArray.type" v-model="fitterActive.type"></uni-combox>
     </div> -->
-    <charaListItem class="char-list" :charaList="fitterCharaBase" :sort="fitterActive.sort" @on-click="charaBaseTo"> </charaListItem>
+    <unitListItem class="char-list" :unitList="fitterUnitBase" @on-click="toUnitBase"> </unitListItem>
   </div>
 </template>
 <script setup lang="ts">
-import charaListItem from '@/components/character/chara-list-item.vue';
-import { onMounted, computed ,reactive} from 'vue';
+import axios from 'axios';
+import unitListItem from '@/components/unit/unit-list-item.vue';
+import { onMounted, computed, reactive } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import { key } from '@/store';
+import VConsole from 'vconsole';
+
+// const vConsole = new VConsole();
+
 interface fitterActive {
-  type: number;
+  type: string;
 }
 
-type sort = '' | 'height' | 'age' | 'weight';
-
-let charaList = [];
-let searchInput: string = '';
-let scrollTop: number = 0;
+const router = useRouter();
+const store = useStore(key);
+let unitList: unit[] = reactive<unit[]>([]);
+let searchInput = '';
 let fitterArray = {
   type: [
-    { key: 0, value: '全部' },
-    { key: 1, value: '物理' },
-    { key: 2, value: '魔法' },
-    { key: 3, value: '魔法' },
+    { key: '', value: '全部' },
+    { key: 'スコアラー', value: '得分' },
+    { key: 'バッファー', value: '辅助' },
+    { key: 'サポーター', value: '支援' },
   ],
 };
 let fitterActive: fitterActive = reactive({
-  type: 0,
+  type: '',
 });
 
-const fitterCharaBase = computed(() => {
-  let arr = charaList.sort((a, b) => new Date(b.start_time).getTime() - new Date(a.start_time).getTime());
-  if (fitterActive.type) {
-    arr = arr.filter((e) => e.atk_type === fitterActive.type);
-  }
+const fitterUnitBase = computed(() => {
+  let arr = unitList.map((e) => e);
+  // if (fitterActive.type) {
+  //   arr = arr.filter((e) => e.atk_type === fitterActive.type);
+  // }
   return arr;
 });
 
@@ -44,29 +51,25 @@ onMounted(() => {
 });
 
 function getCharaBase(): void {
-  // uni.request({
-  //   url: `${this.$hostConfig.hostUrl}/unit/list`,
-  //   success: (res) => {
-  //     if (Array.isArray(res.data)) {
-  //       this.charaList = res.data;
-  //     }
-  //   },
-  // });
+  axios
+    .get('/unit/list')
+    .then((res) => {
+      unitList.push(...res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
-function charaBaseTo(unitid: number): void {
-  // this.$store.commit('setUnitId', unitid);
-  // uni.navigateTo({
-  //   url: `/pages/character/base/base?unit_id=${unitid}`,
-  // });
-}
-function scroll(e: any) {
-  // console.log(e);
-  scrollTop = e.detail.scrollTop;
+function toUnitBase(item: unit): void {
+  store.commit('setUnit', item);
+  router.push(`/unit/${item.id}`);
 }
 </script>
 <style lang="scss">
-.character {
+$font-size-base: 16px;
+$font-size-sm: 14px;
+.unit {
   background-color: #202020;
   .scroll-Y {
     height: 80vh;
@@ -117,11 +120,11 @@ function scroll(e: any) {
     flex-direction: column;
     max-width: 80vw;
     .item-jpn {
-      font-size: $uni-font-size-base;
+      font-size: $font-size-base;
       padding: 8rpx 0;
     }
     .item-cnn {
-      font-size: $uni-font-size-sm;
+      font-size: $font-size-sm;
       padding: 8rpx 0;
     }
   }

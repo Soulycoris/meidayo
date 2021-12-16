@@ -1,17 +1,17 @@
 interface member {
   nike_name: string;
-  id: string;
+  id: number;
   name: string;
   spell: string;
   url: string;
   group_name: string;
 }
 interface memberDetail {
-  member_id: string;
+  member_id: number;
   name: string;
-  age: string;
-  height: string;
-  weight: string;
+  age: number;
+  height: number;
+  weight: number;
   bwh: string;
   birth: string;
   favorite: string;
@@ -21,28 +21,23 @@ interface memberDetail {
   self_text: string;
 }
 interface unit {
-  id: string;
-  member_id: string;
-  url: string;
+  id: number;
+  member_id: number;
   title: string;
   name: string;
-  prefab: string;
-  rarity: string;
+  rarity: number;
   propensity: string;
   type: string;
+  prefab: string;
 }
-interface unitDetail {
-  name: string;
-  unit_id: string;
-  member_id: string;
-  title: string;
+interface unitDetail extends unit {
   sp_skill: string;
   yell_skill: string;
   clothes: string;
-  vocal: string;
-  dance: string;
-  visual: string;
-  stamina: string;
+  vocal: number;
+  dance: number;
+  visual: number;
+  stamina: number;
   skill_1: string;
   skill_1_type: string;
   skill_1_text: string;

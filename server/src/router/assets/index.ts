@@ -5,8 +5,8 @@ import koaRouter from 'koa-router';
 import { ParameterizedContext } from 'koa';
 const router = new koaRouter();
 
-router.get('/estertion/:type1/:type2/:id', async (ctx) => {
-  const requestPath = `${ctx.params.type1}/${ctx.params.type2}/${ctx.params.id}.webp`;
+router.get('/:type1/:type2/:id', async (ctx) => {
+  const requestPath = `${ctx.params.type1}/${ctx.params.type2}/${ctx.params.id}`;
   const resPath = `/${requestPath}`;
   await rediveEstertion(ctx, resPath, `./img/${requestPath}`);
 });
@@ -29,7 +29,7 @@ const rediveEstertion = async (ctx: ParameterizedContext, resPath: string, reque
     response.lastModified = new Date(lastModified);
     // responseFile(filePath, ctx);
     const fileContent = fs.readFileSync(filePath);
-    // ctx.type = 'image/png; charset=UTF-8';
+    ctx.type = 'image/png;';
     ctx.body = fileContent;
   }
 };
