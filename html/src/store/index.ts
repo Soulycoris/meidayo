@@ -18,7 +18,6 @@ export const store = createStore<State>({
       member_id: 0,
       title: '',
       name: '',
-      spell: '',
       rarity: 0,
       propensity: '',
       type: '',

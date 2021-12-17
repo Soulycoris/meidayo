@@ -3,6 +3,10 @@
   --color-base-dance: #38bbff;
   --color-base-visual: #ffb100;
   --color-base-stamina: #99dc66;
+  --color-base-skill-special: #fb7dff;
+  --color-base-skill-strength: #00dbff;
+  --color-base-skill-score: #226cff;
+  --color-base-skill-yell: #f3ff50;
   --background-color-quiet--hover: rgba(0, 0, 0, 0.07);
   --background-color-quiet--active: rgba(0, 0, 0, 0.09);
   --color-base: #54595d;
@@ -44,24 +48,27 @@ body {
   display: inline-block;
   width: 32px;
   height: 32px;
-  mask-mode: alpha;
   mask-size: cover;
+  -webkit-mask-size: cover;
 }
 
 .maskedimage-vocal {
   mask-image: url('/img/icon/icon_parameter_vocal.png');
+  -webkit-mask-image: url('/img/icon/icon_parameter_vocal.png');
   background-color: var(--color-base-vocal);
 }
 .maskedimage-dance {
   mask-image: url('/img/icon/icon_parameter_dance.png');
+  -webkit-mask-image: url('/img/icon/icon_parameter_dance.png');
   background-color: var(--color-base-dance);
 }
 .maskedimage-visual {
   mask-image: url('/img/icon/icon_parameter_visual.png');
+  -webkit-mask-image: url('/img/icon/icon_parameter_visual.png');
   background-color: var(--color-base-visual);
 }
 .maskedimage-stamina {
   mask-image: url('/img/icon/icon_parameter_stamina.png');
-  background-blend-mode: match-source;
+  -webkit-mask-image: url('/img/icon/icon_parameter_stamina.png');
   background-color: var(--color-base-stamina);
 }

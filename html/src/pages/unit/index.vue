@@ -9,14 +9,11 @@
 </template>
 <script setup lang="ts">
 import axios from 'axios';
-import unitListItem from '@/components/unit/unit-list-item.vue';
+import unitListItem from '@com/unit/unit-list-item.vue';
 import { onMounted, computed, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { key } from '@/store';
-import VConsole from 'vconsole';
-
-// const vConsole = new VConsole();
 
 interface fitterActive {
   type: string;

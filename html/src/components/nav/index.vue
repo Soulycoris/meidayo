@@ -3,9 +3,9 @@
         
     </div>
 </template>
-<script>
+<script setup lang="ts">
 
 </script>
-<style lang="">
+<style lang="scss">
     
 </style>

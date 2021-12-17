@@ -1,13 +1,13 @@
 <template>
   <router-view v-slot="{ Component }">
-    <transition name="fade">
-      <keep-alive>
-        <component :is="Component" />
-      </keep-alive>
-    </transition>
+    <keep-alive>
+      <component :is="Component" />
+    </keep-alive>
   </router-view>
 </template>
 
-<script setup lang="ts"></script>
-<style lang="scss">
-</style>
+<script setup lang="ts">
+// import VConsole from 'vconsole';
+// const vConsole = new VConsole();
+</script>
+<style lang="scss"></style>

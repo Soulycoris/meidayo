@@ -38,15 +38,24 @@ interface unitDetail extends unit {
   dance: number;
   visual: number;
   stamina: number;
-  skill_1: string;
-  skill_1_type: string;
-  skill_1_text: string;
-  skill_2: string;
-  skill_2_type: string;
-  skill_2_text: string;
-  skill_3: string;
-  skill_3_type: string;
-  skill_3_text: string;
-  skill_yell: string;
-  skill_yell_text: string;
+  skill: skillList[];
+  skill_1?: string;
+  skill_1_type?: string;
+  skill_1_text?: string;
+  skill_2?: string;
+  skill_2_type?: string;
+  skill_2_text?: string;
+  skill_3?: string;
+  skill_3_type?: string;
+  skill_3_text?: string;
+  skill_yell?: string;
+  skill_yell_text?: string;
+}
+
+interface skillList {
+  id?: string;
+  skill_type: string;
+  skill_name: string;
+  skill_text: string;
+  skill_icon?: string;
 }

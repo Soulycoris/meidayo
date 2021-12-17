@@ -12,8 +12,11 @@ router.get('/base/:id', async (ctx) => {
   let unitDetail = (await db.queryData(DBHelper.queryUnitDetail, {
     $id: ctx.params.id,
   })) as unitDetail[];
+  let skill = (await db.queryData(DBHelper.querySkillList, {
+    $id: ctx.params.id,
+  })) as skillList[];
   if (unitDetail.length) {
-    ctx.body = unitDetail[0];
+    ctx.body = Object.assign(unitDetail[0], { skill: skill });
   } else {
     ctx.body = {};
   }

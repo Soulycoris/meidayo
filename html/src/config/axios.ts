@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { host } from './index';
+import { host } from './host';
 axios.defaults.baseURL = host.baseUrl;
 // axios.interceptors.request.use(config => {
 //   // loading

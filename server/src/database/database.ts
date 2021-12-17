@@ -34,7 +34,7 @@ class SqliteDB {
       this.db.run(sql, (err) => {
         if (null != err) {
           this.printErrorInfo(err);
-          reject(err);
+          resolve(false);
         }
         resolve(true);
       });
@@ -50,11 +50,11 @@ class SqliteDB {
   }
 
   queryData(sql: string, params = {}) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.db.all(sql, params, (err, rows) => {
         if (null != err) {
           this.printErrorInfo(err);
-          reject(null);
+          resolve([]);
         }
         resolve(rows);
       });
@@ -62,11 +62,11 @@ class SqliteDB {
   }
 
   executeSql(sql: string) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.db.run(sql, (err) => {
         if (null != err) {
           this.printErrorInfo(err);
-          reject(null);
+          resolve([]);
         }
         resolve(true);
       });

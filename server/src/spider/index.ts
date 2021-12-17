@@ -9,7 +9,6 @@ let memberList: member[] = JSON.parse(fs.readFileSync(Path.resolve(__dirname, '.
 let memberDetail: memberDetail[] = JSON.parse(fs.readFileSync(Path.resolve(__dirname, './member-detail.json'), 'utf-8'));
 
 const x = xray();
-const spiderBaseUrl = 'https://appmedia.jp';
 
 /**
  * 获取角色列表
@@ -168,8 +167,12 @@ const getUnitList = () => {
         type,
       });
     });
-    unitList = unit;
-    let str = JSON.stringify(unit, null, '\t');
+    console.log(unitList.length, unit.length);
+
+    if (unitList.length !== unit.length) {
+      unitList.push(...unit.splice(unitList.length));
+    }
+    let str = JSON.stringify(unitList, null, '\t');
     fs.writeFileSync('./src/spider/unit-list.json', str);
   });
 };

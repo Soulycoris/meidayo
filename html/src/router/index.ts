@@ -12,6 +12,13 @@ const router: Router = createRouter({
     { path: '/unit', name: 'unit', component: unit },
     { path: '/unit/:unitId', name: 'unitDetail', component: unitDetail },
   ],
+  // scrollBehavior(to, from, savedPosition) {
+  //   if (savedPosition) {
+  //     return savedPosition;
+  //   } else {
+  //     return { top: 0 };
+  //   }
+  // },
 });
 
 export default router;

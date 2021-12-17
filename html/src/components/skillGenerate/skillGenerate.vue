@@ -1,7 +1,7 @@
 <template>
-  <div class="generate-area" :style="{ transform: `scale(${scale})` }">
+  <div class="generate-area" :style="scale ? `transform:scale(${scale})` : ''">
     <!-- <div class="title">技能生成</div> -->
-    <div class="generate-sikll-bg" v-if="skillBg">
+    <div class="generate-sikll" v-if="skillBg">
       <img :src="`/img/skill_icon/${skillBg}.png`" alt="" />
       <img class="generate-skill-1 img-invert" v-if="skill1" :class="{ 'generate-skill-1-2': skill2 }" :src="`/img/skill_icon/${skill1}.png`" alt="" />
       <img class="generate-skill-2 img-invert" v-if="skill2" :src="`/img/skill_icon/${skill2}.png`" alt="" />
@@ -45,7 +45,7 @@ defineProps({
   },
   scale: {
     type: Number,
-    default: 1,
+    default: 0,
   },
 });
 </script>
@@ -58,7 +58,7 @@ defineProps({
   justify-content: center;
   align-items: center;
   position: relative;
-  .generate-sikll-bg {
+  .generate-sikll {
     width: 100%;
     height: 100%;
     position: relative;
@@ -71,7 +71,7 @@ defineProps({
     position: absolute;
     top: 0;
     border: 6px solid #000;
-    border-radius: 10px;
+    border-radius: 14px;
     font-family: 'Yu Gothic';
     font-weight: bold;
   }

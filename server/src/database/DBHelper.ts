@@ -31,21 +31,25 @@ const DBHelper = {
     ud.vocal,
     ud.dance,
     ud.visual,
-    ud.stamina,
-    ud.skill_1,
-    ud.skill_1_type,
-    ud.skill_1_text,
-    ud.skill_2,
-    ud.skill_2_type,
-    ud.skill_2_text,
-    ud.skill_3,
-    ud.skill_3_type,
-    ud.skill_3_text,
-    ud.skill_yell,
-    ud.skill_yell_text
+    ud.stamina
   FROM unitList AS ul
   LEFT JOIN unitDetail AS ud ON ud.id = ul.id
   WHERE ul.id = $id
+  ;`,
+  queryUnitDetailAll: `SELECT
+  * 
+  FROM unitList
+  inner join unitDetail
+  ON unitList.id=unitDetail.id
+  GROUP BY unitList.id
+  ;`,
+  querySkillList: `SELECT
+    sl.skill_name,
+    sl.skill_type,
+    sl.skill_text,
+    sl.skill_icon
+  FROM skillList AS sl
+  WHERE sl.id = $id
   ;`,
   insertMemberList: `INSERT INTO memberList (
     id,
@@ -110,6 +114,15 @@ const DBHelper = {
     skill_yell_text
   )
   VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);`,
+  insertSkillList: `INSERT INTO skillList (
+    id,
+    skill_name,
+    skill_type,
+    skill_text,
+    skill_icon
+  )
+  VALUES (?,?,?,?,?);
+  `,
   createMemberList: `CREATE TABLE memberList (
     id         INTEGER PRIMARY KEY,
     name       TEXT,

@@ -109,7 +109,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import skillGenerate from '@components/skillGenerate/skillGenerate.vue';
+import skillGenerate from '@com/skillGenerate/skillGenerate.vue';
 </script>
 
 <style lang="scss">

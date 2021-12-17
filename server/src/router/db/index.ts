@@ -37,11 +37,35 @@ router.get('/update', async (ctx) => {
   // );
 
   let unitDetail: unitDetail[] = JSON.parse(fs.readFileSync(Path.resolve(process.cwd(), './src/spider/unit-detail.json'), 'utf-8'));
+  // db.insertData(
+  //   DBHelper.insertUnitDetail,
+  //   unitDetail.map((e) => Object.values(e))
+  // );
+  let skillList: skillList[] = [];
+  unitDetail.forEach((e) => {
+    for (let index = 1; index < 4; index++) {
+      skillList.push({
+        id: e.unit_id,
+        skill_name: e[`skill_${index}`],
+        skill_type: e[`skill_${index}_type`],
+        skill_text: e[`skill_${index}_text`],
+        skill_icon: '',
+      });
+    }
+    if (e.skill_yell) {
+      skillList.push({
+        id: e.unit_id,
+        skill_name: e.skill_yell,
+        skill_type: 'Y',
+        skill_text: e.skill_yell_text,
+        skill_icon: '',
+      });
+    }
+  });
   db.insertData(
-    DBHelper.insertUnitDetail,
-    unitDetail.map((e) => Object.values(e))
+    DBHelper.insertSkillList,
+    skillList.map((e) => Object.values(e))
   );
-
   // let prefabList = JSON.parse(fs.readFileSync(Path.resolve(process.cwd(), './src/spider/prefab-list.json'), 'utf-8'));
   // db.insertData(
   //   DBHelper.insertPrefabList,
@@ -53,6 +77,11 @@ router.get('/update', async (ctx) => {
 router.get('/version', async (ctx) => {
   // updateDatabase();
   ctx.body = true;
+});
+
+router.get('/findAll', async (ctx) => {
+  let unitDetail = (await db.queryData(DBHelper.queryUnitDetailAll)) as unitDetail[];
+  ctx.body = unitDetail;
 });
 
 export default router;
