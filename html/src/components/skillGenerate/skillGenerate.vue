@@ -3,9 +3,9 @@
     <!-- <div class="title">技能生成</div> -->
     <div class="generate-sikll" v-if="skillBg">
       <img :src="`/img/skill_icon/${skillBg}.png`" alt="" />
-      <img class="generate-skill-1 img-invert" v-if="skill1" :class="{ 'generate-skill-1-2': skill2 }" :src="`/img/skill_icon/${skill1}.png`" alt="" />
-      <img class="generate-skill-2 img-invert" v-if="skill2" :src="`/img/skill_icon/${skill2}.png`" alt="" />
-      <img class="generate-skill-3 img-invert" v-if="skill3" :src="`/img/skill_icon/${skill3}.png`" alt="" />
+      <img class="generate-skill-1 img-invert" v-if="skill1" :class="{ 'generate-skill-1-2': skill2 }" :src="skillIcon(skill1)" alt="" />
+      <img class="generate-skill-2 img-invert" v-if="skill2" :src="skillIcon(skill2)" alt="" />
+      <img class="generate-skill-3 img-invert" v-if="skill3" :src="skillIcon(skill3)" alt="" />
       <div class="generate-skill-3-mark" v-if="skill3"></div>
       <div class="generate-border">
         <div class="generate-skill-type" v-if="skillType">{{ skillType }}</div>
@@ -18,6 +18,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { host } from '@/config/host';
 defineProps({
   skillLevel: {
     type: String,
@@ -48,6 +49,10 @@ defineProps({
     default: 0,
   },
 });
+function skillIcon(icon: string) {
+  // `/img/skill_icon/${str}.png`
+  return `${host.baseUrl}/assets/ui/skill/${icon}.png`;
+}
 </script>
 <style lang="scss">
 .generate-area {
@@ -115,8 +120,8 @@ defineProps({
     &.generate-skill-1-2 {
       width: 85%;
       // transform: translate(-50%, -50%) translateZ(0) scale(0.85);
-      top: 60%;
-      left: 40%;
+      top: 61%;
+      left: 43%;
     }
   }
   .generate-skill-2 {

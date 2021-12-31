@@ -6,7 +6,9 @@
   --color-base-skill-special: #fb7dff;
   --color-base-skill-strength: #00dbff;
   --color-base-skill-score: #226cff;
+  --color-base-skill-support: #77ff00;
   --color-base-skill-yell: #f3ff50;
+  --background-color-base: #4c4c4c;
   --background-color-quiet--hover: rgba(0, 0, 0, 0.07);
   --background-color-quiet--active: rgba(0, 0, 0, 0.09);
   --color-base: #54595d;
@@ -21,6 +23,11 @@ html,
 body {
   margin: 0;
   padding: 0;
+}
+#app {
+  width: 100vw;
+  height: auto;
+  min-height: 100vh;
 }
 .fade-enter-active,
 .fade-leave-active {
@@ -43,6 +50,48 @@ body {
 }
 .base-stamina {
   color: var(--color-base-stamina);
+}
+.base-skill-special {
+  color: var(--color-base-skill-special);
+}
+.base-skill-strength {
+  color: var(--color-base-skill-strength);
+}
+.base-skill-score {
+  color: var(--color-base-skill-score);
+}
+.base-skill-support {
+  color: var(--color-base-skill-support);
+}
+.base-skill-yell {
+  color: var(--color-base-skill-yell);
+}
+.base-vocal-bg {
+  background-color: var(--color-base-vocal);
+}
+.base-dance-bg {
+  background-color: var(--color-base-dance);
+}
+.base-visual-bg {
+  background-color: var(--color-base-visual);
+}
+.base-stamina-bg {
+  background-color: var(--color-base-stamina);
+}
+.base-skill-special-bg {
+  background-color: var(--color-base-skill-special);
+}
+.base-skill-strength-bg {
+  background-color: var(--color-base-skill-strength);
+}
+.base-skill-score-bg {
+  background-color: var(--color-base-skill-score);
+}
+.base-skill-support-bg {
+  background-color: var(--color-base-skill-support);
+}
+.base-skill-yell-bg {
+  background-color: var(--color-base-skill-yell);
 }
 .maskedimage {
   display: inline-block;

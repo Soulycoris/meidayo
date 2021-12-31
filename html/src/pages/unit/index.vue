@@ -67,68 +67,17 @@ function toUnitBase(item: unit): void {
 $font-size-base: 16px;
 $font-size-sm: 14px;
 .unit {
-  background-color: #202020;
+  // background-color: #4c4c4c;
   .scroll-Y {
     height: 80vh;
   }
 }
 .uni-searchbar {
-  background-color: #202020;
+  // background-color: #4c4c4c;
 }
 .fitter-bar {
   display: flex;
   justify-content: space-around;
   box-shadow: #373737 1px 1px 1px;
-}
-.char-list-item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 8rpx;
-  &:hover {
-    background-color: #373737;
-  }
-  .item-icon {
-    width: 40rpx;
-    height: 40rpx;
-    background: url('/static/img/AtlasCommon.png') no-repeat;
-    background-size: cover;
-    margin-right: 20rpx;
-    &.type1 {
-      background-position-x: 0;
-    }
-    &.type2 {
-      background-position-x: -40rpx;
-    }
-    &.type3 {
-      background-position-x: -80rpx;
-    }
-  }
-  .item-head-img {
-    width: 134rpx;
-    margin-right: 16rpx;
-    img {
-      width: 100%;
-    }
-  }
-  .item-name {
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    max-width: 80vw;
-    .item-jpn {
-      font-size: $font-size-base;
-      padding: 8rpx 0;
-    }
-    .item-cnn {
-      font-size: $font-size-sm;
-      padding: 8rpx 0;
-    }
-  }
-  .item-other {
-    position: absolute;
-    right: 0;
-    padding-right: 16rpx;
-  }
 }
 </style>

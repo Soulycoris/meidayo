@@ -91,11 +91,11 @@ function unitHeadIcon(item: unit) {
     flex-direction: column;
     max-width: 80vw;
     .item-jpn {
-      font-size: 16px;
-      padding: 6px 0;
+      font-size: 18px;
+      padding: 2px 0;
     }
     .item-cnn {
-      font-size: 12px;
+      font-size: 14px;
       padding: 6px 0;
     }
   }

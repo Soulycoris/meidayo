@@ -1,87 +1,71 @@
 import koaRouter from 'koa-router';
-import fs from 'fs-extra';
-import Path from 'path';
+// import fs from 'fs-extra';
+// import Path from 'path';
+import { MemberModel, MemberDetailModel, UnitModel, UnitDetailModel } from '../../database/model';
 
-import db from '../../database';
-import DBHelper from '../../database/DBHelper';
-// import { updateDatabase } from '../../utils/utils';
+import { getUnitList, getUnitDetail } from '../../spider';
+
+import { AnyKeys } from 'mongoose';
+
 const router = new koaRouter();
-router.get('/close', async (ctx) => {
-  db.close();
-  ctx.body = true;
-});
-router.get('/init', async (ctx) => {
-  await db.createTable(DBHelper.createMemberList);
-  await db.createTable(DBHelper.createMemberDetail);
-  await db.createTable(DBHelper.createUnitList);
-  await db.createTable(DBHelper.createUnitDetail);
-  ctx.body = true;
-});
+
 router.get('/update', async (ctx) => {
-  // let memberList: member[] = JSON.parse(fs.readFileSync(Path.resolve(process.cwd(), './src/spider/member-list.json'), 'utf-8'));
-  // db.insertData(
-  //   DBHelper.insertMemberList,
-  //   memberList.map((e) => Object.values(e))
-  // );
+  let [memberList, unitList] = await Promise.all([MemberModel.find({}), UnitModel.find({})]);
+  try {
+    let unit = await getUnitList(memberList);
 
+    if (unitList.length !== unit.length) {
+      let newData = unit.splice(unitList.length);
+      let insertData: Array<AnyKeys<unit>> = [];
+      newData.forEach((item) => {
+        let doc = new UnitModel(item);
+        insertData.push(doc);
+      });
+
+      await UnitModel.insertMany(insertData);
+      unitList = await UnitModel.find({});
+    }
+
+    let unitDetail = await UnitDetailModel.find({});
+
+    for (let index = unitDetail.length; index < unitList.length; index++) {
+      const unit = unitList[index];
+      let tag = true;
+      while (tag) {
+        try {
+          let data = await getUnitDetail(unit);
+          if (data) {
+            let doc = new UnitDetailModel(data);
+            doc.save();
+            tag = false;
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
+
+  ctx.body = true;
+});
+
+router.get('/update/all', async (ctx) => {
   // let memberDetail: memberDetail[] = JSON.parse(fs.readFileSync(Path.resolve(process.cwd(), './src/spider/member-detail.json'), 'utf-8'));
-  // db.insertData(
-  //   DBHelper.insertMemberDetail,
-  //   memberDetail.map((e) => Object.values(e))
-  // );
-
-  // let unitList: unit[] = JSON.parse(fs.readFileSync(Path.resolve(process.cwd(), './src/spider/unit-list.json'), 'utf-8'));
-  // db.insertData(
-  //   DBHelper.insertUnitList,
-  //   unitList.map((e) => Object.values(e))
-  // );
-
-  let unitDetail: unitDetail[] = JSON.parse(fs.readFileSync(Path.resolve(process.cwd(), './src/spider/unit-detail.json'), 'utf-8'));
-  // db.insertData(
-  //   DBHelper.insertUnitDetail,
-  //   unitDetail.map((e) => Object.values(e))
-  // );
-  let skillList: skillList[] = [];
-  unitDetail.forEach((e) => {
-    for (let index = 1; index < 4; index++) {
-      skillList.push({
-        id: e.unit_id,
-        skill_name: e[`skill_${index}`],
-        skill_type: e[`skill_${index}_type`],
-        skill_text: e[`skill_${index}_text`],
-        skill_icon: '',
-      });
-    }
-    if (e.skill_yell) {
-      skillList.push({
-        id: e.unit_id,
-        skill_name: e.skill_yell,
-        skill_type: 'Y',
-        skill_text: e.skill_yell_text,
-        skill_icon: '',
-      });
-    }
+  // let insertData: Array<AnyKeys<memberDetail>> = [];
+  // memberDetail.forEach((item) => {
+  //   let doc = new MemberDetailModel(item);
+  //   insertData.push(doc);
+  // });
+  // await MemberDetailModel.insertMany(insertData);
+  let memberList = await MemberDetailModel.find({});
+  memberList.forEach((e) => {
+    e.voice = e.voice.replaceAll(/\n/g, '');
+    e.save();
   });
-  db.insertData(
-    DBHelper.insertSkillList,
-    skillList.map((e) => Object.values(e))
-  );
-  // let prefabList = JSON.parse(fs.readFileSync(Path.resolve(process.cwd(), './src/spider/prefab-list.json'), 'utf-8'));
-  // db.insertData(
-  //   DBHelper.insertPrefabList,
-  //   prefabList.map((e: { [s: string]: unknown } | ArrayLike<unknown>) => Object.values(e))
-  // );
 
   ctx.body = true;
-});
-router.get('/version', async (ctx) => {
-  // updateDatabase();
-  ctx.body = true;
-});
-
-router.get('/findAll', async (ctx) => {
-  let unitDetail = (await db.queryData(DBHelper.queryUnitDetailAll)) as unitDetail[];
-  ctx.body = unitDetail;
 });
 
 export default router;

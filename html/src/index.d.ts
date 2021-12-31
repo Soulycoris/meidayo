@@ -1,14 +1,12 @@
 interface member {
-  nike_name: string;
   id: number;
   name: string;
+  nikeName: string;
   spell: string;
   url: string;
-  group_name: string;
+  groupName: string;
 }
-interface memberDetail {
-  member_id: number;
-  name: string;
+interface memberDetail extends member {
   age: number;
   height: number;
   weight: number;
@@ -17,45 +15,34 @@ interface memberDetail {
   favorite: string;
   school: string;
   voice: string;
-  group_name: string;
-  self_text: string;
+  groupName: string;
+  selfText: string;
 }
 interface unit {
   id: number;
-  member_id: number;
+  memberId: number;
+  url: string;
   title: string;
   name: string;
+  prefab: string;
   rarity: number;
   propensity: string;
   type: string;
-  prefab: string;
 }
 interface unitDetail extends unit {
-  sp_skill: string;
-  yell_skill: string;
+  spSkill: string;
+  yellSkill: string;
   clothes: string;
   vocal: number;
   dance: number;
   visual: number;
   stamina: number;
-  skill: skillList[];
-  skill_1?: string;
-  skill_1_type?: string;
-  skill_1_text?: string;
-  skill_2?: string;
-  skill_2_type?: string;
-  skill_2_text?: string;
-  skill_3?: string;
-  skill_3_type?: string;
-  skill_3_text?: string;
-  skill_yell?: string;
-  skill_yell_text?: string;
+  skill?: skill[];
 }
-
-interface skillList {
-  id?: string;
-  skill_type: string;
-  skill_name: string;
-  skill_text: string;
-  skill_icon?: string;
+interface skill {
+  id?: number;
+  skillType: string;
+  skillName: string;
+  skillText: string;
+  skillIcon: string;
 }

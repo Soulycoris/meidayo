@@ -10,6 +10,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
+    "noImplicitAny": false, // 是否在表达式和声明上有隐含的any类型时报错
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

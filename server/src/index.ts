@@ -3,6 +3,8 @@ import bodyParser from 'koa-bodyparser';
 import cors from 'koa2-cors';
 
 import router from './router';
+import { run } from './database';
+import { MemberModel, MemberDetailModel, UnitModel, UnitDetailModel } from './database/model';
 
 const app: Koa = new Koa();
 
@@ -28,9 +30,10 @@ app.use(
 app.use(bodyParser());
 app.use(router.routes());
 
-const port: number = 3000;
+const port = 3000;
 
 app.listen(port, () => {
   console.log(`seccess start server`);
   console.log(`local: http://127.0.0.1:${port}`);
+  run().catch((err) => console.log(err));
 });

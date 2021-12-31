@@ -3,15 +3,16 @@ import App from './App.vue';
 import router from './router';
 import './config/axios';
 import './assets/css/style.scss';
-import { store, key } from './store';
 import lazyPlugin from 'vue3-lazy';
-// import i18n from './config/i18n';
+import { createPinia } from 'pinia';
+
 const app = createApp(App);
-// 加载store，传入 injection key
-app.use(store, key);
+
 // 加载router
 app.use(router);
-// app.use(i18n);
+
+// 加载store
+app.use(createPinia());
 
 app.use(lazyPlugin, {
   loading: '/img/icon/icon_Card.png',
