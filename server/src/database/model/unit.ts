@@ -7,6 +7,7 @@ const UnitSchema = new Schema<unit>({
   title: { type: String, required: true },
   name: { type: String, required: true },
   prefab: { type: String, required: true },
+  propensity: { type: String, required: true },
   rarity: { type: Number, required: true },
   type: { type: String, required: true },
 });
@@ -15,9 +16,9 @@ const UnitModel = model<unit>('Unit', UnitSchema);
 
 const UnitDetailSchema = new Schema<unitDetail>({
   id: { type: Number, required: true },
-  spSkill: { type: String, required: true },
-  yellSkill: { type: String, required: true },
-  clothes: { type: String, required: true },
+  spSkill: String,
+  yellSkill: String,
+  clothes: String,
   vocal: { type: Number, required: true },
   dance: { type: Number, required: true },
   visual: { type: Number, required: true },

@@ -4,7 +4,6 @@ import cors from 'koa2-cors';
 
 import router from './router';
 import { run } from './database';
-import { MemberModel, MemberDetailModel, UnitModel, UnitDetailModel } from './database/model';
 
 const app: Koa = new Koa();
 

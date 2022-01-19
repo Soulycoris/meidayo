@@ -450,12 +450,14 @@ $font-size-sm: 14px;
         flex: none;
       }
       .unit-skill-name-text {
+        color: rgba(255, 255, 255, 0.8);
         font-weight: bold;
         font-size: 18px;
       }
     }
   }
   .unit-skill-text {
+    color: rgba(255, 255, 255, 0.8);
     width: 100%;
     flex: none;
     margin: 6px 0 32px 0;

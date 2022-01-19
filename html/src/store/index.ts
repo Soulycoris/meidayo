@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia';
+// import { defineStore } from 'pinia';
 
-export const useStore = defineStore('main', {
-  state: () => {
-    return {};
-  },
-});
+// export const useStore = defineStore('main', {
+//   state: () => {
+//     return {};
+//   },
+// });

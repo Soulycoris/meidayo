@@ -12,15 +12,12 @@ import axios from 'axios';
 import unitListItem from '@com/unit/unit-list-item.vue';
 import { onMounted, computed, reactive } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
-import { key } from '@/store';
 
 interface fitterActive {
   type: string;
 }
 
 const router = useRouter();
-const store = useStore(key);
 let unitList: unit[] = reactive<unit[]>([]);
 let searchInput = '';
 let fitterArray = {
@@ -59,7 +56,6 @@ function getCharaBase(): void {
 }
 
 function toUnitBase(item: unit): void {
-  store.commit('setUnit', item);
   router.push(`/unit/${item.id}`);
 }
 </script>

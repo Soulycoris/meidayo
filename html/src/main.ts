@@ -4,7 +4,7 @@ import router from './router';
 import './config/axios';
 import './assets/css/style.scss';
 import lazyPlugin from 'vue3-lazy';
-import { createPinia } from 'pinia';
+// import { createPinia } from 'pinia';
 
 const app = createApp(App);
 
@@ -12,7 +12,7 @@ const app = createApp(App);
 app.use(router);
 
 // 加载store
-app.use(createPinia());
+// app.use(createPinia());
 
 app.use(lazyPlugin, {
   loading: '/img/icon/icon_Card.png',
