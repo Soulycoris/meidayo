@@ -183,7 +183,7 @@ const getUnitList = (memberList: member[]) => {
         const propensity = $(element).find('td:nth-child(3)').text();
         const type = $(element).find('td:nth-child(4)').text();
         const id = +`1${(index + 1 + '').padStart(3, '0')}01`;
-        const res = memberList.find((e) => name.includes(e.nikeName) || name === e.name);
+        const res = memberList.find((e) => prefab.includes(e.spell));
         // console.log(name);
         unit.push({
           id,
@@ -253,11 +253,13 @@ const getUnitDetail = (unit: unit) => {
         let skillType = splitText[1] ?? 'Y';
         let skillText = $(element).find('tr:nth-child(2) td').html() || '';
         let skillIcon = handleSkill(skillType, skillText, unit);
+        let skillBg = skillBgIcon(skillType, skillIcon);
         skill.push({
           skillName,
           skillType,
           skillText,
           skillIcon,
+          skillBg,
         });
       });
 
@@ -374,6 +376,25 @@ const handleSkill = (skillType: string, skillText: string, unit: unit) => {
   return skillIcon;
 };
 
+const skillBgIcon = (skillType: string, skillIcon: string) => {
+  if (skillType === 'SP') {
+    return 'special';
+  } else if (skillType === 'Y') {
+    return 'yell';
+  } else {
+    // score 蓝
+    // support 绿
+    // strength 天蓝
+    let icons = skillIcon.split(',');
+    if (icons.length === 1 && icons.includes('score-get')) {
+      return 'score';
+    }
+    if (icons.some((e) => e.includes('up'))) {
+      return 'strength';
+    }
+    return 'support';
+  }
+};
 // handleSkill();
 
 export { getMemberList, getMemberDetail, handleGetMemberDetail, getUnitList, getUnitDetail, handleGetUnitDetail };

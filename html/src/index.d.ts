@@ -45,4 +45,5 @@ interface skill {
   skillName: string;
   skillText: string;
   skillIcon: string;
+  skillBg: string;
 }

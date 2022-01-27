@@ -1,5 +1,5 @@
 <template>
-  <ipNav class="unit-nav" :class="{ fixed }" leftArrow :border="true" @on-left-click="goBack">
+  <ipNav class="unit-nav" :fixed="true" leftArrow :border="true" @on-left-click="goBack">
     <template #title></template>
     <template #right>
       <svg @click="eventLanguageChange" t="1640247802490" class="icon" viewBox="0 0 1026 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5623" width="16" height="16">
@@ -16,7 +16,7 @@
   </ipNav>
   <div class="unit-base">
     <transition name="fade">
-      <div class="unit-img" v-if="unitDetail.id">
+      <div class="unit-img" v-if="unitDetail.id" :style="{ height: imgHeight + 'px' }">
         <img class="img-max" :src="unitCgImg()" alt="" srcset="" />
       </div>
     </transition>
@@ -62,17 +62,18 @@
 import axios from 'axios';
 
 import ipNav from '@com/nav/ipNav.vue';
-import unitListItem from '@com/unit/unit-list-item.vue';
+import unitListItem from '@com/unit/unitListItem.vue';
 import skillGenerate from '@com/skillGenerate/skillGenerate.vue';
 
 import { onMounted, onActivated, onBeforeUnmount, computed, reactive, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { host } from '@/config/host';
-import { unitPropensityMap,translateMap } from '@/assets/utils';
+import { unitPropensityMap, translateMap } from '@/assets/utils';
 
 const router = useRouter();
 const route = useRoute();
 let skillLang = ref('jp');
+let imgHeight = ref(0);
 let fixed = ref(false);
 let unitId: number = 0;
 let unitDetail: unitDetail = reactive<unitDetail>({
@@ -115,13 +116,15 @@ const statusSum = computed((): number => {
 
 onActivated(() => {
   document.body.scrollIntoView();
-  Object.assign(unitDetail, backup.unitDetail);
   unitId = +route.params.unitId;
-  if (unitId) {
+  if (unitId != unitDetail.id) {
+    Object.assign(unitDetail, backup.unitDetail);
     getCharaBase(unitId);
   }
 });
 onMounted(() => {
+  // 立绘比 2048x1152
+  imgHeight.value = +(window.innerWidth / (2048 / 1152)).toFixed(2);
   backup.unitDetail = JSON.parse(JSON.stringify(unitDetail));
   document.addEventListener('scroll', onScroll);
 });
@@ -296,14 +299,8 @@ function skillBgIcon(item: skill, index: number) {
     // bg_score_2 蓝
     // bg_support_2 绿
     // bg_strength_2 天蓝
-    let icons = item.skillIcon.split(',');
-    if (icons.length === 1 && icons[0].includes('score-get')) {
-      return index < 1 ? 'bg_score_3' : 'bg_score_2';
-    }
-    if (icons.some((e) => e.includes('up'))) {
-      return index < 1 ? 'bg_strength_3' : 'bg_strength_2';
-    }
-    return index < 1 ? 'bg_support_3' : 'bg_support_2';
+    let key = item.skillBg;
+    return index < 1 ? `bg_${key}_3` : `bg_${key}_2`;
   }
 }
 function skillIcon(num: number, item: skill) {
@@ -352,8 +349,8 @@ $font-size-sm: 14px;
     transition: height 2s ease;
     min-height: 200px;
     .img-max {
-      max-width: 100%;
-      height: auto;
+      width: 100%;
+      height: 100%;
       // max-height: 100%;
     }
   }

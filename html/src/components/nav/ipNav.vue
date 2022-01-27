@@ -1,5 +1,5 @@
 <template>
-  <div class="ip-nav-bar" :class="{ 'ip-hairline--bottom': border }">
+  <div class="ip-nav-bar" :class="{ 'ip-hairline--bottom': border, fixed: isFixed }">
     <div class="ip-nav-bar-content">
       <div class="ip-nav-bar-left" @click="eventLeftClick">
         <svg v-if="leftArrow" t="1640245082024" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2041" width="20" height="20">
@@ -18,29 +18,62 @@
   </div>
 </template>
 <script setup lang="ts">
-defineProps<{
+import { onMounted, onBeforeUnmount, ref } from 'vue';
+
+interface Props {
   border: string;
   leftArrow: boolean;
-}>();
+  fixed: boolean;
+  top: number;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  fixed: false,
+  top: 200,
+});
+
+let isFixed = ref(false);
 
 const emit = defineEmits<{
   (e: 'on-left-click'): void;
 }>();
+
+onMounted(() => {
+  if (props.fixed) {
+    document.addEventListener('scroll', onScroll);
+  }
+});
+
+onBeforeUnmount(() => {
+  if (props.fixed) {
+    document.removeEventListener('scroll', onScroll);
+  }
+});
+
+function onScroll() {
+  var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+  isFixed.value = scrollTop > props.top;
+}
 function eventLeftClick() {
   emit('on-left-click');
 }
 </script>
 <style lang="scss">
 .ip-nav-bar {
+  width: 100%;
   position: relative;
   z-index: 1;
   line-height: 22px;
   text-align: center;
-  background-color: rgba($color: #4c4c4c, $alpha: .8);
-
+  background-color: rgba($color: #4c4c4c, $alpha: 0.8);
   user-select: none;
   color: #fff;
   font-size: 16px;
+  &.fixed {
+    position: fixed;
+    background-color: rgba(76, 76, 76, 0.8);
+    transition: background-color ease 0.2s;
+  }
 }
 .ip-hairline--bottom::after {
   position: absolute;
@@ -53,7 +86,7 @@ function eventLeftClick() {
   left: -50%;
   transform: scale(0.5);
   // border-bottom: 1px solid #222;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1)
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 .ip-nav-bar-content {
   position: relative;

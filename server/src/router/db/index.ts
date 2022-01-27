@@ -45,15 +45,15 @@ router.get('/update', async (ctx) => {
       }
     }
   }
-
+  console.log('update success');
   ctx.body = true;
 });
 
 router.get('/update/unit/:id', async (ctx) => {
   let memberList = await MemberDetailModel.find({});
-  memberList.forEach((e) => {
+  memberList.forEach(async (e) => {
     e.voice = e.voice.replaceAll(/\n/g, '');
-    e.save();
+    await e.save();
   });
   ctx.body = true;
 });
@@ -96,16 +96,6 @@ router.get('/backup', async (ctx) => {
 });
 
 router.get('/update/test', async (ctx) => {
-  let unitList: unit[] = JSON.parse(fs.readFileSync(Path.resolve('./src/spider/unit-list.json'), 'utf-8'));
-
-  let insertData: Array<AnyKeys<unit>> = [];
-  unitList.forEach((item) => {
-    let doc = new UnitModel(item);
-    insertData.push(doc);
-  });
-
-  await UnitModel.insertMany(insertData);
-
   ctx.body = true;
 });
 
