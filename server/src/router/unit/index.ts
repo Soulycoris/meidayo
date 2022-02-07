@@ -9,7 +9,8 @@ router.get('/list', async (ctx) => {
 
 router.get('/base/:id', async (ctx) => {
   let [unit, unitDetail] = await Promise.all([UnitModel.findOne({ id: ctx.params.id }), UnitDetailModel.findOne({ id: ctx.params.id })]);
-  ctx.body = Object.assign(unit.toObject(), unitDetail.toObject());
+
+  ctx.body = Object.assign(unit.toObject(), unitDetail?.toObject() ?? {});
 });
 
 router.get('/member/:id', async (ctx) => {

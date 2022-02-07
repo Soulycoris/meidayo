@@ -10,12 +10,15 @@ import { AnyKeys } from 'mongoose';
 const router = new koaRouter();
 
 router.get('/update', async (ctx) => {
+  let model = ctx.query.model ?? 'all';
   let [memberList, unitList] = await Promise.all([MemberModel.find({}), UnitModel.find({})]);
+  console.log('getUnitList start');
+  let unit: unit[] = [];
+  if (model === 'all') {
+    unit = await getUnitList(memberList);
+  }
 
-  let unit = await getUnitList(memberList);
-  console.log('getUnitList step');
-
-  if (unitList.length !== unit.length) {
+  if (unit.length && unitList.length !== unit.length) {
     let newData = unit.splice(unitList.length);
     let insertData: Array<AnyKeys<unit>> = [];
     newData.forEach((item) => {
@@ -37,11 +40,11 @@ router.get('/update', async (ctx) => {
         let data = await getUnitDetail(unit);
         if (data) {
           let doc = new UnitDetailModel(data);
-          doc.save();
+          await doc.save();
           tag = false;
         }
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     }
   }
@@ -95,7 +98,7 @@ router.get('/backup', async (ctx) => {
   ctx.body = true;
 });
 
-router.get('/update/test', async (ctx) => {
+router.get('/test', async (ctx) => {
   ctx.body = true;
 });
 

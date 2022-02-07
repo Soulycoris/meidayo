@@ -1,182 +1,182 @@
 [
-  {
-    "_id": "61e6b1f2697c03b2753ba8da",
-    "id": 100001,
-    "nikeName": "麻奈",
-    "name": "長瀬麻奈",
-    "spell": "mna",
-    "url": "https://appmedia.jp/idolypride/6390553",
-    "groupName": "ソロアイドル",
-    "__v": 0
-  },
-  {
-    "_id": "61e6b1f2697c03b2753ba8db",
-    "id": 100002,
-    "nikeName": "琴乃",
-    "name": "長瀬琴乃",
-    "spell": "ktn",
-    "url": "https://appmedia.jp/idolypride/6389452",
-    "groupName": "月のテンペスト",
-    "__v": 0
-  },
-  {
-    "_id": "61e6b1f2697c03b2753ba8dc",
-    "id": 100003,
-    "nikeName": "渚",
-    "name": "伊吹渚",
-    "spell": "ngs",
-    "url": "https://appmedia.jp/idolypride/6389725",
-    "groupName": "月のテンペスト",
-    "__v": 0
-  },
-  {
-    "_id": "61e6b1f2697c03b2753ba8dd",
-    "id": 100004,
-    "nikeName": "沙季",
-    "name": "白石沙季",
-    "spell": "ski",
-    "url": "https://appmedia.jp/idolypride/6389893",
-    "groupName": "月のテンペスト",
-    "__v": 0
-  },
-  {
-    "_id": "61e6b1f2697c03b2753ba8de",
-    "id": 100005,
-    "nikeName": "すず",
-    "name": "成宮すず",
-    "spell": "suz",
-    "url": "https://appmedia.jp/idolypride/6389932",
-    "groupName": "月のテンペスト",
-    "__v": 0
-  },
-  {
-    "_id": "61e6b1f2697c03b2753ba8df",
-    "id": 100006,
-    "nikeName": "芽衣",
-    "name": "早坂芽衣",
-    "spell": "mei",
-    "url": "https://appmedia.jp/idolypride/6389959",
-    "groupName": "月のテンペスト",
-    "__v": 0
-  },
-  {
-    "_id": "61e6b1f2697c03b2753ba8e0",
-    "id": 100007,
-    "nikeName": "さくら",
-    "name": "川咲さくら",
-    "spell": "skr",
-    "url": "https://appmedia.jp/idolypride/6390064",
-    "groupName": "サニーピース",
-    "__v": 0
-  },
-  {
-    "_id": "61e6b1f2697c03b2753ba8e1",
-    "id": 100008,
-    "nikeName": "怜",
-    "name": "一ノ瀬怜",
-    "spell": "rei",
-    "url": "https://appmedia.jp/idolypride/6390163",
-    "groupName": "サニーピース",
-    "__v": 0
-  },
-  {
-    "_id": "61e6b1f2697c03b2753ba8e2",
-    "id": 100009,
-    "nikeName": "遥子",
-    "name": "佐伯遙子",
-    "spell": "hrk",
-    "url": "https://appmedia.jp/idolypride/6390181",
-    "groupName": "サニーピース",
-    "__v": 0
-  },
-  {
-    "_id": "61e6b1f2697c03b2753ba8e3",
-    "id": 100010,
-    "nikeName": "千沙",
-    "name": "白石千紗",
-    "spell": "chs",
-    "url": "https://appmedia.jp/idolypride/6390145",
-    "groupName": "サニーピース",
-    "__v": 0
-  },
-  {
-    "_id": "61e6b1f2697c03b2753ba8e4",
-    "id": 100011,
-    "nikeName": "雫",
-    "name": "兵藤雫",
-    "spell": "szk",
-    "url": "https://appmedia.jp/idolypride/6390106",
-    "groupName": "サニーピース",
-    "__v": 0
-  },
-  {
-    "_id": "61e6b1f2697c03b2753ba8e5",
-    "id": 100012,
-    "nikeName": "天動",
-    "name": "天動瑠依",
-    "spell": "rui",
-    "url": "https://appmedia.jp/idolypride/6390256",
-    "groupName": "TRINITYAiLE",
-    "__v": 0
-  },
-  {
-    "_id": "61e6b1f2697c03b2753ba8e6",
-    "id": 100013,
-    "nikeName": "優",
-    "name": "鈴村優",
-    "spell": "yu",
-    "url": "https://appmedia.jp/idolypride/6390280",
-    "groupName": "TRINITYAiLE",
-    "__v": 0
-  },
-  {
-    "_id": "61e6b1f2697c03b2753ba8e7",
-    "id": 100014,
-    "nikeName": "すみれ",
-    "name": "奥山すみれ",
-    "spell": "smr",
-    "url": "https://appmedia.jp/idolypride/6390298",
-    "groupName": "TRINITYAiLE",
-    "__v": 0
-  },
-  {
-    "_id": "61e6b1f2697c03b2753ba8e8",
-    "id": 100015,
-    "nikeName": "莉央",
-    "name": "神崎莉央",
-    "spell": "rio",
-    "url": "https://appmedia.jp/idolypride/6390385",
-    "groupName": "LizNoir",
-    "__v": 0
-  },
-  {
-    "_id": "61e6b1f2697c03b2753ba8e9",
-    "id": 100016,
-    "nikeName": "葵",
-    "name": "井川葵",
-    "spell": "aoi",
-    "url": "https://appmedia.jp/idolypride/6390415",
-    "groupName": "LizNoir",
-    "__v": 0
-  },
-  {
-    "_id": "61e6b1f2697c03b2753ba8ea",
-    "id": 100017,
-    "nikeName": "愛",
-    "name": "小美山愛",
-    "spell": "ai",
-    "url": "https://appmedia.jp/idolypride/6390472",
-    "groupName": "LizNoir",
-    "__v": 0
-  },
-  {
-    "_id": "61e6b1f2697c03b2753ba8eb",
-    "id": 100018,
-    "nikeName": "こころ",
-    "name": "赤崎こころ",
-    "spell": "kkr",
-    "url": "https://appmedia.jp/idolypride/6390523",
-    "groupName": "LizNoir",
-    "__v": 0
-  }
+	{
+		"_id": "61e6b1f2697c03b2753ba8da",
+		"id": 100001,
+		"nikeName": "麻奈",
+		"name": "長瀬麻奈",
+		"spell": "mna",
+		"url": "https://appmedia.jp/idolypride/6390553",
+		"groupName": "ソロアイドル",
+		"__v": 0
+	},
+	{
+		"_id": "61e6b1f2697c03b2753ba8db",
+		"id": 100002,
+		"nikeName": "琴乃",
+		"name": "長瀬琴乃",
+		"spell": "ktn",
+		"url": "https://appmedia.jp/idolypride/6389452",
+		"groupName": "月のテンペスト",
+		"__v": 0
+	},
+	{
+		"_id": "61e6b1f2697c03b2753ba8dc",
+		"id": 100003,
+		"nikeName": "渚",
+		"name": "伊吹渚",
+		"spell": "ngs",
+		"url": "https://appmedia.jp/idolypride/6389725",
+		"groupName": "月のテンペスト",
+		"__v": 0
+	},
+	{
+		"_id": "61e6b1f2697c03b2753ba8dd",
+		"id": 100004,
+		"nikeName": "沙季",
+		"name": "白石沙季",
+		"spell": "ski",
+		"url": "https://appmedia.jp/idolypride/6389893",
+		"groupName": "月のテンペスト",
+		"__v": 0
+	},
+	{
+		"_id": "61e6b1f2697c03b2753ba8de",
+		"id": 100005,
+		"nikeName": "すず",
+		"name": "成宮すず",
+		"spell": "suz",
+		"url": "https://appmedia.jp/idolypride/6389932",
+		"groupName": "月のテンペスト",
+		"__v": 0
+	},
+	{
+		"_id": "61e6b1f2697c03b2753ba8df",
+		"id": 100006,
+		"nikeName": "芽衣",
+		"name": "早坂芽衣",
+		"spell": "mei",
+		"url": "https://appmedia.jp/idolypride/6389959",
+		"groupName": "月のテンペスト",
+		"__v": 0
+	},
+	{
+		"_id": "61e6b1f2697c03b2753ba8e0",
+		"id": 100007,
+		"nikeName": "さくら",
+		"name": "川咲さくら",
+		"spell": "skr",
+		"url": "https://appmedia.jp/idolypride/6390064",
+		"groupName": "サニーピース",
+		"__v": 0
+	},
+	{
+		"_id": "61e6b1f2697c03b2753ba8e1",
+		"id": 100008,
+		"nikeName": "怜",
+		"name": "一ノ瀬怜",
+		"spell": "rei",
+		"url": "https://appmedia.jp/idolypride/6390163",
+		"groupName": "サニーピース",
+		"__v": 0
+	},
+	{
+		"_id": "61e6b1f2697c03b2753ba8e2",
+		"id": 100009,
+		"nikeName": "遥子",
+		"name": "佐伯遙子",
+		"spell": "hrk",
+		"url": "https://appmedia.jp/idolypride/6390181",
+		"groupName": "サニーピース",
+		"__v": 0
+	},
+	{
+		"_id": "61e6b1f2697c03b2753ba8e3",
+		"id": 100010,
+		"nikeName": "千沙",
+		"name": "白石千紗",
+		"spell": "chs",
+		"url": "https://appmedia.jp/idolypride/6390145",
+		"groupName": "サニーピース",
+		"__v": 0
+	},
+	{
+		"_id": "61e6b1f2697c03b2753ba8e4",
+		"id": 100011,
+		"nikeName": "雫",
+		"name": "兵藤雫",
+		"spell": "szk",
+		"url": "https://appmedia.jp/idolypride/6390106",
+		"groupName": "サニーピース",
+		"__v": 0
+	},
+	{
+		"_id": "61e6b1f2697c03b2753ba8e5",
+		"id": 100012,
+		"nikeName": "天動",
+		"name": "天動瑠依",
+		"spell": "rui",
+		"url": "https://appmedia.jp/idolypride/6390256",
+		"groupName": "TRINITYAiLE",
+		"__v": 0
+	},
+	{
+		"_id": "61e6b1f2697c03b2753ba8e6",
+		"id": 100013,
+		"nikeName": "優",
+		"name": "鈴村優",
+		"spell": "yu",
+		"url": "https://appmedia.jp/idolypride/6390280",
+		"groupName": "TRINITYAiLE",
+		"__v": 0
+	},
+	{
+		"_id": "61e6b1f2697c03b2753ba8e7",
+		"id": 100014,
+		"nikeName": "すみれ",
+		"name": "奥山すみれ",
+		"spell": "smr",
+		"url": "https://appmedia.jp/idolypride/6390298",
+		"groupName": "TRINITYAiLE",
+		"__v": 0
+	},
+	{
+		"_id": "61e6b1f2697c03b2753ba8e8",
+		"id": 100015,
+		"nikeName": "莉央",
+		"name": "神崎莉央",
+		"spell": "rio",
+		"url": "https://appmedia.jp/idolypride/6390385",
+		"groupName": "LizNoir",
+		"__v": 0
+	},
+	{
+		"_id": "61e6b1f2697c03b2753ba8e9",
+		"id": 100016,
+		"nikeName": "葵",
+		"name": "井川葵",
+		"spell": "aoi",
+		"url": "https://appmedia.jp/idolypride/6390415",
+		"groupName": "LizNoir",
+		"__v": 0
+	},
+	{
+		"_id": "61e6b1f2697c03b2753ba8ea",
+		"id": 100017,
+		"nikeName": "愛",
+		"name": "小美山愛",
+		"spell": "ai",
+		"url": "https://appmedia.jp/idolypride/6390472",
+		"groupName": "LizNoir",
+		"__v": 0
+	},
+	{
+		"_id": "61e6b1f2697c03b2753ba8eb",
+		"id": 100018,
+		"nikeName": "こころ",
+		"name": "赤崎こころ",
+		"spell": "kkr",
+		"url": "https://appmedia.jp/idolypride/6390523",
+		"groupName": "LizNoir",
+		"__v": 0
+	}
 ]

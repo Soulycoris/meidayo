@@ -158,9 +158,7 @@ function traSkill(skillList: skill[]): skill[] {
       // console.log(tra + num + 'UP');
       name.push(`${text} ${num} ${effect}`);
     } else {
-      let textList = skillText.split('<br>');
-
-      for (const item of textList) {
+      for (const item of skillText.split('<br>')) {
         console.log(item);
         let translate = translateMap.get(item);
         if (translate) {

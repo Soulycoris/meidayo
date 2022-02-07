@@ -115,7 +115,7 @@ const getMemberDetail = (member: member) => {
         .replace(/(.*)\((\d+?)\D*?\)/, '$2');
       let favorite = $(table).find('tr:nth-child(3) > td:nth-child(2)').text().replace(/\n/g, '、');
       let school = $(table).find('tr:nth-child(3) > td:nth-child(4)').text();
-      let voice = $(table).find('tr:nth-child(4) > td:nth-child(2)').text();
+      let voice = $(table).find('tr:nth-child(4) > td:nth-child(2)').text().replaceAll(/\n/g, '');
       let groupName = $(table).find('tr:nth-child(4) > td:nth-child(4)').text();
 
       let selfText = $('table + div')
@@ -326,53 +326,117 @@ const getEstertionImg = async (url: string, filePath: fs.PathLike) => {
 // let skill = JSON.parse(fs.readFileSync(Path.resolve(__dirname, './skill-list.json'), 'utf-8'));
 
 const handleSkill = (skillType: string, skillText: string, unit: unit) => {
-  let name: string[] = [];
+  let name = new Set<string>();
   let skillIcon = '';
   if (skillType == 'SP') {
-    name.push(unit.prefab);
+    name.add(unit.prefab);
   } else if (skillType == 'Y') {
-    let text = skillText.replace(/(\d+|\d+\.\d+)%(上昇|UP)/, '');
+    let text = skillText.replace(/(\d+|\d+\.\d+)%?(上昇|UP)/, '');
     let tra = translateMapCn.get(text);
     let res = skillYell.filter((e) => e.includes(tra));
-    name.push(res[res.length - 1]);
+    name.add(res[res.length - 1]);
   } else {
-    if (/段階.*?(上昇|低下|增加|UP)効果/.test(skillText)) {
-      let match = skillText.match(/段階(.*?)(上昇|低下|UP)効果/g);
-      match.forEach((item) => {
-        let text = item.replace(/.*段階(.*?)(上昇|低下|UP)効果.*/, '$1');
+    for (const item of skillText.split('<br>')) {
+      if (/スタミナ:(\d+).*?(CT)?/.test(item)) {
+        continue;
+      }
+      if (/のスコア獲得/.test(item)) {
+        if (/のスコア獲得、(.*?)い程効果上昇/.test(item)) {
+          let text = item.replace(/.*のスコア獲得、(.*?)が.*?い程効果上昇.*/, '$1');
+          let tra = translateMapCn.get(text);
+          let res = skillNormal.filter((e) => e.includes(tra) && e.includes('score-get'));
+          name.add(res.length ? res[0] : 'score-get');
+        } else {
+          name.add('score-get');
+        }
+        continue;
+      }
+      if (/段階.*?(上昇|低下|增加|減少|UP|DOWN)効果/.test(item)) {
+        let match = item.match(/段階(.*?)(上昇|低下|增加|減少|UP|DOWN)効果/g);
+        match.forEach((item) => {
+          let [, text, type] = item.split(/.*段階(.*?)(上昇|低下|增加|減少|UP|DOWN)効果.*/);
+          let tra = translateMapCn.get(text);
+          let res = skillNormal.filter((e) => {
+            if (type == '上昇' || type == 'UP' || type == '增加') {
+              return e.includes(tra) && (e.includes('up') || e.includes('increase'));
+            } else {
+              return e.includes(tra) && (e.includes('down') || e.includes('reduction'));
+            }
+          });
+          name.add(res.length > 1 ? tra : res[res.length - 1]);
+        });
+        continue;
+      }
+      if (/段階の.*?効果/.test(item)) {
+        let text = item.replace(/.*段階の(.*?)効果.*/, '$1');
         let tra = translateMapCn.get(text);
-        let res = skillNormal.filter((e) => e.includes(tra) && (e.includes('up') || e.includes('reduction')));
-        name.push(res.length > 1 ? tra : res[res.length - 1]);
-      });
-    }
-    if (/スタミナを|のスタミナ回復効果/.test(skillText)) {
-      let tra = translateMapCn.get(/スタミナを/.test(skillText) ? '回復' : 'スタミナ回復');
-      name.unshift(tra);
-    }
-    if (/強化効果を.*?(増強|延長)/.test(skillText)) {
-      let tra = translateMapCn.get(/強化効果を.*?増強/.test(skillText) ? '強化効果増強' : '強化効果延長');
-      name.unshift(tra);
-    }
-    if (/コンボ継続効果/.test(skillText)) {
-      let tra = translateMapCn.get('コンボ継続効果');
-      name.unshift(tra);
-    }
-    if (/CTを.*?減少/.test(skillText)) {
-      let tra = translateMapCn.get('CT');
-      name.unshift(tra);
-    }
-    if (/のスコア獲得/.test(skillText)) {
-      if (/のスコア獲得、(.*?)い程効果上昇/.test(skillText)) {
-        let text = skillText.replace(/.*のスコア獲得、(.*?)が.*?い程効果上昇.*/, '$1');
-        let tra = translateMapCn.get(text);
-        let res = skillNormal.filter((e) => e.includes(tra) && e.includes('score-get'));
-        name.push(res.length ? res[0] : 'score-get');
-      } else {
-        name.push('score-get');
+        name.add(tra);
+        continue;
+      }
+      if (/スタミナを|のスタミナ回復効果/.test(item)) {
+        let tra = translateMapCn.get(/スタミナを/.test(item) ? '回復' : 'スタミナ回復');
+        name.add(tra);
+        continue;
+      }
+      if (/強化効果を.*?(増強|延長)/.test(item)) {
+        let tra = translateMapCn.get(/強化効果を.*?増強/.test(item) ? '強化効果増強' : '強化効果延長');
+        name.add(tra);
+        continue;
+      }
+      if (/強化効果を.*?前に/.test(item)) {
+        let text = item.replace(/.*強化効果を(.*?)前に.*/, '$1');
+        let tra = translateMapCn.get(text + '前に');
+        name.add(tra);
+        continue;
+      }
+      if (/コンボ継続効果/.test(item)) {
+        let tra = translateMapCn.get('コンボ継続効果');
+        name.add(tra);
+        continue;
+      }
+      if (/低下効果(回復|防止|反転)/.test(item)) {
+        let text = item.replace(/.*低下効果(回復|防止|反転).*/, '$1');
+        let tra = translateMapCn.get('低下効果' + text);
+        name.add(tra);
+        continue;
+      }
+      if (/CTを.*?減少/.test(item)) {
+        let tra = translateMapCn.get('CT');
+        name.add(tra);
+        continue;
+      }
+      if (/不調効果/.test(item)) {
+        let tra = translateMapCn.get('不調');
+        name.add(tra);
+        continue;
       }
     }
   }
-  skillIcon = name.join(',');
+  let arr = [...name];
+  if (arr.length > 1) {
+    let index = arr.findIndex((e) => /down|consumption-increase|impossible/.test(e));
+    if (index > -1 && index != 2) {
+      console.log(arr);
+      if (arr[2]) {
+        [arr[2], arr[index]] = [arr[index], arr[2]];
+      } else {
+        arr[2] = arr[index];
+        arr[index] = '';
+      }
+    }
+
+    index = arr.findIndex((e) => e.includes('score-get'));
+    if (index > -1 && index != 1 && arr[1]) {
+      console.log(arr);
+      [arr[1], arr[index]] = [arr[index], arr[1]];
+    }
+
+    if (arr[2] && !/down|consumption-increase|impossible/.test(arr[2])) {
+      arr.splice(2, 1);
+    }
+  }
+
+  skillIcon = arr.join(',');
   return skillIcon;
 };
 
