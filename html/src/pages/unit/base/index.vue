@@ -16,7 +16,7 @@
   </ipNav>
   <div class="unit-base">
     <transition name="fade">
-      <div class="unit-img" v-if="unitDetail.id" :style="{ height: imgHeight + 'px' }">
+      <div class="unit-img" v-if="unitDetail.id">
         <img class="img-max" :src="unitCgImg()" alt="" srcset="" />
       </div>
     </transition>
@@ -73,7 +73,7 @@ import { unitPropensityMap, translateMap } from '@/assets/utils';
 const router = useRouter();
 const route = useRoute();
 let skillLang = ref('jp');
-let imgHeight = ref(0);
+// let imgHeight = ref(0);
 let fixed = ref(false);
 let unitId: number = 0;
 let unitDetail: unitDetail = reactive<unitDetail>({
@@ -124,7 +124,7 @@ onActivated(() => {
 });
 onMounted(() => {
   // 立绘比 2048x1152
-  imgHeight.value = +(window.innerWidth / (2048 / 1152)).toFixed(2);
+  // imgHeight.value = +(window.innerWidth / (2048 / 1152)).toFixed(2);
   backup.unitDetail = JSON.parse(JSON.stringify(unitDetail));
   document.addEventListener('scroll', onScroll);
 });
@@ -274,7 +274,7 @@ function unitCgImg() {
     return '';
   }
   let prefab = unitDetail.prefab.split('-');
-  return `${host.baseUrl}/assets/card/full/img_card_full_1_${prefab[0]}-0${unitDetail.rarity}-${prefab[1]}-${prefab[2]}.png`;
+  return `${host.assetsUrl}/img_card_full_1_${prefab[0]}-0${unitDetail.rarity}-${prefab[1]}-${prefab[2]}.png?x-oss-process=style/ipcg`;
 }
 function skillTypeColor(item: skill) {
   if (item.skillType === 'SP') {
@@ -348,8 +348,8 @@ $font-size-sm: 14px;
     min-height: 200px;
     .img-max {
       width: 100%;
-      height: 100%;
-      // max-height: 100%;
+      // height: 100%;
+      max-height: 100%;
     }
   }
   .unit-state {

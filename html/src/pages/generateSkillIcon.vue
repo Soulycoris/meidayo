@@ -202,7 +202,7 @@ const copy = () => {
 };
 function skillIcon(icon: string) {
   // `/img/skill_icon/${str}.png`
-  return `${host.baseUrl}/assets/ui/skill/${icon}.png`;
+  return `${host.assetsUrl}/${icon}.png`;
 }
 </script>
 <style lang="scss" scope>

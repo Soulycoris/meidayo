@@ -1,35 +1,112 @@
 <template>
-  <div class="filter">
-    <div v-if="show" class="mark"></div>
-    <transition name="fade">
-      <div v-if="show" class="unit-filter">
+  <transition name="fade">
+    <div class="filter" v-if="show">
+      <div class="mark" @click.self="confirm"></div>
+      <div class="unit-filter">
         <div class="nav-center">筛选</div>
         <div class="unit-filter-inner">
           <div class="search-item">
-            <div class="title"></div>
-            <div class="title"></div>
-            <div class="inner"></div>
-            <div class="title"></div>
-            <div class="inner"></div>
+            <div class="title">
+              <div>类型</div>
+              <div class="tool">
+                <span class="tool-item" @click="eventSelect('type', true)">全选</span>
+                <span class="tool-item" @click="eventSelect('type', false)">取消</span>
+              </div>
+            </div>
+            <div class="inner">
+              <el-checkbox-group v-model="searchForm.type">
+                <el-checkbox :label="item[0]" v-for="(item, index) in unitTypeMap" :key="index">
+                  <img class="img-max" :src="`/img/icon/icon_${item[1]}_thumbnail.png`" />
+                </el-checkbox>
+              </el-checkbox-group>
+            </div>
+            <div class="title">
+              <div>倾向</div>
+              <div class="tool">
+                <span class="tool-item" @click="eventSelect('propensity', true)">全选</span>
+                <span class="tool-item" @click="eventSelect('propensity', false)">取消</span>
+              </div>
+            </div>
+            <div class="inner">
+              <el-checkbox-group v-model="searchForm.propensity">
+                <el-checkbox :label="item[0]" v-for="(item, index) in unitPropensityMap" :key="index">
+                  <div class="maskedimage" :class="'maskedimage-' + item[1]"></div>
+                </el-checkbox>
+              </el-checkbox-group>
+            </div>
+            <div class="title">
+              <div>角色</div>
+              <div class="tool">
+                <span class="tool-item" @click="eventSelect('name', true)">全选</span>
+                <span class="tool-item" @click="eventSelect('name', false)">取消</span>
+              </div>
+            </div>
+            <div class="inner">
+              <el-checkbox-group v-model="searchForm.name">
+                <el-checkbox :label="item.spell" v-for="(item, index) in memberList" :key="index">
+                  <img class="img-max" :src="memberIcon(item.spell)" />
+                </el-checkbox>
+              </el-checkbox-group>
+            </div>
           </div>
         </div>
-        <div class="btn-group">
+        <!-- <div class="btn-group">
           <div class="btn-reset" @click="cancel">取消</div>
           <div class="btn-over" @click="confirm">确认</div>
-        </div>
+        </div> -->
       </div>
-    </transition>
-  </div>
+    </div>
+  </transition>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue';
+import { host } from '@/config/host';
+import { reactive } from 'vue';
+import { unitPropensityMap, unitTypeMap, memberList } from '@/assets/utils';
 
-let show = ref(true);
-function confirm() {
-  show.value = false;
+interface SearchForm {
+  type: string[];
+  propensity: string[];
+  name: string[];
 }
-function cancel() {
-  show.value = false;
+
+const props = defineProps<{
+  show: false;
+}>();
+
+const emit = defineEmits<{
+  (e: 'on-confirm', form: SearchForm): void;
+  // (e: 'update:modelValue', form: SearchForm): void;
+}>();
+
+const searchForm = reactive<SearchForm>({
+  type: [],
+  propensity: [],
+  name: [],
+});
+
+function confirm() {
+  emit('on-confirm', searchForm);
+}
+
+function eventSelect(target: string, event: boolean) {
+  if (!event) {
+    searchForm[target]?.splice(0);
+    return;
+  }
+  if (target === 'type') {
+    searchForm[target] = Array.from(unitTypeMap.keys());
+  } else if (target === 'propensity') {
+    searchForm[target] = Array.from(unitPropensityMap.keys());
+  } else if (target === 'name') {
+    searchForm[target] = memberList.map((e) => e.spell);
+  }
+}
+
+function memberIcon(name: string) {
+  if (!name) {
+    return '';
+  }
+  return `${host.assetsUrl}/img_chr_icon_${name}.png`;
 }
 </script>
 <style lang="scss">
@@ -49,15 +126,12 @@ function cancel() {
 .unit-filter {
   position: absolute;
   bottom: 0;
+  top: 25%;
   width: 100%;
   background-color: var(--background-color-base);
   transition: transform 0.3s ease-in-out;
-  // transform: translateY(-140%);
-  input {
-    &::placeholder {
-      color: gray !important;
-    }
-  }
+  display: flex;
+  flex-direction: column;
   .nav-center {
     font-size: 16px;
     color: #fff;
@@ -66,64 +140,42 @@ function cancel() {
   }
   .unit-filter-inner {
     width: 100%;
+    height: auto;
     color: #ffffff;
   }
   &.show {
-    // display: block;
     transform: translateY(0);
   }
   &.hide {
-    // display: none;
     transform: translateY(-140%);
   }
   .search-item {
-    padding: 0 15px;
-    margin-bottom: 10px;
-    // &.addP {
-    //   padding-bottom: calc('100vh - 400px') !important;
-    // }
+    padding: 0 16px;
+    height: 100%;
     .title {
       font-size: 16px;
       margin: 8px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .tool {
+        display: flex;
+      }
+      .tool-item {
+        font-size: 12px;
+        padding: 0 6px;
+      }
     }
     .inner {
       font-size: 16px;
-      color: #fff;
-      input[type='text'] {
-        height: 30px;
-        line-height: 30px;
-        font-size: 16px;
-        background: #292a4d;
-        width: 100%;
-        margin-bottom: 12px;
+      .el-checkbox__label {
         color: #fff;
-        padding: 0 8px;
-        transition: background 0.3s ease-in-out;
-        &:focus {
-          background: #383a69;
-        }
-        &::placeholder {
-          line-height: 30px;
-        }
       }
-
-      .time {
-        display: flex;
-        align-items: center;
-        font-size: 16px;
-        padding: 0 4px 4px;
-        background: #292a4d;
-        .time-text {
-          width: 20px;
-          padding: 0 3px;
-          text-align: center;
-        }
-        .time-span {
-          flex: 1;
-          padding: 2px 0;
-          text-align: center;
-          border-bottom: 1px solid #dedede;
-        }
+      .el-checkbox {
+        width: 24%;
+      }
+      .img-max {
+        width: 32px;
       }
     }
   }
@@ -131,41 +183,25 @@ function cancel() {
   .btn-group {
     display: flex;
     width: 100%;
-    height: 44px !important;
-    line-height: 44px !important;
-    transition: 0.3s all;
-    margin-top: 32px;
+    height: 44px;
+    line-height: 44px;
+    color: #333;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
     div {
+      flex: 1;
       text-align: center;
-      height: 44px !important;
-      border-top: 1px #3967dc solid;
-      border-bottom: 1px #3967dc solid;
     }
   }
   .btn-reset {
-    flex: 1;
-    background: #22233f;
-    padding: 0 15px;
-    border-radius: 0;
-    color: #456de6;
-    line-height: 44px !important;
-    transition: 0.3s all;
-    &.active {
-      background: #456de6;
-      color: #fff;
-    }
+    background-color: #ccc;
   }
   .btn-over {
-    flex: 2;
-    background: #3967dc;
-    padding: 0 15px;
-    color: #fff;
-    border-radius: 0;
-    line-height: 44px !important;
-    transition: 0.3s all;
-    &.active {
-      background: #6e92ff;
-    }
+    // background-image:  linear-gradient(to right, #02ff8d , #24ffed);
+    background-color: #22ffe9;
   }
 }
 </style>
