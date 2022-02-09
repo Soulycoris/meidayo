@@ -21,7 +21,7 @@ router.get('/:type1/:type2/:id', async (ctx) => {
     if (ctx.query.sharp) {
       // 图片处理
       if (ctx.query.sharp === 'ipcg') {
-        ctx.body = await sharp(done).resize({ width: 1280, height: 720 }).toBuffer();
+        ctx.body = await sharp(done).resize(1280, 720, { fit: 'fill' }).toBuffer();
       } else {
         ctx.body = fs.createReadStream(done);
         // ctx.body = await sharp(done).toBuffer();
