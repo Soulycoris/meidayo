@@ -274,7 +274,7 @@ function unitCgImg() {
     return '';
   }
   let prefab = unitDetail.prefab.split('-');
-  return `${host.assetsUrl}/img_card_full_1_${prefab[0]}-0${unitDetail.rarity}-${prefab[1]}-${prefab[2]}.png?x-oss-process=style/ipcg`;
+  return `${host.assetsUrl}/img_card_full_1_${prefab[0]}-0${unitDetail.rarity}-${prefab[1]}-${prefab[2]}.png?sharp=ipcg`;
 }
 function skillTypeColor(item: skill) {
   if (item.skillType === 'SP') {

@@ -5,8 +5,7 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import homeLoading from '@com/homeLoading.vue';
-import skillGenerate from '@com/skillGenerate/skillGenerate.vue';
+// import homeLoading from '@com/homeLoading.vue';
 let loading = ref(true);
 onMounted(() => {
 

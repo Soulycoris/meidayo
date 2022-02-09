@@ -14,7 +14,6 @@ declare module 'vue' {
     HomeLoading: typeof import('./src/components/homeLoading.vue')['default']
     IpNav: typeof import('./src/components/nav/ipNav.vue')['default']
     SkillGenerate: typeof import('./src/components/skillGenerate/skillGenerate.vue')['default']
-    Sky: typeof import('./src/components/canvas/sky.vue')['default']
     UnitFilter: typeof import('./src/components/unit/unitFilter.vue')['default']
     UnitListItem: typeof import('./src/components/unit/unitListItem.vue')['default']
   }

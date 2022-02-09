@@ -1,55 +1,37 @@
 import fs from 'fs-extra';
-import Path from 'path';
-import axios from 'axios';
+import sharp from 'sharp';
 import koaRouter from 'koa-router';
-import { ParameterizedContext } from 'koa';
 const router = new koaRouter();
+import send from '../../koasend'; //静态资源服务
 
 router.get('/:type1/:type2/:id', async (ctx) => {
-  const requestPath = `${ctx.params.type1}/${ctx.params.type2}/${ctx.params.id}`;
-  const resPath = `/${requestPath}`;
-  await rediveEstertion(ctx, resPath, `./img/${requestPath}`);
-});
-
-const rediveEstertion = async (ctx: ParameterizedContext, resPath: string, requestPath: string) => {
-  const { request, response } = ctx;
-  const filePath = Path.resolve(process.cwd(), requestPath);
-
-  // const exist = fs.existsSync(filePath);
-  // if (!exist) {
-  //   await getEstertionImg(resPath, filePath);
-  // }
-
-  const ifModifiedSince = request.headers['if-modified-since'];
-  const imageStatus = await fs.stat(filePath);
-  const lastModified = imageStatus.mtime.toUTCString();
-  if (ifModifiedSince === lastModified) {
-    response.status = 304;
-  } else {
-    response.lastModified = new Date(lastModified);
-    // responseFile(filePath, ctx);
-    const fileContent = fs.readFileSync(filePath);
-    ctx.type = 'image/png;';
-    ctx.body = fileContent;
+  const requestPath = `./assets/${ctx.params.type1}/${ctx.params.type2}/${ctx.params.id}`;
+  let done = '';
+  try {
+    done = await send(ctx, requestPath);
+  } catch (err) {
+    if (err.status !== 404) {
+      throw err;
+    }
   }
-};
-
-const getEstertionImg = async (url: string, filePath: fs.PathLike) => {
-  return new Promise((resolve, reject) => {
-    axios({
-      url,
-      responseType: 'stream',
-    }).then((resp) => {
-      const writer = fs.createWriteStream(filePath);
-      resp.data.pipe(writer);
-      writer.on('finish', () => {
-        resolve(true);
-      });
-      writer.on('error', (err) => {
-        reject(err);
-      });
-    });
-  });
-};
+  if (!done) {
+    ctx.body = null;
+  }
+  try {
+    if (ctx.query.sharp) {
+      // 图片处理
+      if (ctx.query.sharp === 'ipcg') {
+        ctx.body = await sharp(done).resize({ width: 1280, height: 720 }).toBuffer();
+      } else {
+        ctx.body = fs.createReadStream(done);
+        // ctx.body = await sharp(done).toBuffer();
+      }
+    } else {
+      ctx.body = fs.createReadStream(done);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 export default router;
