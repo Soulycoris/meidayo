@@ -47,3 +47,11 @@ interface skill {
   skillIcon: string;
   skillBg: string;
 }
+
+interface story {
+  title: string;
+  message: {
+    text: string;
+    name: string;
+  }[];
+}

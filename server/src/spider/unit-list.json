@@ -1233,5 +1233,18 @@
 		"rarity": 2,
 		"type": "サポーター",
 		"__v": 0
+	},
+	{
+		"_id": "620c7791852aa327049ed72a",
+		"id": 109601,
+		"memberId": 100016,
+		"url": "https://appmedia.jp/idolypride/75141363",
+		"title": "おかしな気分は君のせい",
+		"name": "井川葵",
+		"prefab": "aoi-vlnt-00",
+		"propensity": "ビジュアル",
+		"rarity": 5,
+		"type": "スコアラー",
+		"__v": 0
 	}
 ]

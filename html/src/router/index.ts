@@ -4,6 +4,7 @@ import generateSkillIcon from '@/pages/generateSkillIcon.vue';
 import unit from '@/pages/unit/index.vue';
 import unitDetail from '@/pages/unit/base/index.vue';
 import member from '@/pages/unit/member/index.vue';
+import story from '@/pages/unit/story/index.vue';
 
 const router: Router = createRouter({
   history: createWebHistory(),
@@ -13,6 +14,7 @@ const router: Router = createRouter({
     { path: '/unit', name: 'unit', component: unit },
     { path: '/unit/:unitId', name: 'unitDetail', component: unitDetail },
     { path: '/member/:memberId', name: 'member', component: member },
+    { path: '/story/:unitId/:chapter', name: 'story', component: story },
   ],
   // scrollBehavior(to, from, savedPosition) {
   //   if (savedPosition) {

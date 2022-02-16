@@ -57,13 +57,18 @@
       </template>
     </div>
   </div>
+  <div class="unit-story" v-if="unitDetail.rarity === 5">
+    <h3 class="title">剧情故事</h3>
+    <div class="story-list">
+      <div class="item-head-img" v-for="index in 3" :key="index" @click="onStoryShow(index)">
+        <img class="img-max" v-lazy="unitHeadIcon" />
+        <div class="chapter">#{{ index }}</div>
+      </div>
+    </div>
+  </div>
 </template>
 <script setup lang="ts">
 import axios from 'axios';
-
-import ipNav from '@com/nav/ipNav.vue';
-import unitListItem from '@com/unit/unitListItem.vue';
-import skillGenerate from '@com/skillGenerate/skillGenerate.vue';
 
 import { onMounted, onActivated, onBeforeUnmount, computed, reactive, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
@@ -75,7 +80,7 @@ const route = useRoute();
 let skillLang = ref('jp');
 // let imgHeight = ref(0);
 let fixed = ref(false);
-let unitId: number = 0;
+let unitId = 0;
 let unitDetail: unitDetail = reactive<unitDetail>({
   id: 0,
   memberId: 0,
@@ -95,6 +100,7 @@ let unitDetail: unitDetail = reactive<unitDetail>({
   stamina: 0,
   skill: [],
 });
+let storyList = reactive<story[]>([]);
 const backup = {
   unitDetail: {},
 };
@@ -113,13 +119,18 @@ const statusSum = computed((): number => {
   let critical = 100;
   return Math.floor(unitDetail.vocal / 2) + Math.floor(unitDetail.dance / 2) + Math.floor(unitDetail.visual / 2) + Math.floor(unitDetail.stamina * 0.8) + mental * 2 + critical * 3;
 });
+const unitHeadIcon = computed(() => {
+  let prefab = unitDetail.prefab.split('-');
+  return `${host.assetsUrl}/img_card_thumb_1_${prefab[0]}-0${unitDetail.rarity}-${prefab[1]}-${prefab[2]}.png`;
+});
 
 onActivated(() => {
   document.body.scrollIntoView();
   unitId = +route.params.unitId;
   if (unitId != unitDetail.id) {
     Object.assign(unitDetail, backup.unitDetail);
-    getCharaBase(unitId);
+    getUnitBase(unitId);
+    // getStoryList(unitId);
   }
 });
 onMounted(() => {
@@ -136,11 +147,23 @@ function onScroll() {
   // console.log(scrollTop);
   fixed.value = scrollTop > 200;
 }
-function getCharaBase(id: number) {
+function getUnitBase(id: number) {
   axios
     .get(`/unit/base/${id}`)
     .then((res) => {
       Object.assign(unitDetail, res.data as unitDetail);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+function getStoryList(id: number) {
+  axios
+    .get(`/unit/story/${id}`)
+    .then((res) => {
+      if (res.data) {
+        storyList.push(...res.data);
+      }
     })
     .catch((err) => {
       console.log(err);
@@ -268,6 +291,9 @@ function traSkill(skillList: skill[]): skill[] {
     skill.skillText = name.join('<br>');
   });
   return skillList;
+}
+function onStoryShow(chapter: number) {
+  router.push(`/story/${unitDetail.id}/${chapter}`);
 }
 function unitCgImg() {
   if (!unitDetail.id) {
@@ -459,6 +485,35 @@ $font-size-sm: 14px;
     font-size: 14px;
     font-weight: bold;
     letter-spacing: 1px;
+  }
+}
+.unit-story {
+  padding: 8px;
+  .title {
+    margin-top: 0;
+    color: #fff;
+  }
+  .story-list {
+    display: flex;
+  }
+  .item-head-img {
+    width: 64px;
+    height: 64px;
+    margin-right: 16px;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .chapter {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: #fff;
+  }
+  .img-max {
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
   }
 }
 </style>

@@ -86,6 +86,14 @@ router.get('/init', async (ctx) => {
   });
   await UnitModel.insertMany(unitListInsertData);
 
+  let unitDetailList: unitDetail[] = JSON.parse(fs.readFileSync(Path.resolve(process.cwd(), './src/spider/unit-detail.json'), 'utf-8'));
+  let unitDetailListInsertData: Array<AnyKeys<unitDetail>> = [];
+  unitDetailList.forEach((item) => {
+    let doc = new UnitDetailModel(item);
+    unitDetailListInsertData.push(doc);
+  });
+  await UnitDetailModel.insertMany(unitDetailListInsertData);
+
   ctx.body = true;
 });
 

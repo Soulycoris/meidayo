@@ -20,7 +20,6 @@
 
 <script setup lang="ts">
 import { host } from '@/config/host';
-import { unitPropensityMap } from '@/assets/utils';
 
 const unitTypeMap = new Map([
   ['サポーター', 'supporter'],

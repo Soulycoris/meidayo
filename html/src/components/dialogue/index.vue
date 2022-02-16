@@ -1,0 +1,114 @@
+<template>
+  <div class="dialogue">
+    <div class="item" v-for="(item, index) in list" :key="index" :class="item.name.includes('user') ? 'right' : 'left'">
+      <div class="icon">
+        <span v-if="item.name.includes('user')" class="makino"> <img class="img-max" :src="makinoIcon" /> </span>
+        <span class="ido" v-else>
+          <img class="img-max" :src="memberIcon(item.name)" />
+        </span>
+      </div>
+      <div class="text">
+        <template v-if="item.name">
+          <div class="content">
+            {{ makinoReplace(item.text) }}
+          </div>
+          <div class="name">{{ makinoReplace(item.name) }}</div>
+        </template>
+        <template v-else>
+          <div class="narration">{{ item.text }}</div>
+        </template>
+      </div>
+    </div>
+  </div>
+</template>
+<script setup lang="ts">
+import { host } from '@/config/host';
+import { computed } from 'vue';
+import { memberList } from '@/assets/utils';
+
+const props = defineProps<{
+  list: {
+    text: string;
+    name: string;
+  }[];
+  title: string;
+}>();
+const makinoIcon = computed(() => {
+  return `${host.assetsUrl}/img_chr_adv_koh-00.png`;
+});
+function makinoReplace(str) {
+  return str.replace(/{user}/g, '牧野');
+}
+function memberIcon(name: string) {
+  if (!name) {
+    return '';
+  }
+  const res = memberList.find((e) => props.title.includes(e.name));
+  //   img_chr_adv_koh-00.png
+  return `${host.assetsUrl}/img_chr_adv_${res?.spell ?? 'koh'}-00.png`;
+}
+</script>
+<style lang="scss">
+.dialogue {
+  color: #fff;
+  .item {
+    display: flex;
+    align-items: flex-end;
+    margin: 16px 0;
+    &.right {
+      justify-content: flex-end;
+      .icon {
+        order: 2;
+      }
+      .text {
+        margin-right: 10px;
+        margin-left: 40px;
+        align-items: flex-end;
+        .content {
+          border-bottom-right-radius: 0;
+          border-bottom-left-radius: 12px;
+        }
+      }
+    }
+    .ido,
+    .makino {
+      display: flex;
+    }
+    .icon {
+      width: 32px;
+      display: flex;
+      flex: none;
+      .img-max {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+  .text {
+    color: #333;
+    margin-left: 10px;
+    margin-right: 40px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    .name {
+      font-size: 14px;
+      color: #fff;
+    }
+    .content {
+      padding: 4px 8px;
+      line-height: 1.3;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      border-bottom-right-radius: 12px;
+      border-bottom-left-radius: 0;
+      background-color: #fff;
+    }
+    .narration {
+      margin: 0 auto;
+      color: #fff;
+      text-align: center;
+    }
+  }
+}
+</style>
