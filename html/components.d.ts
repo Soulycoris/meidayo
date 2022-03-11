@@ -14,6 +14,7 @@ declare module 'vue' {
     ElSelect: typeof import('element-plus/es')['ElSelect']
     HomeLoading: typeof import('./src/components/homeLoading.vue')['default']
     IpNav: typeof import('./src/components/nav/ipNav.vue')['default']
+    Loading: typeof import('./src/components/loading.vue')['default']
     SkillGenerate: typeof import('./src/components/skillGenerate/skillGenerate.vue')['default']
     UnitFilter: typeof import('./src/components/unit/unitFilter.vue')['default']
     UnitListItem: typeof import('./src/components/unit/unitListItem.vue')['default']

@@ -174,9 +174,9 @@ const getUnitList = (memberList: member[]) => {
       let unit: unit[] = [];
       $('#search_result_table tr[data-name]').each((index, element) => {
         const url = $(element).find('td:nth-child(1) a').attr('href') || null;
-        const nameText = $(element).find('td:nth-child(1)').text();
-        const title = nameText.replace(/【(.*?)】(.*)/, '$1');
-        const name = nameText.replace(/【(.*?)】(.*)/, '$2');
+        const nameText = $(element).find('td:nth-child(1) .small').html();
+        const title = nameText.split('<br>')[0];
+        const name = nameText.split('<br>')[1];
         const icon = $(element).find('td:nth-child(1) img').attr('src');
         const prefab = icon.replace(/.*card-(.*?)-\d+-(.*)-(\d+).*/, '$1' + '-' + '$2' + '-' + '$3');
         const rarity = +$(element).find('td:nth-child(2)').text();
@@ -184,7 +184,6 @@ const getUnitList = (memberList: member[]) => {
         const type = $(element).find('td:nth-child(4)').text();
         const id = +`1${(index + 1 + '').padStart(3, '0')}01`;
         const res = memberList.find((e) => prefab.includes(e.spell));
-        // console.log(name);
         unit.push({
           id,
           memberId: res.id,
@@ -416,7 +415,7 @@ const handleSkill = (skillType: string, skillText: string, unit: unit) => {
   if (arr.length > 1) {
     let index = arr.findIndex((e) => /down|consumption-increase|impossible/.test(e));
     if (index > -1 && index != 2) {
-      console.log(arr);
+      // console.log(arr);
       if (arr[2]) {
         [arr[2], arr[index]] = [arr[index], arr[2]];
       } else {
@@ -427,7 +426,7 @@ const handleSkill = (skillType: string, skillText: string, unit: unit) => {
 
     index = arr.findIndex((e) => e.includes('score-get'));
     if (index > -1 && index != 1 && arr[1]) {
-      console.log(arr);
+      // console.log(arr);
       [arr[1], arr[index]] = [arr[index], arr[1]];
     }
 

@@ -1,5 +1,6 @@
 <template>
   <canvas id="canvas" class="canvas"></canvas>
+  <Loading></Loading>
   <router-view v-slot="{ Component }">
     <keep-alive>
       <component :is="Component" />

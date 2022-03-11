@@ -1,0 +1,5 @@
+
+<svg viewBox="0 0 88 88">
+  <path id="pathI" ref="pathI" stroke-dashoffset="0" stroke-dasharray="null" stroke-width="14" stroke="#000000" fill="none" d="m16,5l0,80"></path>
+  <path id="pathP" ref="pathP" stroke-dashoffset="0" stroke-dasharray="null" stroke-width="14" stroke="#000000" fill="none" d="m36,12l26,0c5,0 14,4 14,14c0,5 -4,14 -14,14l-19,0l0,45"></path>
+</svg>

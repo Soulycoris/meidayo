@@ -1,19 +1,15 @@
 <template>
   <!-- <home-loading :loading="loading"></home-loading> -->
-  <div class="home" id="home">
-  </div>
+  <div class="home" id="home"></div>
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 // import homeLoading from '@com/homeLoading.vue';
 let loading = ref(true);
-onMounted(() => {
-
-  // setTimeout(() => {
-  //   loading.value = false;
-  // }, 800);
-  
-});
+// onMounted(() => {
+//   setTimeout(() => {
+//   }, 3000);
+// });
 </script>
 <style lang="scss">
 .home {

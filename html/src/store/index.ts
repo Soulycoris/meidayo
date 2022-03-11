@@ -1,7 +1,12 @@
-// import { defineStore } from 'pinia';
+import { defineStore } from 'pinia';
 
-// export const useStore = defineStore('main', {
-//   state: () => {
-//     return {};
-//   },
-// });
+// useStore could be anything like useUser, useCart
+// the first argument is a unique id of the store across your application
+export const useStore = defineStore('main', {
+  // other options...
+  state: () => {
+    return {
+      loading: false,
+    };
+  },
+});

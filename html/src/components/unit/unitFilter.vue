@@ -7,7 +7,7 @@
         <div class="unit-filter-inner">
           <div class="search-item">
             <div class="title">
-              <div>类型</div>
+              <div @dblclick="update">类型</div>
               <div class="tool">
                 <span class="tool-item" @click="eventSelect('type', true)">全选</span>
                 <span class="tool-item" @click="eventSelect('type', false)">取消</span>
@@ -21,7 +21,7 @@
               </el-checkbox-group>
             </div>
             <div class="title">
-              <div>倾向</div>
+              <div @dblclick="backup">倾向</div>
               <div class="tool">
                 <span class="tool-item" @click="eventSelect('propensity', true)">全选</span>
                 <span class="tool-item" @click="eventSelect('propensity', false)">取消</span>
@@ -50,10 +50,6 @@
             </div>
           </div>
         </div>
-        <!-- <div class="btn-group">
-          <div class="btn-reset" @click="cancel">取消</div>
-          <div class="btn-over" @click="confirm">确认</div>
-        </div> -->
       </div>
     </div>
   </transition>
@@ -62,13 +58,14 @@
 import { host } from '@/config/host';
 import { reactive } from 'vue';
 import { unitPropensityMap, unitTypeMap, memberList } from '@/assets/utils';
+import axios from 'axios';
 
 interface SearchForm {
   type: string[];
   propensity: string[];
   name: string[];
 }
-
+let updateTag = 0;
 const props = defineProps<{
   show: false;
 }>();
@@ -102,6 +99,22 @@ function eventSelect(target: string, event: boolean) {
   }
 }
 
+function update() {
+  updateTag++;
+  if (updateTag > 2) {
+    alert('update');
+    updateTag = 0;
+    axios.get(`/db/update`);
+  }
+}
+function backup() {
+  updateTag++;
+  if (updateTag > 2) {
+    alert('backup');
+    updateTag = 0;
+    axios.get(`/db/backup`);
+  }
+}
 function memberIcon(name: string) {
   if (!name) {
     return '';

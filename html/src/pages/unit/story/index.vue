@@ -13,10 +13,12 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useStore } from '@/store';
 import axios from 'axios';
 import { onActivated, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
+const store = useStore();
 const router = useRouter();
 const route = useRoute();
 let unitId = 0;
@@ -36,6 +38,7 @@ onActivated(() => {
 });
 function page(num: number) {
   chapter.value += num;
+  store.$state.loading = true;
   getStoryChapter(unitId, chapter.value);
   document.body.scrollIntoView();
 }
@@ -49,6 +52,9 @@ function getStoryChapter(unitId: number, chapter: number) {
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      store.$state.loading = false;
     });
 }
 </script>

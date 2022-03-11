@@ -52,12 +52,21 @@ router.get('/update', async (ctx) => {
   ctx.body = true;
 });
 
-router.get('/update/unit/:id', async (ctx) => {
-  let memberList = await MemberDetailModel.find({});
-  memberList.forEach(async (e) => {
-    e.voice = e.voice.replaceAll(/\n/g, '');
-    await e.save();
-  });
+router.get('/update/:id', async (ctx) => {
+  let [unit, unitDetail] = await Promise.all([UnitModel.findOne({ id: ctx.params.id }), UnitDetailModel.findOne({ id: ctx.params.id })]);
+  let tag = true;
+  while (tag) {
+    try {
+      let data = await getUnitDetail(unit.toObject());
+      if (data) {
+        Object.assign(unitDetail, data);
+        await unitDetail.save();
+        tag = false;
+      }
+    } catch (err) {
+      // console.log(err);
+    }
+  }
   ctx.body = true;
 });
 
