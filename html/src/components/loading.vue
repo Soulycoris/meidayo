@@ -10,7 +10,6 @@
 </template>
 <script setup lang="ts">
 import { useStore } from '@/store';
-import { onMounted, ref, nextTick, computed } from 'vue';
 
 const store = useStore();
 

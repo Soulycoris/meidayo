@@ -15,11 +15,8 @@
 <script setup lang="ts">
 import { useStore } from '@/store';
 import axios from 'axios';
-import { onActivated, reactive, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
 
 const store = useStore();
-const router = useRouter();
 const route = useRoute();
 let unitId = 0;
 let chapter = ref(0);
@@ -68,8 +65,6 @@ function getStoryChapter(unitId: number, chapter: number) {
   .page {
     display: flex;
     justify-content: space-around;
-    .next {
-    }
   }
 }
 </style>

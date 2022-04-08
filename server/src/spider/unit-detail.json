@@ -1111,16 +1111,16 @@
 		"spSkill": "-",
 		"yellSkill": "未所持",
 		"clothes": "-",
-		"vocal": 54195,
-		"dance": 49413,
-		"visual": 60570,
-		"stamina": 4184,
+		"vocal": 41424,
+		"dance": 37769,
+		"visual": 46298,
+		"stamina": 3462,
 		"skill": [
 			{
 				"skillName": "雨音響く夜",
 				"skillType": "A",
 				"skillText": "450%のスコア獲得<br>センターに10段階スコア上昇効果[29ビート]<br>自身に3段階ビジュアル低下効果[21ビート]<br>スタミナ:139 CT:30",
-				"skillIcon": "score-up,score-get,visual-down",
+				"skillIcon": "score-up,score-get,visual-down,down",
 				"skillBg": "strength"
 			},
 			{
@@ -1138,7 +1138,7 @@
 				"skillBg": "support"
 			}
 		],
-		"__v": 0
+		"__v": 1
 	},
 	{
 		"_id": "620c6f9d852aa327049ed686",
@@ -3545,7 +3545,7 @@
 		"_id": "620c7075852aa327049ed706",
 		"id": 109001,
 		"spSkill": "-",
-		"yellSkill": "お仕事エール",
+		"yellSkill": "未所持",
 		"clothes": "全力振袖・桜",
 		"vocal": 69631,
 		"dance": 55202,
@@ -3556,7 +3556,7 @@
 				"skillName": "朝焼けのオレンジ",
 				"skillType": "A",
 				"skillText": "500%のスコア獲得<br>全員に対象最大スタミナの25%のスタミナ回復効果<br>[ライブバトルのみ]相手のセンターに8段階ボーカル低下効果[50ビート]<br>スタミナ:205 CT:40",
-				"skillIcon": "target-stamina-recovery,score-get,vocal-down",
+				"skillIcon": "target-stamina-recovery,score-get,vocal-down,opponent",
 				"skillBg": "support"
 			},
 			{
@@ -3572,16 +3572,9 @@
 				"skillText": "ボーカルが高い2人に8段階スコア上昇効果[43ビート]<br>ボーカルが高い2人に12段階消費スタミナ低下効果[38ビート]<br>スタミナ:221 CT:50",
 				"skillIcon": "score-up,stamina-consumption-reduction",
 				"skillBg": "strength"
-			},
-			{
-				"skillName": "MEXPアップ【ファンイベント】",
-				"skillType": "Y",
-				"skillText": "ファンイベントの獲得マネージャー経験値15%UP",
-				"skillIcon": "act_fan-event-manager-exp-up",
-				"skillBg": "yell"
 			}
 		],
-		"__v": 0
+		"__v": 1
 	},
 	{
 		"_id": "620c7077852aa327049ed708",
@@ -3628,7 +3621,7 @@
 	{
 		"_id": "620c7079852aa327049ed70a",
 		"id": 109201,
-		"spSkill": "所持",
+		"spSkill": "未所持",
 		"yellSkill": "ライブエール",
 		"clothes": "ハートオブロック",
 		"vocal": 66780,
@@ -3645,17 +3638,17 @@
 			},
 			{
 				"skillName": "アイドルの掟への反抗",
-				"skillType": "SP",
+				"skillType": "A",
 				"skillText": "490%のスコア獲得<br>隣接するアイドルに6段階ボーカル上昇効果[34ビート]<br>集目状態の時 センターに4段階ボーカル上昇効果[34ビート]<br>スタミナ:164 CT:50",
-				"skillIcon": "ski-waso-00",
-				"skillBg": "special"
+				"skillIcon": "vocal-up,score-get",
+				"skillBg": "strength"
 			},
 			{
 				"skillName": "さらけ出す",
 				"skillType": "P",
 				"skillText": "センターに8段階の集目効果[38ビート]<br>センターの強化効果を10延長<br>スタミナ:257 CT:60",
-				"skillIcon": "audience-amount-increase,strength-effect-value-increase",
-				"skillBg": "support"
+				"skillIcon": "audience-amount-increase,strength-effect-count-increase",
+				"skillBg": "strength"
 			},
 			{
 				"skillName": "ボーカルアップ",
@@ -3713,7 +3706,7 @@
 		"_id": "620c707d852aa327049ed70e",
 		"id": 109401,
 		"spSkill": "-",
-		"yellSkill": "お仕事エール",
+		"yellSkill": "未所持",
 		"clothes": "ダークネスシンパサイザー",
 		"vocal": 48490,
 		"dance": 69297,
@@ -3731,7 +3724,7 @@
 				"skillName": "私の誇り",
 				"skillType": "P",
 				"skillText": "80コンボ以上時<br>スコアラータイプ2人に6段階クリティカル係数上昇効果[42ビート]<br>スコアラータイプ2人に5段階ビートスコア上昇効果[41ビート]<br>[ライブバトルのみ]相手のセンターに8段階ダンス低下効果[42ビート]<br>スタミナ:376 CT:50",
-				"skillIcon": "critical-bonus-permil-up,beat-score-up,dance-down",
+				"skillIcon": "critical-bonus-permil-up,beat-score-up,dance-down,opponent",
 				"skillBg": "strength"
 			},
 			{
@@ -3740,16 +3733,9 @@
 				"skillText": "センターのスタミナを4100回復<br>センターに10段階消費スタミナ低下効果<br>スタミナ:222 CT:50",
 				"skillIcon": "fix-stamina-recovery,stamina-consumption-reduction",
 				"skillBg": "support"
-			},
-			{
-				"skillName": "アクセサリーアップ",
-				"skillType": "Y",
-				"skillText": "プロモーションのアクセサリ獲得率6%上昇",
-				"skillIcon": "act_promotion-accessory-multi-step-reward-up",
-				"skillBg": "yell"
 			}
 		],
-		"__v": 0
+		"__v": 1
 	},
 	{
 		"_id": "620c707f852aa327049ed710",
@@ -3773,7 +3759,7 @@
 				"skillName": "耳にした瞬間",
 				"skillType": "P",
 				"skillText": "120%のスコア獲得<br>隣接するアイドルに9段階消費スタミナ低下効果[40ビート]<br>[ライブバトルのみ]相手のセンターに10段階消費スタミナ上昇効果[40ビート]<br>スタミナ:246 CT:50",
-				"skillIcon": "stamina-consumption-reduction,score-get,stamina-consumption-increase",
+				"skillIcon": "stamina-consumption-reduction,score-get,stamina-consumption-increase,opponent",
 				"skillBg": "support"
 			},
 			{
@@ -3784,7 +3770,7 @@
 				"skillBg": "support"
 			}
 		],
-		"__v": 0
+		"__v": 1
 	},
 	{
 		"_id": "620c7792852aa327049ed72e",
@@ -3827,5 +3813,453 @@
 			}
 		],
 		"__v": 0
+	},
+	{
+		"_id": "6226c5ba80759db8db9ad6fb",
+		"id": 109701,
+		"spSkill": "所持",
+		"yellSkill": "ライブエール",
+		"clothes": "サニーダンサブル",
+		"vocal": 45302,
+		"dance": 71310,
+		"visual": 51175,
+		"stamina": 4895,
+		"skill": [
+			{
+				"skillName": "私は絶対に諦めません！",
+				"skillType": "SP",
+				"skillText": "1300%のスコア獲得、スタミナ消費低減状態の段階数が多い程効果上昇<br>スタミナ:563",
+				"skillIcon": "chs-rock-00",
+				"skillBg": "special"
+			},
+			{
+				"skillName": "明日は今日より輝ける",
+				"skillType": "A",
+				"skillText": "420%のスコア獲得<br>自身に5段階ダンス上昇効果[30ビート]<br>80コンボ以上時 自身に4段階ダンス上昇効果[30ビート]<br>スタミナ:151 CT:30",
+				"skillIcon": "dance-up,score-get",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "はじける特訓の成果",
+				"skillType": "P",
+				"skillText": "自身に7段階ダンス上昇効果[33ビート]<br>自身に4段階消費スタミナ低下効果[45ビート]<br>スタミナ:210 CT:45",
+				"skillIcon": "dance-up,stamina-consumption-reduction",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "ダンスアップ",
+				"skillType": "Y",
+				"skillText": "ダンス2%上昇",
+				"skillIcon": "live_dance-multiply",
+				"skillBg": "yell"
+			}
+		],
+		"__v": 0
+	},
+	{
+		"_id": "6226c5be80759db8db9ad6fd",
+		"id": 109801,
+		"spSkill": "-",
+		"yellSkill": "ライブエール",
+		"clothes": "クロッカスの扉",
+		"vocal": 48994,
+		"dance": 69129,
+		"visual": 54699,
+		"stamina": 4405,
+		"skill": [
+			{
+				"skillName": "誰かの憧れに",
+				"skillType": "A",
+				"skillText": "450%のスコア獲得<br>自身がダンスレーンの時 スコアラータイプ2人に7段階Aスキルスコア上昇効果[55ビート]<br>スタミナ:167 CT:30",
+				"skillIcon": "active-skill-score-up,score-get",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "生粋のドルオタ",
+				"skillType": "P",
+				"skillText": "ダンスが高い2人のスタミナを4200回復<br>ダンスが高い2人に5段階Aスキルスコア上昇効果[53ビート]<br>スタミナ:411 CT:50",
+				"skillIcon": "fix-stamina-recovery,active-skill-score-up",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "念願のツーショットチェキ",
+				"skillType": "P",
+				"skillText": "全員に6段階ビートスコア上昇効果[36ビート]<br>自身に9段階のステルス効果[35ビート]<br>スタミナ:214 CT:50",
+				"skillIcon": "beat-score-up,audience-amount-reduction",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "Aスキルスコアアップ",
+				"skillType": "Y",
+				"skillText": "Aスキルスコア1.5%上昇",
+				"skillIcon": "live_active-skill-score-multiply",
+				"skillBg": "yell"
+			}
+		],
+		"__v": 0
+	},
+	{
+		"_id": "6226c5c080759db8db9ad6ff",
+		"id": 109901,
+		"spSkill": "-",
+		"yellSkill": "お仕事エール",
+		"clothes": "ハートインデビル",
+		"vocal": 67282,
+		"dance": 53356,
+		"visual": 47147,
+		"stamina": 4895,
+		"skill": [
+			{
+				"skillName": "小悪魔の練習",
+				"skillType": "A",
+				"skillText": "490%のスコア獲得<br>ボーカルタイプ2人に9段階コンボスコア上昇効果[27ビート]<br>スタミナ:158 CT:30",
+				"skillIcon": "combo-score-up,score-get",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "魂をこめたグラビア",
+				"skillType": "P",
+				"skillText": "誰かがAスキル発動前<br>110%のスコア獲得<br>対象1人に5段階クリティカル率上昇効果[26ビート]<br>スタミナ:216 CT:40",
+				"skillIcon": "critical-rate-up,score-get",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "虜にする小悪魔っぷり",
+				"skillType": "P",
+				"skillText": "センターに8段階ボーカル上昇効果[32ビート]<br>スタミナ:210 CT:50",
+				"skillIcon": "vocal-up",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "元気回復UP",
+				"skillType": "Y",
+				"skillText": "リフレッシュの回復量2%上昇",
+				"skillIcon": "act_refresh-stamina-up",
+				"skillBg": "yell"
+			}
+		],
+		"__v": 0
+	},
+	{
+		"_id": "6226c5c780759db8db9ad701",
+		"id": 110001,
+		"spSkill": "所持",
+		"yellSkill": "未所持",
+		"clothes": "-",
+		"vocal": 72485,
+		"dance": 53020,
+		"visual": 47315,
+		"stamina": 4405,
+		"skill": [
+			{
+				"skillName": "いつかは競い合う",
+				"skillType": "SP",
+				"skillText": "1720%のスコア獲得<br>自身に5段階ボーカル上昇効果[85ビート]<br>スタミナ:535",
+				"skillIcon": "rui-eve-01",
+				"skillBg": "special"
+			},
+			{
+				"skillName": "瑠依の予感",
+				"skillType": "A",
+				"skillText": "360%のスコア獲得、ボーカルアップ状態の段階数が多い程効果上昇<br>スタミナ:138 CT:30",
+				"skillIcon": "score-get",
+				"skillBg": "score"
+			},
+			{
+				"skillName": "強力なライバル",
+				"skillType": "P",
+				"skillText": "100%のスコア獲得<br>自身に3段階ボーカル上昇効果[26ビート]<br>スタミナ:204 CT:50",
+				"skillIcon": "vocal-up,score-get",
+				"skillBg": "strength"
+			}
+		],
+		"__v": 0
+	},
+	{
+		"_id": "622ac2c980759db8db9ad722",
+		"id": 110101,
+		"spSkill": "-",
+		"yellSkill": "ライブエール",
+		"clothes": "ラブリーチェリー",
+		"vocal": 40783,
+		"dance": 35525,
+		"visual": 51941,
+		"stamina": 4050,
+		"skill": [
+			{
+				"skillName": "さくらんぼプリン",
+				"skillType": "A",
+				"skillText": "410%のスコア獲得<br>スコアラータイプ2人のスタミナを3600回復<br>スタミナ:149 CT:30",
+				"skillIcon": "fix-stamina-recovery,score-get",
+				"skillBg": "support"
+			},
+			{
+				"skillName": "今までで一番の本音",
+				"skillType": "P",
+				"skillText": "ビジュアルレーン2人に4段階スキル成功率上昇効果[36ビート]<br>[ライブバトルのみ]同じレーンの相手に9段階ビジュアル低下効果[32ビート]<br>スタミナ:424 CT:40",
+				"skillIcon": "skill-success-rate-up,,visual-down,opponent",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "次遊ぶ時までいい子にね",
+				"skillType": "P",
+				"skillText": "自身のスタミナを1500回復<br>スコアラータイプ2人に4段階クリティカル係数上昇効果[48ビート]<br>スタミナ:188 CT:50",
+				"skillIcon": "fix-stamina-recovery,critical-bonus-permil-up",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "スタミナアップ",
+				"skillType": "Y",
+				"skillText": "スタミナ150上昇",
+				"skillIcon": "live_stamina-multiply",
+				"skillBg": "yell"
+			}
+		],
+		"__v": 2
+	},
+	{
+		"_id": "62384e94a2d90f79fce5a66f",
+		"id": 110201,
+		"spSkill": "-",
+		"yellSkill": "ライブエール",
+		"clothes": "艶麗華衣",
+		"vocal": 36551,
+		"dance": 53095,
+		"visual": 42450,
+		"stamina": 3645,
+		"skill": [
+			{
+				"skillName": "はにかみ十七歳",
+				"skillType": "A",
+				"skillText": "410%のスコア獲得<br>全員の低下効果を防止[32ビート]<br>全員に6段階スコア上昇効果[23ビート]<br>スタミナ:151 CT:30",
+				"skillIcon": "weakness-effect-prevention,score-get",
+				"skillBg": "support"
+			},
+			{
+				"skillName": "ほんのちょっとセクシー",
+				"skillType": "P",
+				"skillText": "隣接するアイドルに9段階スコア上昇効果[40ビート]<br>[ライブバトルのみ]同じレーンの相手に9段階ダンス低下効果[33ビート]<br>スタミナ:423 CT:50",
+				"skillIcon": "score-up,,dance-down,opponent",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "悩殺ライブ",
+				"skillType": "P",
+				"skillText": "スコアラータイプ2人のスタミナを3100回復<br>スタミナ:192 CT:50",
+				"skillIcon": "fix-stamina-recovery",
+				"skillBg": "support"
+			},
+			{
+				"skillName": "MEXPアップ【ファンイベント】",
+				"skillType": "Y",
+				"skillText": "ファンイベントの獲得マネージャー経験値15%UP",
+				"skillIcon": "act_fan-event-manager-exp-up",
+				"skillBg": "yell"
+			}
+		],
+		"__v": 8
+	},
+	{
+		"_id": "62412988a82135429e0617eb",
+		"id": 110301,
+		"spSkill": "所持",
+		"yellSkill": "ライブエール",
+		"clothes": "エターナルプリリアンス",
+		"vocal": 46645,
+		"dance": 72819,
+		"visual": 53356,
+		"stamina": 4405,
+		"skill": [
+			{
+				"skillName": "最っ高のライブにします！",
+				"skillType": "SP",
+				"skillText": "1430%のスコア獲得、集目状態の段階数が多い程効果上昇<br>スタミナ:515",
+				"skillIcon": "mna-fest-00",
+				"skillBg": "special"
+			},
+			{
+				"skillName": "今日は特別",
+				"skillType": "A",
+				"skillText": "460%のスコア獲得<br>ダンスが高い2人に8段階スコア上昇効果[30ビート]<br>スタミナ:147 CT:30",
+				"skillIcon": "score-up,score-get",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "Precious memories",
+				"skillType": "P",
+				"skillText": "自身に6段階の集目効果[37ビート]<br>自身に9段階クリティカル率上昇効果[33ビート]<br>スタミナ:190 CT:50",
+				"skillIcon": "audience-amount-increase,critical-rate-up,,oneself",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "クリティカルアップ",
+				"skillType": "Y",
+				"skillText": "クリティカル200上昇",
+				"skillIcon": "live_technique-multiply",
+				"skillBg": "yell"
+			}
+		],
+		"__v": 1
+	},
+	{
+		"_id": "624129c6a82135429e0617f4",
+		"id": 110401,
+		"spSkill": "-",
+		"yellSkill": "お仕事エール",
+		"clothes": "エターナルプリリアンス",
+		"vocal": 69631,
+		"dance": 55874,
+		"visual": 47315,
+		"stamina": 4405,
+		"skill": [
+			{
+				"skillName": "だっこして連れてって",
+				"skillType": "A",
+				"skillText": "340%のスコア獲得<br>スコアラータイプ2人に7段階Aスキルスコア上昇効果[37ビート]<br>[ライブバトルのみ]相手のスコアラータイプ2人に不調効果[38ビート]<br>スタミナ:204 CT:30",
+				"skillIcon": "active-skill-score-up,score-get,skill-impossible,opponent",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "とっても大きな存在",
+				"skillType": "P",
+				"skillText": "自身に4段階スキル成功率上昇効果[24ビート]<br>スタミナ80%以上の時 センターに9段階スコア上昇効果[33ビート]<br>スタミナ:455 CT:40",
+				"skillIcon": "skill-success-rate-up,score-up,,oneself",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "ごきげんスマイル！",
+				"skillType": "P",
+				"skillText": "自身のスタミナを2000回復<br>全員に4段階クリティカル係数上昇効果[27ビート]<br>スタミナ:196 CT:50",
+				"skillIcon": "fix-stamina-recovery,critical-bonus-permil-up",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "アクセサリーアップ",
+				"skillType": "Y",
+				"skillText": "プロモーションのアクセサリ獲得率6%上昇",
+				"skillIcon": "act_promotion-accessory-multi-step-reward-up",
+				"skillBg": "yell"
+			}
+		],
+		"__v": 1
+	},
+	{
+		"_id": "62412a04a82135429e061800",
+		"id": 110501,
+		"spSkill": "-",
+		"yellSkill": "未所持",
+		"clothes": "-",
+		"vocal": 41681,
+		"dance": 35140,
+		"visual": 51428,
+		"stamina": 4050,
+		"skill": [
+			{
+				"skillName": "ないない",
+				"skillType": "A",
+				"skillText": "330%のスコア獲得<br>隣接するアイドルの強化効果を4延長<br>スタミナ:105 CT:30",
+				"skillIcon": "strength-effect-count-increase,score-get",
+				"skillBg": "support"
+			},
+			{
+				"skillName": "誤解を解く！",
+				"skillType": "P",
+				"skillText": "50コンボ以上時<br>センターに8段階ビジュアル上昇効果[36ビート]<br>スタミナ:236 CT:50",
+				"skillIcon": "visual-up",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "すずのために",
+				"skillType": "P",
+				"skillText": "70%のスコア獲得<br>自身に3段階ビジュアル上昇効果[29ビート]<br>スタミナ:170 CT:50",
+				"skillIcon": "visual-up,score-get,,oneself",
+				"skillBg": "strength"
+			}
+		],
+		"__v": 0
+	},
+	{
+		"_id": "624cfbb7aae4d6eecaf95601",
+		"id": 110601,
+		"spSkill": "-",
+		"yellSkill": "ライブエール",
+		"clothes": "ザ・ラストチャンス",
+		"vocal": 46813,
+		"dance": 67282,
+		"visual": 53692,
+		"stamina": 4895,
+		"skill": [
+			{
+				"skillName": "憧れは写真にのせて",
+				"skillType": "A",
+				"skillText": "460%のスコア獲得<br>センターの強化効果を2段階増強<br>スタミナ:159 CT:30",
+				"skillIcon": "strength-effect-value-increase,score-get",
+				"skillBg": "support"
+			},
+			{
+				"skillName": "仕上げた力こぶ",
+				"skillType": "P",
+				"skillText": "誰かがSPスキル発動前<br>対象1人に5段階SPスキルスコア上昇効果[5ビート]<br>対象1人に6段階クリティカル率上昇効果[41ビート]<br>スタミナ:335 CT:50",
+				"skillIcon": "special-skill-score-up,critical-rate-up",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "リスペクトしかない",
+				"skillType": "P",
+				"skillText": "50コンボ以上時<br>160%のスコア獲得<br>自身がダンスレーンの時 全員に6段階クリティカル率上昇効果[63ビート]<br>スタミナ:480",
+				"skillIcon": "critical-rate-up,score-get,,oneself",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "SPスキルスコアアップ",
+				"skillType": "Y",
+				"skillText": "SPスキルスコア3.5%上昇",
+				"skillIcon": "live_special-skill-score-multiply",
+				"skillBg": "yell"
+			}
+		],
+		"__v": 0
+	},
+	{
+		"_id": "624cfbbaaae4d6eecaf95603",
+		"id": 110701,
+		"spSkill": "所持",
+		"yellSkill": "お仕事エール",
+		"clothes": "プレシャスワン",
+		"vocal": 72653,
+		"dance": 53524,
+		"visual": 46645,
+		"stamina": 4405,
+		"skill": [
+			{
+				"skillName": "だって麻奈様ですもの！",
+				"skillType": "SP",
+				"skillText": "2260%のスコア獲得<br>自身に20段階消費スタミナ上昇効果[110ビート]<br>スタミナ:983",
+				"skillIcon": "suz-onep-00",
+				"skillBg": "special"
+			},
+			{
+				"skillName": "もやもやハート",
+				"skillType": "A",
+				"skillText": "400%のスコア獲得、消費したスタミナが多い程効果上昇<br>自身に7段階スコア上昇効果[40ビート]<br>スタミナ:213 CT:30",
+				"skillIcon": "score-up,score-get,,oneself",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "胸の中に広がる感覚",
+				"skillType": "P",
+				"skillText": "自身に5段階ボーカル上昇効果[27ビート]<br>自身のスタミナを1600回復<br>スタミナ:487 CT:30",
+				"skillIcon": "vocal-up,fix-stamina-recovery,,oneself",
+				"skillBg": "strength"
+			},
+			{
+				"skillName": "コインアップ",
+				"skillType": "Y",
+				"skillText": "プロモーションの獲得コイン2%UP",
+				"skillIcon": "act_promotion-gold-up",
+				"skillBg": "yell"
+			}
+		],
+		"__v": 1
 	}
 ]

@@ -46,7 +46,7 @@
       <template v-for="(skill, index) in skillList" :key="index">
         <div class="unit-skill-box">
           <div class="unit-skill-icon">
-            <skillGenerate skill-level="" :skill-type="skill.skillType" :skill-bg="skillBgIcon(skill, index)" :skill1="skillIcon(1, skill)" :skill2="skillIcon(2, skill)" :skill3="skillIcon(3, skill)"></skillGenerate>
+            <skillGenerate skill-level="" :skill-type="skill.skillType" :skill-bg="skillBgIcon(skill, index)" :skill1="skillIcon(1, skill)" :skill2="skillIcon(2, skill)" :skill3="skillIcon(3, skill)" :markType="skillIcon(4, skill)"></skillGenerate>
           </div>
           <div class="unit-skill-name">
             <!-- <div class="unit-skill-type" :class="skillTypeColor(skill)">{{ skill.skillType }}</div> -->
@@ -69,16 +69,12 @@
 </template>
 <script setup lang="ts">
 import axios from 'axios';
-
-import { onMounted, onActivated, onBeforeUnmount, computed, reactive, ref } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
 import { host } from '@/config/host';
 import { unitPropensityMap, translateMap } from '@/assets/utils';
 
 const router = useRouter();
 const route = useRoute();
 let skillLang = ref('jp');
-// let imgHeight = ref(0);
 let fixed = ref(false);
 let unitId = 0;
 let updateTag = 0;
@@ -101,7 +97,6 @@ let unitDetail: unitDetail = reactive<unitDetail>({
   stamina: 0,
   skill: [],
 });
-let storyList = reactive<story[]>([]);
 const backup = {
   unitDetail: {},
 };
@@ -131,12 +126,10 @@ onActivated(() => {
   if (unitId != unitDetail.id) {
     Object.assign(unitDetail, backup.unitDetail);
     getUnitBase(unitId);
-    // getStoryList(unitId);
   }
 });
 onMounted(() => {
   // 立绘比 2048x1152
-  // imgHeight.value = +(window.innerWidth / (2048 / 1152)).toFixed(2);
   backup.unitDetail = JSON.parse(JSON.stringify(unitDetail));
   document.addEventListener('scroll', onScroll);
 });
@@ -158,18 +151,7 @@ function getUnitBase(id: number) {
       console.log(err);
     });
 }
-function getStoryList(id: number) {
-  axios
-    .get(`/unit/story/${id}`)
-    .then((res) => {
-      if (res.data) {
-        storyList.push(...res.data);
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
+
 function traSkill(skillList: skill[]): skill[] {
   skillList.forEach((skill) => {
     // console.log(skill.skillText);
@@ -183,7 +165,7 @@ function traSkill(skillList: skill[]): skill[] {
       name.push(`${text} ${num} ${effect}`);
     } else {
       for (const item of skillText.split('<br>')) {
-        console.log(item);
+        // console.log(item);
         let translate = translateMap.get(item);
         if (translate) {
           // console.log('translate', translate.cn);
@@ -214,44 +196,44 @@ function traSkill(skillList: skill[]): skill[] {
             target = translateMap.get(target)?.cn ?? '';
             type1 = translateMap.get(type1)?.cn ?? '';
             effect = translateMap.get(effect)?.cn ?? '';
-            console.log('自身', skillSplit);
-            console.log(`${target}${stage}阶段${type1}${effect} [${beat}节拍]`);
+            // console.log('自身', skillSplit);
+            // console.log(`${target}${stage}阶段${type1}${effect} [${beat}节拍]`);
             name.push(`${target}${stage}阶段${type1}${effect} [${beat}节拍]`);
           } else if (/\d+人/.test(item)) {
             let skillSplit = item.split(/(が[高低]い)?(\d+人)に(\d+)段階(.*?)(\W{2})効果.*?(\d+)?.*/);
-            console.log('target', skillSplit);
+            // console.log('target', skillSplit);
 
             let [type1, degree, people, stage, type2, effect, beat] = skillSplit;
             type1 = translateMap.get(type1)?.cn ?? '';
             degree = translateMap.get(degree)?.cn ?? '';
             type2 = translateMap.get(type2)?.cn ?? '';
             effect = translateMap.get(effect)?.cn ?? '';
-            console.log(`${type1}${degree ? degree + '的' : ''}${people}${stage}阶段${type2}${effect} ${beat ? `[${beat}节拍]` : ''}`);
+            // console.log(`${type1}${degree ? degree + '的' : ''}${people}${stage}阶段${type2}${effect} ${beat ? `[${beat}节拍]` : ''}`);
             name.push(`${type1}${degree ? degree + '的' : ''}${people}${stage}阶段${type2}${effect} ${beat ? `[${beat}节拍]` : ''}`);
           }
           continue;
         }
         if (/が[高低]い.*?(上昇|低下|增加|UP)効果/.test(item)) {
           let skillSplit = item.split(/(が[高低]い).*(\d+人).*?(上昇効果|低下効果|增加効果|UP効果)/);
-          console.log('効果', skillSplit);
+          // console.log('効果', skillSplit);
           let [type1, degree, people, type2, effect] = skillSplit;
           type1 = translateMap.get(type1)?.cn ?? '';
           degree = translateMap.get(degree)?.cn ?? '';
           type2 = translateMap.get(type2)?.cn ?? '';
           effect = translateMap.get(effect)?.cn ?? '';
-          console.log(`${type1}${degree}的${people}${type2}${effect}`);
+          // console.log(`${type1}${degree}的${people}${type2}${effect}`);
           name.push(`${type1}${degree}的${people}${type2}${effect}`);
           continue;
         }
         if (/スタミナを|のスタミナ回復効果/.test(item)) {
           let skillSplit = item.split(/(が[高低]い)?(\d+人)の(.*?)を(\d+)/);
-          console.log('スタミナ', skillSplit);
+          // console.log('スタミナ', skillSplit);
           let [type1, degree, people, type2, num, effect] = skillSplit;
           type1 = translateMap.get(type1)?.cn ?? '';
           degree = translateMap.get(degree)?.cn ?? '';
           type2 = translateMap.get(type2)?.cn ?? '';
           effect = translateMap.get(effect)?.cn ?? '';
-          console.log();
+          // console.log();
           name.push(`${type1}${degree ? degree + '的' : ''}${people}${type2}${num}${effect} `);
           continue;
         }
@@ -337,6 +319,10 @@ function skillIcon(num: number, item: skill) {
   }
   let icons = item.skillIcon.split(',');
   let icon = icons[num - 1];
+
+  if (num === 4) {
+    return icon ?? '';
+  }
   return icon ? `img_icon_skill-normal_${icon}` : '';
 }
 function eventLanguageChange() {

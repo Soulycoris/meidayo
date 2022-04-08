@@ -23,7 +23,6 @@
 </template>
 <script setup lang="ts">
 import { host } from '@/config/host';
-import { computed } from 'vue';
 import { memberList } from '@/assets/utils';
 
 const props = defineProps<{
@@ -36,7 +35,7 @@ const props = defineProps<{
 const makinoIcon = computed(() => {
   return `${host.assetsUrl}/img_chr_adv_koh-00.png`;
 });
-function makinoReplace(str) {
+function makinoReplace(str: string) {
   return str.replace(/{user}/g, '牧野');
 }
 function memberIcon(name: string) {

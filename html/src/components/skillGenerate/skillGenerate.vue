@@ -1,3 +1,4 @@
+import { computed } from 'vue';
 <template>
   <div class="generate-area" :style="scale ? `transform:scale(${scale})` : ''">
     <!-- <div class="title">技能生成</div> -->
@@ -6,7 +7,7 @@
       <img class="generate-skill-1 img-invert" v-if="skill1" :class="{ 'generate-skill-1-2': skill2 }" :src="skillIcon(skill1)" alt="" />
       <img class="generate-skill-2 img-invert" v-if="skill2" :src="skillIcon(skill2)" alt="" />
       <img class="generate-skill-3 img-invert" v-if="skill3" :src="skillIcon(skill3)" alt="" />
-      <div class="generate-skill-3-mark" v-if="skill3"></div>
+      <div class="generate-skill-3-mark" :class="markType" v-if="skill3"></div>
       <div class="generate-border">
         <div class="generate-skill-type" v-if="skillType">{{ skillType }}</div>
         <div class="generate-skill-level" v-if="skillLevel">
@@ -19,36 +20,26 @@
 </template>
 <script setup lang="ts">
 import { host } from '@/config/host';
-defineProps({
-  skillLevel: {
-    type: String,
-    default: '5',
-  },
-  skillType: {
-    type: String,
-    default: 'SP',
-  },
-  skillBg: {
-    type: String,
-    default: 'bg_score_1',
-  },
-  skill1: {
-    type: String,
-    default: '',
-  },
-  skill2: {
-    type: String,
-    default: '',
-  },
-  skill3: {
-    type: String,
-    default: '',
-  },
-  scale: {
-    type: Number,
-    default: 0,
-  },
+
+interface Props {
+  skillLevel: string;
+  skillType: string;
+  skillBg: string;
+  skill1: string;
+  skill2: string;
+  skill3: string;
+  scale: number;
+  markType: string;
+}
+
+withDefaults(defineProps<Props>(), {
+  skillLevel: '5',
+  skillType: 'SP',
+  skillBg: 'bg_score_1',
+  scale: 0,
 });
+
+
 function skillIcon(icon: string) {
   // `/img/skill_icon/${str}.png`
   return `${host.assetsUrl}/${icon}.png`;
@@ -66,6 +57,7 @@ function skillIcon(icon: string) {
   .generate-sikll {
     width: 100%;
     height: 100%;
+    display: flex;
     position: relative;
     overflow: hidden;
   }
@@ -148,6 +140,15 @@ function skillIcon(icon: string) {
     background-color: #d7d7d6;
     transform: rotate(-45deg);
     z-index: 0;
+    &.oneself {
+      background-color: #d7d7d6;
+    }
+    &.down {
+      background-color: #d80032;
+    }
+    &.opponent {
+      background-color: #fc7e44;
+    }
   }
 }
 </style>

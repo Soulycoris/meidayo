@@ -56,7 +56,6 @@
 </template>
 <script setup lang="ts">
 import { host } from '@/config/host';
-import { reactive } from 'vue';
 import { unitPropensityMap, unitTypeMap, memberList } from '@/assets/utils';
 import axios from 'axios';
 
@@ -67,7 +66,7 @@ interface SearchForm {
 }
 let updateTag = 0;
 const props = defineProps<{
-  show: false;
+  show: boolean;
 }>();
 
 const emit = defineEmits<{

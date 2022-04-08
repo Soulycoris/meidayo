@@ -12,10 +12,6 @@
 </template>
 <script setup lang="ts">
 import axios from 'axios';
-// import unitListItem from '@com/unit/unitListItem.vue';
-// import unitFilter from '@com/unit/unitFilter.vue';
-import { onMounted, computed, reactive, ref } from 'vue';
-import { useRouter } from 'vue-router';
 
 interface searchForm {
   type: string[];

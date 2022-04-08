@@ -27,11 +27,6 @@
 </template>
 <script setup lang="ts">
 import axios from 'axios';
-
-import ipNav from '@com/nav/ipNav.vue';
-
-import { onMounted, onActivated, computed, reactive, ref } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
 import { groupNameMap } from '@/assets/utils';
 
 const router = useRouter();

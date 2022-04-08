@@ -4,7 +4,7 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    Dialogue: typeof import('./src/components/dialogue/index.vue')['default']
+    Dialogue: typeof import('./components/dialogue/index.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
@@ -12,12 +12,12 @@ declare module 'vue' {
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElSelect: typeof import('element-plus/es')['ElSelect']
-    HomeLoading: typeof import('./src/components/homeLoading.vue')['default']
-    IpNav: typeof import('./src/components/nav/ipNav.vue')['default']
-    Loading: typeof import('./src/components/loading.vue')['default']
-    SkillGenerate: typeof import('./src/components/skillGenerate/skillGenerate.vue')['default']
-    UnitFilter: typeof import('./src/components/unit/unitFilter.vue')['default']
-    UnitListItem: typeof import('./src/components/unit/unitListItem.vue')['default']
+    HomeLoading: typeof import('./components/homeLoading.vue')['default']
+    IpNav: typeof import('./components/nav/ipNav.vue')['default']
+    Loading: typeof import('./components/loading.vue')['default']
+    SkillGenerate: typeof import('./components/skillGenerate/skillGenerate.vue')['default']
+    UnitFilter: typeof import('./components/unit/unitFilter.vue')['default']
+    UnitListItem: typeof import('./components/unit/unitListItem.vue')['default']
   }
 }
 

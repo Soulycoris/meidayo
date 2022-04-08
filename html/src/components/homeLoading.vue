@@ -19,12 +19,9 @@
   </div>
 </template>
 <script setup lang="ts">
-defineProps({
-  loading: {
-    type: Boolean,
-    default: true,
-  },
-});
+defineProps<{
+  loading: boolean;
+}>();
 </script>
 <style lang="scss" scoped>
 .animate__fadeOutRight-leave-active {

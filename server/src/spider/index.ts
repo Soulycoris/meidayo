@@ -327,13 +327,14 @@ const getEstertionImg = async (url: string, filePath: fs.PathLike) => {
 const handleSkill = (skillType: string, skillText: string, unit: unit) => {
   let name = new Set<string>();
   let skillIcon = '';
+  let sikllTarget = '';
   if (skillType == 'SP') {
     name.add(unit.prefab);
   } else if (skillType == 'Y') {
     let text = skillText.replace(/(\d+|\d+\.\d+)%?(上昇|UP)/, '');
     let tra = translateMapCn.get(text);
     let res = skillYell.filter((e) => e.includes(tra));
-    name.add(res[res.length - 1]);
+    name.add(res.at(-1));
   } else {
     for (const item of skillText.split('<br>')) {
       if (/スタミナ:(\d+).*?(CT)?/.test(item)) {
@@ -351,18 +352,27 @@ const handleSkill = (skillType: string, skillText: string, unit: unit) => {
         continue;
       }
       if (/段階.*?(上昇|低下|增加|減少|UP|DOWN)効果/.test(item)) {
-        let match = item.match(/段階(.*?)(上昇|低下|增加|減少|UP|DOWN)効果/g);
+        let match = item.match(/.*段階(.*?)(上昇|低下|增加|減少|UP|DOWN)効果/g);
         match.forEach((item) => {
-          let [, text, type] = item.split(/.*段階(.*?)(上昇|低下|增加|減少|UP|DOWN)効果.*/);
+          let [, target, text, type] = item.split(/(.*)段階(.*?)(上昇|低下|增加|減少|UP|DOWN)効果.*/);
+
           let tra = translateMapCn.get(text);
           let res = skillNormal.filter((e) => {
-            if (type == '上昇' || type == 'UP' || type == '增加') {
+            if (/上昇|UP|增加/.test(type)) {
               return e.includes(tra) && (e.includes('up') || e.includes('increase'));
             } else {
               return e.includes(tra) && (e.includes('down') || e.includes('reduction'));
             }
           });
-          name.add(res.length > 1 ? tra : res[res.length - 1]);
+          let result = res.length > 1 ? tra : res.at(-1);
+          if (/自身|相手/.test(target)) {
+            if (target.includes('自身')) {
+              sikllTarget = result.includes('down') ? 'down' : 'oneself';
+            } else {
+              sikllTarget = 'opponent';
+            }
+          }
+          name.add(result);
         });
         continue;
       }
@@ -393,8 +403,8 @@ const handleSkill = (skillType: string, skillText: string, unit: unit) => {
         name.add(tra);
         continue;
       }
-      if (/低下効果(回復|防止|反転)/.test(item)) {
-        let text = item.replace(/.*低下効果(回復|防止|反転).*/, '$1');
+      if (/低下効果.*?(回復|防止|反転)/.test(item)) {
+        let text = item.replace(/.*低下効果.*?(回復|防止|反転).*/, '$1');
         let tra = translateMapCn.get('低下効果' + text);
         name.add(tra);
         continue;
@@ -407,6 +417,7 @@ const handleSkill = (skillType: string, skillText: string, unit: unit) => {
       if (/不調効果/.test(item)) {
         let tra = translateMapCn.get('不調');
         name.add(tra);
+        sikllTarget = item.includes('相手') ? 'opponent' : 'oneself';
         continue;
       }
     }
@@ -435,6 +446,9 @@ const handleSkill = (skillType: string, skillText: string, unit: unit) => {
     }
   }
 
+  if (sikllTarget) {
+    arr[3] = sikllTarget;
+  }
   skillIcon = arr.join(',');
   return skillIcon;
 };

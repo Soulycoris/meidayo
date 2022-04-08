@@ -18,10 +18,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, ref } from 'vue';
 
 interface Props {
-  border: string;
+  border: boolean;
   leftArrow: boolean;
   fixed: boolean;
   top: number;
