@@ -6,8 +6,6 @@ export function useSkillIcon(skill: Skill, level = 6) {
   const skillType = useSkillType(skill);
   const skillParts = useSkillParts(skill, level);
   const skillMark = skillParts[3]?.split('_')[0] ?? '';
-  console.log(skillParts);
-
   return { skillBg, skillType, skillMark, skillParts };
 }
 

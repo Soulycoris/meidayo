@@ -30,9 +30,8 @@ router.get('/rarity', async (ctx) => {
 });
 
 router.get('/base/:id', async (ctx) => {
-  const card = await CardModel.findOne({ id: ctx.params.id });
-  const reg = new RegExp(`${card.assetId}`);
-  const skill = await SkillModel.find({ id: reg });
+  const reg = new RegExp(ctx.params.id.slice(4));
+  const [card, skill] = await Promise.all([CardModel.findOne({ id: ctx.params.id }), SkillModel.find({ id: reg })]);
   const resBody = {
     card,
     skill,
@@ -41,7 +40,7 @@ router.get('/base/:id', async (ctx) => {
   if (card.activityAbilityId) {
     const activityAbility = await ActivityAbilityModel.findOne({ id: card.activityAbilityId });
     if (/\d+/.test(card.activityAbilityId)) {
-      const normal = await ActivityAbilityModel.findOne({ name: activityAbility.name, id: /[^\d+]/ });
+      const normal = await ActivityAbilityModel.findOne({ name: activityAbility.name, id: /(^aab)[^\d]*$/ });
       Object.assign(resBody, { activityAbility: normal });
     } else {
       Object.assign(resBody, { activityAbility });
@@ -50,7 +49,12 @@ router.get('/base/:id', async (ctx) => {
 
   if (card.liveAbilityId) {
     const liveAbility = await LiveAbilityModel.findOne({ id: card.liveAbilityId });
-    Object.assign(resBody, { liveAbility });
+    if (/\d+/.test(card.liveAbilityId)) {
+      const normal = await LiveAbilityModel.findOne({ name: liveAbility.name, id: /(^lba)[^\d]*$/ });
+      Object.assign(resBody, { liveAbility: normal });
+    } else {
+      Object.assign(resBody, { liveAbility });
+    }
   }
 
   ctx.body = resBody;

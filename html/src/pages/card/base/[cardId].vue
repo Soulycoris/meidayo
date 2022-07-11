@@ -1,5 +1,5 @@
 <template>
-  <ipNav class="top-0 left-0 right-0 b-transparent" style="position: fixed;" leftArrow :border="true" @on-left-click="goBack">
+  <ipNav class="top-0 left-0 right-0 b-transparent" style="position: fixed" leftArrow :border="true" @on-left-click="goBack">
     <template #title></template>
     <template #right>
       <svg @click="eventLanguageChange" t="1640247802490" class="icon" viewBox="0 0 1026 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5623" width="16" height="16">
@@ -124,6 +124,8 @@ let cardDetail: CardDetail = reactive<CardDetail>({
     homeTalks: [],
   },
   skill: [],
+  activityAbility: undefined,
+  liveAbility: undefined,
 });
 
 const backup = {
