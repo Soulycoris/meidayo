@@ -1,18 +1,18 @@
 <template>
   <div class="dialogue">
-    <div class="item" v-for="(item, index) in list" :key="index" :class="item.name.includes('user') ? 'right' : 'left'">
-      <div class="icon">
-        <span v-if="item.name.includes('user')" class="makino"> <img class="img-max" :src="makinoIcon" /> </span>
-        <span class="ido" v-else>
+    <div class="item flex items-end mt-4 mb-4" v-for="(item, index) in list" :key="index" :class="item.name.includes('user') ? 'right' : 'left'">
+      <div class="icon w8 flex flex-none">
+        <span v-if="item.name.includes('user')" class="flex"> <img class="img-max" :src="makinoIcon" /> </span>
+        <span class="flex" v-else>
           <img class="img-max" :src="memberIcon(item.name)" />
         </span>
       </div>
-      <div class="text">
+      <div class="text w100p ml-3 mr-10 flex flex-col c-dark-100">
         <template v-if="item.name">
           <div class="content">
             {{ makinoReplace(item.text) }}
           </div>
-          <div class="name">{{ makinoReplace(item.name) }}</div>
+          <div class="name c-white">{{ makinoReplace(item.name) }}</div>
         </template>
         <template v-else>
           <div class="narration">{{ item.text }}</div>
@@ -36,7 +36,7 @@ const makinoIcon = computed(() => {
   return `${host.assetsUrl}/img_chr_adv_koh-00.png`;
 });
 function makinoReplace(str: string) {
-  return str.replace(/{user}/g, '牧野');
+  return str.replaceAll('{user}', '牧野');
 }
 function memberIcon(name: string) {
   if (!name) {
@@ -51,9 +51,6 @@ function memberIcon(name: string) {
 .dialogue {
   color: #fff;
   .item {
-    display: flex;
-    align-items: flex-end;
-    margin: 16px 0;
     &.right {
       justify-content: flex-end;
       .icon {
@@ -69,30 +66,10 @@ function memberIcon(name: string) {
         }
       }
     }
-    .ido,
-    .makino {
-      display: flex;
-    }
-    .icon {
-      width: 32px;
-      display: flex;
-      flex: none;
-      .img-max {
-        width: 100%;
-        height: auto;
-      }
-    }
   }
   .text {
-    color: #333;
-    margin-left: 10px;
-    margin-right: 40px;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
     .name {
       font-size: 14px;
-      color: #fff;
     }
     .content {
       padding: 4px 8px;
@@ -105,7 +82,6 @@ function memberIcon(name: string) {
     }
     .narration {
       margin: 0 auto;
-      color: #fff;
       text-align: center;
     }
   }

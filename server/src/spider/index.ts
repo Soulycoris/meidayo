@@ -365,9 +365,12 @@ const handleSkill = (skillType: string, skillText: string, unit: unit) => {
             }
           });
           let result = res.length > 1 ? tra : res.at(-1);
+          // console.log(res);
+          // console.log(result);
+
           if (/自身|相手/.test(target)) {
             if (target.includes('自身')) {
-              sikllTarget = result.includes('down') ? 'down' : 'oneself';
+              sikllTarget = result?.includes('down') ? 'down' : 'oneself';
             } else {
               sikllTarget = 'opponent';
             }

@@ -1,14 +1,3 @@
-export const unitTypeMap = new Map([
-  ['サポーター', 'supporter'],
-  ['バッファー', 'buffer'],
-  ['スコアラー', 'scorer'],
-]);
-
-export const unitPropensityMap = new Map([
-  ['ボーカル', 'vocal'],
-  ['ダンス', 'dance'],
-  ['ビジュアル', 'visual'],
-]);
 export const memberList = [
   { name: '長瀬麻奈', spell: 'mna', groupName: 'ソロアイドル' },
   { name: '長瀬琴乃', spell: 'ktn', groupName: '月のテンペスト' },

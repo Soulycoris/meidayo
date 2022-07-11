@@ -12,9 +12,14 @@
     "lib": ["esnext", "dom"],
     "noImplicitAny": false, // 是否在表达式和声明上有隐含的any类型时报错
     "baseUrl": ".",
+    "types": [
+      "vite/client",
+      "vite-plugin-pages/client",
+      "vite-plugin-vue-layouts/client"
+    ],
     "paths": {
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/*.d.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "include": ["src/**/*.ts", "src/*.d.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "unocss.config.ts"]
 }

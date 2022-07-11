@@ -98,6 +98,7 @@ export const translateMapCn = new Map([
   ['ビートスコア', 'beat-score'],
   ['Aスキルスコア', 'active-skill-score'],
   ['アピールスコア', 'active-skill-score'],
+  ['Pスキルスコア', 'passive-skill-score-up'],
   ['SPスキルスコア', 'special-skill-score'],
   ['消費スタミナ', 'stamina-consumption'],
   ['スキル成功率', 'skill-success-rate'],

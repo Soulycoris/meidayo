@@ -94,6 +94,15 @@ body {
 .base-skill-yell-bg {
   background-color: var(--color-base-skill-yell);
 }
+
+img.img-invert {
+  filter: invert(100%);
+}
+img.img-max {
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
+}
 .maskedimage {
   display: inline-block;
   width: 32px;

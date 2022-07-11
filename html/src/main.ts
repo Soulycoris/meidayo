@@ -1,14 +1,25 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import router from './router';
-import './config/axios';
-import './assets/css/style.scss';
 import lazyPlugin from 'vue3-lazy';
 import { createPinia } from 'pinia';
+import { createRouter, createWebHistory } from 'vue-router';
+import { setupLayouts } from 'virtual:generated-layouts';
+import generatedRoutes from 'virtual:generated-pages';
+
+import './config/axios';
+import './assets/css/style.scss';
+
+import 'uno.css';
 
 const app = createApp(App);
 
 // 加载router
+const routes = setupLayouts(generatedRoutes);
+
+const router = createRouter({
+  routes,
+  history: createWebHistory(),
+});
 app.use(router);
 
 // 加载store

@@ -3,6 +3,7 @@ node_modules/
 unpackage/
 dist/
 server/assets/
+server/masterdata/
 doc/
 
 # local env files
