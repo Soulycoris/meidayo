@@ -1,47 +1,30 @@
 import koaRouter from 'koa-router';
-
 import fs from 'fs-extra';
-import Path from 'path';
-import { AnyKeys } from 'mongoose';
+import resolvePath from 'resolve-path';
 import { Skill, ActivityAbility, LiveAbility } from 'hoshimi-types/ProtoMaster';
+import { ActivityAbilityModel, SkillModel, LiveAbilityModel } from '../../database/model';
 
 const router = new koaRouter();
 
-import { ActivityAbilityModel, SkillModel, LiveAbilityModel } from '../../database/model';
-
 router.get('/init', async (ctx) => {
+  ctx.body = await initSkill();
+});
+
+export const initSkill = async () => {
   await SkillModel.deleteMany({});
   await ActivityAbilityModel.deleteMany({});
   await LiveAbilityModel.deleteMany({});
 
-  let Skill: Skill[] = JSON.parse(fs.readFileSync(Path.resolve(process.cwd(), './masterdata/Skill.json'), 'utf-8'));
-  let SkillList: Array<AnyKeys<Skill>> = [];
-  Skill.forEach((item) => {
-    let doc = new SkillModel(item);
-    SkillList.push(doc);
-  });
+  let Skill: Skill[] = fs.readJSONSync(resolvePath('./masterdata/Skill.json'), 'utf-8');
+  SkillModel.insertMany(Skill);
 
-  SkillModel.insertMany(SkillList);
+  let ActivityAbility: ActivityAbility[] = fs.readJSONSync(resolvePath('./masterdata/ActivityAbility.json'), 'utf-8');
+  ActivityAbilityModel.insertMany(ActivityAbility);
 
-  let ActivityAbility: ActivityAbility[] = JSON.parse(fs.readFileSync(Path.resolve(process.cwd(), './masterdata/ActivityAbility.json'), 'utf-8'));
-  let ActivityAbilityList: Array<AnyKeys<ActivityAbility>> = [];
-  ActivityAbility.forEach((item) => {
-    let doc = new ActivityAbilityModel(item);
-    ActivityAbilityList.push(doc);
-  });
+  let LiveAbility: LiveAbility[] = fs.readJSONSync(resolvePath('./masterdata/LiveAbility.json'), 'utf-8');
+  LiveAbilityModel.insertMany(LiveAbility);
 
-  ActivityAbilityModel.insertMany(ActivityAbilityList);
-
-  let LiveAbility: LiveAbility[] = JSON.parse(fs.readFileSync(Path.resolve(process.cwd(), './masterdata/LiveAbility.json'), 'utf-8'));
-  let LiveAbilityList: Array<AnyKeys<LiveAbility>> = [];
-  LiveAbility.forEach((item) => {
-    let doc = new LiveAbilityModel(item);
-    LiveAbilityList.push(doc);
-  });
-
-  LiveAbilityModel.insertMany(LiveAbilityList);
-
-  ctx.body = Skill;
-});
+  return Skill;
+};
 
 export default router;

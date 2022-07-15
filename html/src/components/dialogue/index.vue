@@ -7,7 +7,7 @@
           <img class="img-max" :src="memberIcon(item.name)" />
         </span>
       </div>
-      <div class="text w100p ml-3 mr-10 flex flex-col c-dark-100">
+      <div class="text w100% ml-3 mr-10 flex flex-col c-dark-100">
         <template v-if="item.name">
           <div class="content">
             {{ makinoReplace(item.text) }}
@@ -15,7 +15,7 @@
           <div class="name c-white">{{ makinoReplace(item.name) }}</div>
         </template>
         <template v-else>
-          <div class="narration">{{ item.text }}</div>
+          <div class="mla mra text-center c-white">{{ item.text }}</div>
         </template>
       </div>
     </div>
@@ -62,7 +62,6 @@ function memberIcon(name: string) {
         align-items: flex-end;
         .content {
           border-bottom-right-radius: 0;
-          border-bottom-left-radius: 12px;
         }
       }
     }
@@ -74,15 +73,9 @@ function memberIcon(name: string) {
     .content {
       padding: 4px 8px;
       line-height: 1.3;
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
-      border-bottom-right-radius: 12px;
+      border-radius: 12px;
       border-bottom-left-radius: 0;
       background-color: #fff;
-    }
-    .narration {
-      margin: 0 auto;
-      text-align: center;
     }
   }
 }

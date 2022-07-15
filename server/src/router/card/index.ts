@@ -1,18 +1,12 @@
 import fs from 'fs-extra';
-import Path from 'path';
 import koaRouter from 'koa-router';
 import { ActivityAbilityModel, CardModel, LiveAbilityModel, SkillModel, StoryModel } from '../../database/model';
 import { CardParameter, CardRarity } from 'hoshimi-types/ProtoMaster';
+import consola from 'consola';
+import resolvePath from 'resolve-path';
+import { CardStoryDetail } from '@/ProtoTypes';
 
 const router = new koaRouter();
-
-interface story {
-  title: string;
-  message: {
-    text: string;
-    name: string;
-  }[];
-}
 
 router.get('/list', async (ctx) => {
   const card = await CardModel.find({}).sort({ order: -1 });
@@ -20,12 +14,12 @@ router.get('/list', async (ctx) => {
 });
 
 router.get('/parameter', async (ctx) => {
-  let cardParameter: CardParameter[] = JSON.parse(fs.readFileSync(Path.resolve(process.cwd(), './masterdata/CardParameter.json'), 'utf-8'));
+  let cardParameter: CardParameter[] = fs.readJSONSync(resolvePath('./masterdata/CardParameter.json'), 'utf-8');
   ctx.body = cardParameter;
 });
 
 router.get('/rarity', async (ctx) => {
-  let cardRarity: CardRarity[] = JSON.parse(fs.readFileSync(Path.resolve(process.cwd(), './masterdata/CardRarity.json'), 'utf-8'));
+  let cardRarity: CardRarity[] = fs.readJSONSync(resolvePath('./masterdata/CardRarity.json'), 'utf-8');
   ctx.body = cardRarity;
 });
 
@@ -62,21 +56,15 @@ router.get('/base/:id', async (ctx) => {
 
 router.get('/story/:id', async (ctx) => {
   const stories = await StoryModel.findOne({ id: ctx.params.id });
-  const content: string = fs.readFileSync(Path.resolve(process.cwd(), `./assets/advextract/adv_${stories.advAssetId}.txt`), 'utf-8');
+  const content: string = fs.readFileSync(resolvePath(`./assets/advextract/adv_${stories.advAssetId}.txt`), 'utf-8');
   const storeDetail = handleAdvText(content);
-  // const storyList: story[] = [];
-  // for (const item of stories) {
-  //   storyList.push();
-  // }
   ctx.body = storeDetail;
 });
-
-router.get('/story/:unitId/:chapter', async (ctx) => {});
 
 router.get('/member/:id', async (ctx) => {});
 
 function handleAdvText(content: string) {
-  const story: story = {
+  const story: CardStoryDetail = {
     title: '',
     message: [],
   };

@@ -1,4 +1,4 @@
-import { skillCategoryTypeMap } from '@/assets/utils/typeMap';
+import { skillCategoryTypeMap } from './typeMap';
 import { ActivityAbility, LiveAbility, Skill } from 'hoshimi-types/ProtoMaster';
 
 export function useSkillIcon(skill: Skill, level = 6) {
@@ -67,8 +67,11 @@ export function useSkillParts(item: Skill, level: number) {
       if (skillParts.length > 1) {
         // debuff技能放3号
         let index = skillParts.findIndex((e) => /down|consumption-increase|impossible/.test(e));
-        if (index > -1 && index != 2) {
-          [skillParts[2], skillParts[index]] = [skillParts[index] ?? '', skillParts[2] ?? ''];
+        if (index > -1) {
+          // debuff 目标
+          if (index != 2) {
+            [skillParts[2], skillParts[index]] = [skillParts[index] ?? '', skillParts[2] ?? ''];
+          }
         }
 
         // 得分技能放2号
