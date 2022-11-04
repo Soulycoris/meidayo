@@ -13,8 +13,8 @@ router.get('/init', async (ctx) => {
 
 export const initCharacter = async () => {
   await CharacterModel.deleteMany({});
-  let list: Character[] = fs.readJSONSync(resolvePath('./masterdata/Character.json'), 'utf-8');
-  CharacterModel.insertMany(list);
+  let list: Character[] = fs.readJSONSync(resolvePath('./masterdata/Character.json'));
+  await CharacterModel.insertMany(list);
   return list;
 };
 

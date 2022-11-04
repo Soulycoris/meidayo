@@ -17,4 +17,4 @@ interface CardStoryDetail {
   }[];
 }
 
-export { ICard, CardDetail, CardList, CardStoryDetail, CardPropensity };
+export type { ICard, CardDetail, CardList, CardStoryDetail, CardPropensity };

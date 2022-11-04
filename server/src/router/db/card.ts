@@ -14,8 +14,8 @@ router.get('/init', async (ctx) => {
 
 export const initCard = async () => {
   await CardModel.deleteMany({});
-  let list: Card[] = fs.readJSONSync(resolvePath('./masterdata/Card.json'), 'utf-8');
-  CardModel.insertMany(list);
+  let list: Card[] = fs.readJSONSync(resolvePath('./masterdata/Card.json'));
+  await CardModel.insertMany(list);
   return list;
 };
 

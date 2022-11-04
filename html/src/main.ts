@@ -13,6 +13,9 @@ import 'uno.css';
 
 const app = createApp(App);
 
+// 加载store
+app.use(createPinia());
+
 // 加载router
 const routes = setupLayouts(generatedRoutes);
 
@@ -21,9 +24,6 @@ const router = createRouter({
   history: createWebHistory(),
 });
 app.use(router);
-
-// 加载store
-app.use(createPinia());
 
 app.use(lazyPlugin, {
   loading: '/img/icon/icon_Card.png',

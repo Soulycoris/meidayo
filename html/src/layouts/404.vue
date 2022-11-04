@@ -1,5 +1,8 @@
 <script setup lang="ts">
 const router = useRouter();
+function toHome() {
+  router.replace('/card');
+}
 </script>
 
 <template>
@@ -9,7 +12,7 @@ const router = useRouter();
     </div>
     <RouterView />
     <div>
-      <button btn text-sm m="3 t8" @click="router.back()">返回</button>
+      <button btn text-sm m="3 t8" @click="toHome">返回</button>
     </div>
   </main>
 </template>

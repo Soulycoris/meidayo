@@ -1,16 +1,14 @@
 import fs from 'fs-extra';
 import koaRouter from 'koa-router';
-import { ActivityAbilityModel, CardModel, LiveAbilityModel, SkillModel, StoryModel } from '../../database/model';
+import { ActivityAbilityModel, CardModel, LiveAbilityModel, MessageModel, SkillModel, StoryModel } from '../../database/model';
 import { CardParameter, CardRarity } from 'hoshimi-types/ProtoMaster';
-import consola from 'consola';
 import resolvePath from 'resolve-path';
 import { CardStoryDetail } from '@/ProtoTypes';
 
 const router = new koaRouter();
 
 router.get('/list', async (ctx) => {
-  const card = await CardModel.find({}).sort({ order: -1 });
-  ctx.body = card;
+  ctx.body = await CardModel.find({}).sort({ order: -1 });
 });
 
 router.get('/parameter', async (ctx) => {
@@ -56,9 +54,17 @@ router.get('/base/:id', async (ctx) => {
 
 router.get('/story/:id', async (ctx) => {
   const stories = await StoryModel.findOne({ id: ctx.params.id });
-  const content: string = fs.readFileSync(resolvePath(`./assets/advextract/adv_${stories.advAssetId}.txt`), 'utf-8');
+  const content: string = fs.readFileSync(resolvePath(`./assets/adv/adv_${stories.advAssetIds[0]}.txt`), 'utf-8');
   const storeDetail = handleAdvText(content);
   ctx.body = storeDetail;
+});
+
+router.get('/message/:id', async (ctx) => {
+  ctx.body = await MessageModel.findOne({ id: ctx.params.id });
+});
+
+router.get('/messageList/:id', async (ctx) => {
+  ctx.body = await MessageModel.find({ characterId: ctx.params.id }, 'id name');
 });
 
 router.get('/member/:id', async (ctx) => {});
@@ -68,16 +74,16 @@ function handleAdvText(content: string) {
     title: '',
     message: [],
   };
-  const match = content.split(/\r\n/g);
+  const match = content.split(/\n/g);
   for (const item of match) {
     if (!item) {
       continue;
     }
     if (/title/.test(item)) {
-      story.title = item.replace(/.*title=(.*)/, '$1');
+      story.title = item.replace(/\[.*title=(.*)\]/, '$1');
       continue;
     }
-    const [, text, name, narration] = item.split(/text=(.*)? name=(.*)? |text=(.*) /);
+    const [, text, name, narration] = item.split(/text=(.*)? name=(.*)? t|text=(.*) /);
     if (text || narration) {
       story.message.push({
         text: text ?? narration,

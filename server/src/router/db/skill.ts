@@ -1,8 +1,8 @@
 import koaRouter from 'koa-router';
 import fs from 'fs-extra';
 import resolvePath from 'resolve-path';
-import { Skill, ActivityAbility, LiveAbility } from 'hoshimi-types/ProtoMaster';
-import { ActivityAbilityModel, SkillModel, LiveAbilityModel } from '../../database/model';
+import { Skill, ActivityAbility, LiveAbility, PhotoAbility } from 'hoshimi-types/ProtoMaster';
+import { ActivityAbilityModel, SkillModel, LiveAbilityModel, PhotoAbilityModel } from '../../database/model';
 
 const router = new koaRouter();
 
@@ -11,18 +11,17 @@ router.get('/init', async (ctx) => {
 });
 
 export const initSkill = async () => {
-  await SkillModel.deleteMany({});
-  await ActivityAbilityModel.deleteMany({});
-  await LiveAbilityModel.deleteMany({});
+  await Promise.all([SkillModel.deleteMany({}), ActivityAbilityModel.deleteMany({}), LiveAbilityModel.deleteMany({}), PhotoAbilityModel.deleteMany({})]);
 
-  let Skill: Skill[] = fs.readJSONSync(resolvePath('./masterdata/Skill.json'), 'utf-8');
-  SkillModel.insertMany(Skill);
+  let Skill: Skill[] = fs.readJSONSync(resolvePath('./masterdata/Skill.json'));
 
-  let ActivityAbility: ActivityAbility[] = fs.readJSONSync(resolvePath('./masterdata/ActivityAbility.json'), 'utf-8');
-  ActivityAbilityModel.insertMany(ActivityAbility);
+  let ActivityAbility: ActivityAbility[] = fs.readJSONSync(resolvePath('./masterdata/ActivityAbility.json'));
 
-  let LiveAbility: LiveAbility[] = fs.readJSONSync(resolvePath('./masterdata/LiveAbility.json'), 'utf-8');
-  LiveAbilityModel.insertMany(LiveAbility);
+  let LiveAbility: LiveAbility[] = fs.readJSONSync(resolvePath('./masterdata/LiveAbility.json'));
+
+  let PhotoAbility: PhotoAbility[] = fs.readJSONSync(resolvePath('./masterdata/PhotoAbility.json'));
+
+  await Promise.all([SkillModel.insertMany(Skill), ActivityAbilityModel.insertMany(ActivityAbility), LiveAbilityModel.insertMany(LiveAbility), PhotoAbilityModel.insertMany(PhotoAbility)]);
 
   return Skill;
 };

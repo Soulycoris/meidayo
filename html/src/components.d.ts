@@ -7,9 +7,10 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    CardAdv: typeof import('./components/card/cardAdv.vue')['default']
     CardFilter: typeof import('./components/card/cardFilter.vue')['default']
     CardListItem: typeof import('./components/card/cardListItem.vue')['default']
-    Dialogue: typeof import('./components/dialogue/index.vue')['default']
+    CardMessage: typeof import('./components/card/cardMessage.vue')['default']
     HomeLoading: typeof import('./components/homeLoading.vue')['default']
     IpNav: typeof import('./components/nav/ipNav.vue')['default']
     Loading: typeof import('./components/loading.vue')['default']

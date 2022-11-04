@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".", // import的相对起始路径
     "outDir": "./dist", // 构建输出目录
-    "module": "commonjs",
+    "module": "esnext",
     "target": "esnext", // node 环境支持 esnext
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,

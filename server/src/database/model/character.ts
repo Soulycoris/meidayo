@@ -18,7 +18,7 @@ const CharacterSchema = new Schema<Character>({
   favorite: String,
   unfavorite: String,
   profile: String,
-  isNpc: Boolean,
+  type: Number,
   costumeIds: Array,
   altCharacters: Array,
   defaultCostumeId: String,
@@ -31,13 +31,11 @@ const CharacterSchema = new Schema<Character>({
   costumeMotionAssetIds: Array,
   costumeVoiceAssetIds: Array,
   isLeftHanded: Boolean,
-  psylliumColerType: Number,
   shortProfile: String,
   threeSize: String,
   catchphrase: String,
   firstName: String,
   idiom: String,
-  isMemories: Boolean,
   defaultLiveCostumeId: String,
 });
 

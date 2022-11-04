@@ -22,7 +22,7 @@
     </transition>
     <cardListItem :cardList="curcard" @on-click="toMember"> </cardListItem>
     <div class="p-2">
-      <div class="flex justify-between items-center mb-3" style="font-size: 18px">
+      <div class="flex justify-between items-center mb-3 text-size-lg">
         <div class="status-sum w65% flex-auto flex flex-wrap justify-center relative" :class="'base-' + cardPropensity">{{ statusSum }}</div>
         <div class="flex-auto flex flex-wrap">
           <div class="base-vocal w50% flex-auto flex items-center fw-bold mt-1 mb-1">
@@ -49,10 +49,10 @@
             <skillIcon class="absolute w-32 top-50% left-50% transform" style="--un-translate-x: -50%; --un-translate-y: -50%; --un-scale-x: 0.5; --un-scale-y: 0.5" :skill="skill"></skillIcon>
           </div>
           <div class="flex-1 flex flex-col justify-around pl-4 pr-4">
-            <div class="text-opacity-80 fw-bold" style="font-size: 18px">{{ skill.name }}</div>
+            <div class="text-opacity-80 fw-bold text-size-lg">{{ skill.name }}</div>
           </div>
         </div>
-        <div class="w100% flex-none mt-1.5 mb-8 fw-bold text-opacity-80" style="font-size: 14px; letter-spacing: 1px" v-html="skillDesc(skill.levels)"></div>
+        <div class="w100% flex-none mt-1.5 mb-8 fw-bold text-opacity-80 text-size-sm" style="letter-spacing: 1px" v-html="skillDesc(skill.levels)"></div>
       </template>
       <template v-if="yellSkill">
         <div class="flex fw-bold">
@@ -60,10 +60,10 @@
             <skillIcon class="absolute w-32 top-50% left-50% transform" style="--un-translate-x: -50%; --un-translate-y: -50%; --un-scale-x: 0.5; --un-scale-y: 0.5" :yell-skill="yellSkill"></skillIcon>
           </div>
           <div class="flex-1 flex flex-col justify-around pl-4 pr-4">
-            <div class="text-opacity-80 fw-bold">{{ yellSkill.name }}</div>
+            <div class="text-opacity-80 fw-bold text-size-lg">{{ yellSkill.name }}</div>
           </div>
         </div>
-        <div class="w100% flex-none mt-1.5 mb-8 fw-bold text-opacity-80" style="font-size: 14px; letter-spacing: 1px" v-html="skillDesc(yellSkill.levels)"></div>
+        <div class="w100% flex-none mt-1.5 mb-8 fw-bold text-opacity-80 text-size-sm" style="letter-spacing: 1px" v-html="skillDesc(yellSkill.levels)"></div>
       </template>
     </div>
   </div>
@@ -76,13 +76,22 @@
       </div>
     </div>
   </div>
+  <!-- <div class="p-2 c-white" v-if="cardDetail.card.messages.length">
+    <h3 class="mt-0">消息电话</h3>
+    <div class="flex">
+      <div class="w-16 h-16 mr-4 rd-1 overflow-hidden relative" v-for="(messages, index) in cardDetail.card.messages" :key="index" @click="onMessageShow(messages)">
+        <img class="img-max" v-lazy="cardHeadIcon" />
+        <div class="absolute bottom-0 right-0">#{{ index + 1 }}</div>
+      </div>
+    </div>
+  </div> -->
 </template>
 <script setup lang="ts">
 import { host } from '@/config/host';
-import { Card, CardDetail, CardList } from '@/ProtoTypes';
 import { useCardStore } from '@/stores/card';
-import { ActivityAbilityLevel, CardStory, LiveAbilityLevel, Skill, SkillLevel } from 'hoshimi-types/ProtoMaster';
-import { cloneDeep, findLast, throttle } from 'lodash';
+import { Card, CardDetail, CardList } from '@/ProtoTypes';
+import { ActivityAbilityLevel, CardMessage, CardStory, LiveAbilityLevel, Skill, SkillLevel } from 'hoshimi-types/ProtoMaster';
+import { cloneDeep, findLast } from 'lodash';
 import { useCardPropensity } from '@/composables/card';
 import { fetchCardBase } from '@/api/card';
 
@@ -170,7 +179,7 @@ function valueCalc(Ppam = 1, isStamina = false) {
   return Math.floor(Math.floor(+(cardParameter.value[level.value - 1]?.[isStamina ? 'staminaValue' : 'value'] ?? 1) * (Ppam / 1000)) * ((cardRarity.value?.parameterBonusPermil ?? 1) / 1000)) || 100;
 }
 function skillDesc(levels: SkillLevel[] | LiveAbilityLevel[] | ActivityAbilityLevel[]) {
-  return findLast<SkillLevel | LiveAbilityLevel | ActivityAbilityLevel>(levels, (n) => level.value > n.requiredCardLevel)?.description.replaceAll('\n', '<br />') ?? '';
+  return findLast<SkillLevel | LiveAbilityLevel | ActivityAbilityLevel>(levels, (n) => level.value >= n.requiredCardLevel)?.description.replaceAll('\n', '<br />') ?? '';
 }
 
 function getcardBase(id: string) {
@@ -308,6 +317,9 @@ function traSkill(skillList: Skill[]): Skill[] {
 }
 function onStoryShow(story: CardStory) {
   router.push(`/card/story/${story.storyId}`);
+}
+function onMessageShow(message: CardMessage) {
+  router.push(`/card/message/${message.messageId}`);
 }
 function cardCgImg() {
   if (!cardDetail.card.assetId) {

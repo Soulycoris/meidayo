@@ -1,24 +1,3 @@
-export const memberList = [
-  { name: '長瀬麻奈', spell: 'mna', groupName: 'ソロアイドル' },
-  { name: '長瀬琴乃', spell: 'ktn', groupName: '月のテンペスト' },
-  { name: '伊吹渚', spell: 'ngs', groupName: '月のテンペスト' },
-  { name: '白石沙季', spell: 'ski', groupName: '月のテンペスト' },
-  { name: '成宮すず', spell: 'suz', groupName: '月のテンペスト' },
-  { name: '早坂芽衣', spell: 'mei', groupName: '月のテンペスト' },
-  { name: '川咲さくら', spell: 'skr', groupName: 'サニーピース' },
-  { name: '一ノ瀬怜', spell: 'rei', groupName: 'サニーピース' },
-  { name: '佐伯遙子', spell: 'hrk', groupName: 'サニーピース' },
-  { name: '白石千紗', spell: 'chs', groupName: 'サニーピース' },
-  { name: '兵藤雫', spell: 'szk', groupName: 'サニーピース' },
-  { name: '天動瑠依', spell: 'rui', groupName: 'TRINITYAiLE' },
-  { name: '鈴村優', spell: 'yu', groupName: 'TRINITYAiLE' },
-  { name: '奥山すみれ', spell: 'smr', groupName: 'TRINITYAiLE' },
-  { name: '神崎莉央', spell: 'rio', groupName: 'LizNoir' },
-  { name: '井川葵', spell: 'aoi', groupName: 'LizNoir' },
-  { name: '小美山愛', spell: 'ai', groupName: 'LizNoir' },
-  { name: '赤崎こころ', spell: 'kkr', groupName: 'LizNoir' },
-];
-
 export const groupNameMap = new Map([
   ['星見プロダクション', 'mna'],
   ['月のテンペスト', 'moon'],

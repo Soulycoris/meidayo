@@ -2,7 +2,7 @@
   <div class="skill-icon w-100% max-w-32 max-h-32 flex justify-center items-center relative" :style="scale ? `transform:scale(${scale})` : ''">
     <div class="w100% h100% flex relative overflow-hidden">
       <img :src="`/img/skill_icon/${curSkillBg}.png`" alt="" />
-      <img class="w100% ha absolute invert" v-if="curSkill1" :class="{ 'w85% bottom-0': curSkill2 }" :src="skillIconUrl(curSkill1)" alt="" />
+      <img class="w100% ha absolute invert" v-if="curSkill1" :class="{ 'w80% bottom-0': curSkill2 }" :src="skillIconUrl(curSkill1)" alt="" />
       <img class="w50% ha absolute top-0 right-0 invert" v-if="curSkill2" :src="skillIconUrl(curSkill2)" alt="" />
       <img class="w30% ha absolute bottom-1 right-1 z-1 invert" v-if="curSkill3" :src="skillIconUrl(curSkill3)" alt="" />
       <div class="skill-3-mark w75% h30% absolute bottom-0 right--7.5 z-0" :class="curSkillMark" v-if="curSkillMark"></div>
@@ -51,9 +51,9 @@ const curSkillLevel = computed(() => {
     return props.skillLevel;
   }
   if (props.skill) {
-    return findLast(props.skill?.levels, (n) => props.level > n.requiredCardLevel)?.level ?? 5;
+    return findLast(props.skill?.levels, (n) => props.level >= n.requiredCardLevel)?.level ?? 5;
   } else if (props.yellSkill) {
-    return findLast<ActivityAbilityLevel | LiveAbilityLevel>(props.yellSkill?.levels, (n) => props.level > n.requiredCardLevel)?.level ?? 5;
+    return findLast<ActivityAbilityLevel | LiveAbilityLevel>(props.yellSkill?.levels, (n) => props.level >= n.requiredCardLevel)?.level ?? 5;
   }
   return 5;
 });

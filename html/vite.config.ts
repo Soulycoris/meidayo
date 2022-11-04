@@ -8,6 +8,7 @@ import Layouts from 'vite-plugin-vue-layouts';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import Unocss from 'unocss/vite';
+import vitePluginImp from 'vite-plugin-imp';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -36,6 +37,15 @@ export default defineConfig({
     // https://github.com/antfu/unocss
     // see unocss.config.ts for config
     Unocss(),
+    vitePluginImp({
+      libList: [
+        {
+          libName: 'lodash',
+          libDirectory: '',
+          camel2DashComponentName: false,
+        },
+      ],
+    }),
   ],
   resolve: {
     alias: {

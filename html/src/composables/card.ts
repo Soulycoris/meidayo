@@ -2,6 +2,7 @@ import { db } from '@/db';
 import { fetchCardList, fetchCardParameter, fetchCardRarity } from '@/api/card';
 import { Card, CardList, CardPropensity } from '@/ProtoTypes';
 import { max } from 'lodash';
+import { useCardStore } from '@/stores/card';
 
 export async function useCardDb() {
   let card = await db.card.orderBy('order').reverse().toArray();
@@ -19,6 +20,8 @@ export async function cardDbUpdate() {
   const res = await fetchCardList();
   let card = res.data;
   await db.card.bulkPut(card);
+  const cardStore = useCardStore();
+  cardStore.$patch({ card });
   return true;
 }
 

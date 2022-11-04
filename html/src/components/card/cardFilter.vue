@@ -22,7 +22,7 @@
               </div>
             </div>
             <div class="title mt-2 mb-2 flex justify-between items-center">
-              <div @dblclick="backup">倾向</div>
+              <div>倾向</div>
               <div class="flex">
                 <span class="tool-item" @click="eventSelect('propensity', true)">全选</span>
                 <span class="tool-item" @click="eventSelect('propensity', false)">取消</span>
@@ -45,7 +45,7 @@
             </div>
             <div class="flex flex-wrap">
               <template v-for="item in characterStore.character">
-                <div class="w-30% flex flex-wrap items-center" v-if="!item.isNpc">
+                <div class="w-30% flex flex-wrap items-center" v-if="item.type == CharacterType['Normal']">
                   <input type="checkbox" :id="item.id" :value="item.id" v-model="searchForm.character" />
                   <label class="flex items-center m1" :for="item.id">
                     <img class="img-max w8" :src="memberIcon(item.assetId)" />
@@ -65,7 +65,7 @@ import { host } from '@/config/host';
 import { cardPropensityMap, cardTypeMap } from '@/assets/utils/typeMap';
 import { useCharacterStore } from '@/stores/character';
 import { CardPropensity } from '@/ProtoTypes';
-import { CardType } from 'hoshimi-types/ProtoEnum';
+import { CardType, CharacterType } from 'hoshimi-types/ProtoEnum';
 
 const characterStore = useCharacterStore();
 
@@ -79,6 +79,8 @@ let updateTag = 0;
 const props = defineProps<{
   show: boolean;
 }>();
+console.log(CharacterType['Npc']);
+
 
 const emit = defineEmits<{
   (e: 'on-confirm', form: CardListFilterForm): void;
@@ -94,7 +96,7 @@ function confirm() {
   emit('on-confirm', searchForm);
 }
 
-function eventSelect(target: string, event: boolean) {
+function eventSelect(target: keyof CardListFilterForm, event: boolean) {
   if (!event) {
     searchForm[target]?.splice(0);
     return;
@@ -116,14 +118,6 @@ function update() {
     axios.get(`/db/update`);
   }
 }
-function backup() {
-  updateTag++;
-  if (updateTag > 2) {
-    alert('backup');
-    updateTag = 0;
-    axios.get(`/db/backup`);
-  }
-}
 function memberIcon(name: string) {
   if (!name) {
     return '';
@@ -133,27 +127,14 @@ function memberIcon(name: string) {
 </script>
 <style lang="scss">
 .filter {
-  // position: fixed;
-  // z-index: 100;
-  // top: 0;
-  // bottom: 0;
-  // width: 100vw;
-  // height: 100vh;
   color: #fff;
   .mark {
-    // width: 100%;
-    // height: 100%;
     background-color: rgba(76, 76, 76, 0.8);
   }
 }
 .card-filter {
-  // position: absolute;
-  // bottom: 0;
-  // width: 100%;
   background-color: var(--background-color-base);
   transition: transform 0.3s ease-in-out;
-  // display: flex;
-  // flex-direction: column;
   .nav-center {
     font-size: 16px;
   }
