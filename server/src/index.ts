@@ -4,6 +4,7 @@ import cors from 'koa2-cors';
 
 import router from './router';
 import { run } from './database';
+import { wikiLaunch } from './wiki';
 
 const app: Koa = new Koa();
 
@@ -35,4 +36,5 @@ app.listen(port, () => {
   console.log(`seccess start server`);
   console.log(`local: http://127.0.0.1:${port}`);
   run().catch((err) => console.log(err));
+  wikiLaunch().catch((err) => console.log(err));
 });

@@ -93,7 +93,7 @@ import { Card, CardDetail, CardList } from '@/ProtoTypes';
 import { ActivityAbilityLevel, CardMessage, CardStory, LiveAbilityLevel, Skill, SkillLevel } from 'hoshimi-types/ProtoMaster';
 import { cloneDeep, findLast } from 'lodash';
 import { useCardPropensity } from '@/composables/card';
-import { fetchCardBase } from '@/api/card';
+import { fetchCardBase, putCardToWiki } from '@/api/card';
 
 const router = useRouter();
 const route = useRoute();
@@ -162,7 +162,10 @@ onActivated(async () => {
   cardId = route.params.cardId as string;
   if (cardId != cardDetail.card.id) {
     Object.assign(cardDetail, backup.cardDetail);
-    getcardBase(cardId);
+    await getcardBase(cardId);
+    if (route.query.someparam) {
+      onPutCardToWiki();
+    }
   }
 });
 
@@ -182,14 +185,11 @@ function skillDesc(levels: SkillLevel[] | LiveAbilityLevel[] | ActivityAbilityLe
   return findLast<SkillLevel | LiveAbilityLevel | ActivityAbilityLevel>(levels, (n) => level.value >= n.requiredCardLevel)?.description.replaceAll('\n', '<br />') ?? '';
 }
 
-function getcardBase(id: string) {
-  fetchCardBase(id)
-    .then(({ data }) => {
-      Object.assign(cardDetail, data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+async function getcardBase(id: string) {
+  let res = await fetchCardBase(id);
+  if (res.status === 200 && res?.data) {
+    Object.assign(cardDetail, res.data);
+  }
 }
 
 function traSkill(skillList: Skill[]): Skill[] {
@@ -338,6 +338,13 @@ function goBack() {
 }
 function toMember(item: CardList) {
   // router.push(`/card/member/${item.memberId}`);
+}
+function onPutCardToWiki() {
+  putCardToWiki(cardDetail)
+    .then((res) => {
+      window.open(res?.data);
+    })
+    .catch((err) => {});
 }
 </script>
 <style lang="scss" scoped>

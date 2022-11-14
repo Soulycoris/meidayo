@@ -16,3 +16,5 @@ export const fetchCardStoryDetail = (id: CardStory['storyId']) => axios.get<Card
 export const fetchMessage = (id: Message['id']) => axios.get<Message>(`/card/message/${id}`);
 
 export const fetchMessageList = (id: Message['characterId']) => axios.get<Message>(`/card/messageList/${id}`);
+
+export const putCardToWiki = (cardDetail: CardDetail) => axios.post<string>(`/wiki/post`, cardDetail);

@@ -72,10 +72,10 @@ export default class {
       .edit({
         title,
         text,
-        appendtext: ``,
         bot: true,
         notminor: true,
-        nocreate: true,
+        createonly: false, // 不要编辑页面，如果已经存在。
+        nocreate: false, // 如果该页面不存在，则抛出一个错误。
       })
       .catch((error) => {
         if (error instanceof WikiError && error.data.result === 'Warning') {

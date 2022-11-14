@@ -36,7 +36,7 @@ export function useSkillBg(item: Skill, level: number) {
     }
     if (icons.length === 1 && icons[0].efficacyId.includes('score-get')) {
       skillBg += 'score';
-    } else if (icons.some((e) => e.efficacyId.includes('up'))) {
+    } else if (icons.some((e) => /up|boost/.test(e.efficacyId) && !isDebuff(e.efficacyId))) {
       skillBg += 'strength';
     } else {
       skillBg += 'support';
@@ -59,19 +59,16 @@ export function useSkillParts(item: Skill, level: number) {
         let [, assets, , target, targetType] = detail?.efficacyId.split('-') ?? [];
         let prefab = assets?.replaceAll('_', '-');
         skillParts.push(prefab ? `img_icon_skill-normal_${prefab}` : '');
-        if (/down|consumption-increase|impossible/.test(prefab)) {
+        if (isDebuff(prefab)) {
           skillParts[3] = target === 'target' ? targetType : target;
         }
       }
       // 调整技能位置
       if (skillParts.length > 1) {
         // debuff技能放3号
-        let index = skillParts.findIndex((e) => /down|consumption-increase|impossible/.test(e));
-        if (index > -1) {
-          // debuff 目标
-          if (index != 2) {
-            [skillParts[2], skillParts[index]] = [skillParts[index] ?? '', skillParts[2] ?? ''];
-          }
+        let index = skillParts.findIndex((e) => isDebuff(e));
+        if (index > -1 && index != 2) {
+          [skillParts[2], skillParts[index]] = [skillParts[index] ?? '', skillParts[2] ?? ''];
         }
 
         // 得分技能放2号
@@ -81,11 +78,15 @@ export function useSkillParts(item: Skill, level: number) {
         }
 
         // 3号不是debuff去掉
-        if (skillParts[2] && !/down|consumption-increase|impossible/.test(skillParts[2])) {
+        if (skillParts[2] && !isDebuff(skillParts[2])) {
           skillParts.splice(2, 1);
         }
       }
     }
   }
   return skillParts;
+}
+
+function isDebuff(skillDetail: string) {
+  return /down|consumption-increase|impossible|erasing/.test(skillDetail);
 }

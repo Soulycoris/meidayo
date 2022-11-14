@@ -36,7 +36,7 @@ export function useSkillBg(item: Skill, level: number) {
     }
     if (icons.length === 1 && icons[0].efficacyId.includes('score-get')) {
       skillBg += 'score';
-    } else if (icons.some((e) => e.efficacyId.includes('up'))) {
+    } else if (icons.some((e) => /up|boost/.test(e.efficacyId) && !isDebuff(e.efficacyId))) {
       skillBg += 'strength';
     } else {
       skillBg += 'support';

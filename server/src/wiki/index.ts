@@ -4,4 +4,8 @@ const app = new handler({
   wikiSessionCookie: '',
 });
 
-app.launch();
+export async function wikiLaunch(): Promise<void> {
+  await app.launch();
+}
+
+export default app;

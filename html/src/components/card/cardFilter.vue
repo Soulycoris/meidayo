@@ -79,8 +79,6 @@ let updateTag = 0;
 const props = defineProps<{
   show: boolean;
 }>();
-console.log(CharacterType['Npc']);
-
 
 const emit = defineEmits<{
   (e: 'on-confirm', form: CardListFilterForm): void;
