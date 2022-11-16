@@ -35,10 +35,8 @@ export default class {
   public postCard = async (cardDetail: CardDetail) => {
     const { charName, charId, text } = composeCardPage(cardDetail);
     const title = `${charName}/卡牌/${charId}`;
-    // await this.publisher.post(title, text);
-    // return `${baseUrl}/${charName}/卡牌/${charId}`;
-    const token = this.publisher.getToken();
-    console.log(token);
-    return token;
+    // const title = `测试添加页面`;
+    await this.publisher.post(title, text);
+    return `${baseUrl}/${charName}/卡牌/${charId}`;
   };
 }

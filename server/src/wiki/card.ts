@@ -70,16 +70,16 @@ export function getCharId(characterId: string, cardId: string) {
 }
 
 // 技能图标
-export function composeSkillIconText(skillParts: string[]) {
+export function composeSkillIconText(skillParts: string[], skillMark: string) {
   let text = '';
   for (const [index, part] of skillParts.entries()) {
     if (index === 3) {
       // debuff target
-      if (part === 'down') {
+      if (skillMark === 'down') {
         text += '|角标色=#d80032';
-      } else if (part === 'oneself') {
+      } else if (skillMark === 'oneself') {
         text += '|角标色=#d7d7d6';
-      } else if (part === 'opponent') {
+      } else if (skillMark === 'opponent') {
         text += '|角标色=#fc7e44';
       }
       break;
@@ -97,7 +97,7 @@ export function composeCardPage(cardDetail: CardDetail) {
   const { card } = cardDetail;
   let skillText = '';
   for (const [index, skill] of cardDetail.skill.entries()) {
-    const { skillBg, skillType, skillParts } = useSkillIcon(skill);
+    const { skillBg, skillType, skillParts, skillMark } = useSkillIcon(skill);
     let skillBgType = '辅助';
     if (skillBg.includes('support')) {
       skillBgType = '支援';
@@ -110,7 +110,7 @@ export function composeCardPage(cardDetail: CardDetail) {
       skillText += `
       |演出技能图标${index + 1} = `;
     } else {
-      const skillIconText = composeSkillIconText(skillParts);
+      const skillIconText = composeSkillIconText(skillParts, skillMark);
       skillText += `
       |演出技能图标${index + 1} = {{技能图标|${skillType}|${index + 1}|${skillBgType}${skillIconText}}}`;
     }

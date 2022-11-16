@@ -12,6 +12,13 @@ export default class {
 
   constructor() {
     this.bot = new MWBot(`${baseUrl}/api.php`);
+    const updateCsrfToken = this.bot.updateCsrfToken.bind(this.bot);
+    this.bot.updateCsrfToken = function () {
+      setTimeout(() => {
+        (this as any).lastCsrfToken = undefined;
+      }, 7200000);
+      return updateCsrfToken();
+    }.bind(this.bot);
   }
 
   public login = async (sessdata: string) => {

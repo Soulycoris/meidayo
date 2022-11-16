@@ -163,7 +163,7 @@ onActivated(async () => {
   if (cardId != cardDetail.card.id) {
     Object.assign(cardDetail, backup.cardDetail);
     await getcardBase(cardId);
-    if (route.query.someparam) {
+    if (route.query.putToWiki) {
       onPutCardToWiki();
     }
   }
