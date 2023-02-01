@@ -2,9 +2,9 @@ import { skillCategoryTypeMap } from './typeMap';
 import { ActivityAbility, LiveAbility, Skill } from 'hoshimi-types/ProtoMaster';
 
 export function useSkillIcon(skill: Skill, level = 6) {
-  const skillBg = useSkillBg(skill, level);
   const skillType = useSkillType(skill);
   const skillParts = useSkillParts(skill, level);
+  const skillBg = useSkillBg(skill, level, skillParts);
   const skillMark = skillParts[3]?.split('_')[0] ?? '';
   return { skillBg, skillType, skillMark, skillParts };
 }
@@ -19,7 +19,7 @@ export function useYellSkillIcon(skill: ActivityAbility | LiveAbility, level: nu
   return { skillBg, skillType, skillMark, skillParts };
 }
 
-export function useSkillBg(item: Skill, level: number) {
+export function useSkillBg(item: Skill, level: number, skillParts: string[]) {
   let type = skillCategoryTypeMap.get(item.categoryType)?.name;
   let skillBg = 'bg_';
   if (type === 'SP') {
@@ -30,13 +30,14 @@ export function useSkillBg(item: Skill, level: number) {
     // bg_score_2 蓝
     // bg_support_2 绿
     // bg_strength_2 天蓝
-    let icons = item.levels.at(level - 1)?.skillDetails;
-    if (!icons?.length) {
+    // let skillParts = item.levels.at(level - 1)?.skillDetails;
+    if (!skillParts?.length) {
       return '';
     }
-    if (icons.length === 1 && icons[0].efficacyId.includes('score-get')) {
+
+    if (skillParts[0].includes('score-get')) {
       skillBg += 'score';
-    } else if (icons.some((e) => /up|boost/.test(e.efficacyId) && !isDebuff(e.efficacyId))) {
+    } else if (skillParts.some((e) => /up|boost|audience-amount-increase|multiplier-add/.test(e) && !isDebuff(e))) {
       skillBg += 'strength';
     } else {
       skillBg += 'support';
@@ -55,26 +56,33 @@ export function useSkillParts(item: Skill, level: number) {
   } else {
     const skillDetails = item.levels.at(level - 1)?.skillDetails;
     if (skillDetails) {
+      let mark = '';
       for (const detail of skillDetails) {
         let [, assets, , target, targetType] = detail?.efficacyId.split('-') ?? [];
         let prefab = assets?.replaceAll('_', '-');
         skillParts.push(prefab ? `img_icon_skill-normal_${prefab}` : '');
         if (isDebuff(prefab)) {
-          skillParts[3] = target === 'target' ? targetType : target;
+          mark = target === 'target' ? targetType : target;
         }
       }
+      if (mark) {
+        skillParts[3] = mark;
+      }
+
       // 调整技能位置
       if (skillParts.length > 1) {
         // debuff技能放3号
         let index = skillParts.findIndex((e) => isDebuff(e));
         if (index > -1 && index != 2) {
-          [skillParts[2], skillParts[index]] = [skillParts[index] ?? '', skillParts[2] ?? ''];
+          let [part] = skillParts.splice(index, 1);
+          skillParts.splice(2, 0, part);
         }
 
         // 得分技能放2号
-        index = skillParts.findIndex((e) => e.includes('score-get'));
+        index = skillParts.findIndex((e) => e?.includes('score-get'));
         if (index > -1 && index != 1 && skillParts[1]) {
-          [skillParts[1], skillParts[index]] = [skillParts[index], skillParts[1]];
+          let [part] = skillParts.splice(index, 1);
+          skillParts.splice(1, 0, part);
         }
 
         // 3号不是debuff去掉

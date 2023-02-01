@@ -3,6 +3,10 @@ import { Card, CardDetail } from '@/ProtoTypes';
 import { CardParameter, CardRarity, Costume } from 'hoshimi-types/ProtoMaster';
 import fs from 'fs-extra';
 import resolvePath from 'resolve-path';
+import { findLast } from 'lodash';
+
+const level = 200;
+const rarity = 10;
 
 // 卡牌倾向
 export function useCardPropensity(card: Card) {
@@ -45,8 +49,6 @@ export function transCharName(characterId: string) {
 }
 
 export function valueCalc(cardParameterId: string, Ppam: number, isStamina: boolean) {
-  const level = 200;
-  const rarity = 10;
   const cardParamList: CardParameter[] = fs.readJSONSync(resolvePath('./masterdata/CardParameter.json'));
   const cardRarityList: CardRarity[] = fs.readJSONSync(resolvePath('./masterdata/CardRarity.json'));
   const cardRarity = cardRarityList.find((e) => e.rarity === rarity);
@@ -105,7 +107,7 @@ export function composeCardPage(cardDetail: CardDetail) {
       skillBgType = '得分';
     }
 
-    const curLevel = skill.levels.at(-1); // 最高级技能
+    const curLevel = findLast(skill.levels, (n) => level >= n.requiredCardLevel);
     if (skillType === 'SP') {
       skillText += `
       |演出技能图标${index + 1} = `;
@@ -207,7 +209,7 @@ export function transYell(abilityId: string) {
       yell.skillDescTrans = '休息的体力回复提升3%';
       break;
     case 'lba-active_skill_score_multiply':
-      yell.icon = 'active-skill-score-multiply';
+      yell.icon = 'live_active-skill-score-multiply';
       yell.skill = 'Aスキルスコアアップ';
       yell.skillDesc = 'Aスキルスコア2.5%上昇';
       yell.skillTrans = 'A技能得分提升';
@@ -235,7 +237,7 @@ export function transYell(abilityId: string) {
       yell.skillDescTrans = '舞蹈属性提升3%';
       break;
     case 'lba-mental_add':
-      yell.icon = 'live mental-add';
+      yell.icon = 'live_mental-add';
       yell.skill = 'メンタルアップ';
       yell.skillDesc = 'メンタル300上昇';
       yell.skillTrans = '精神提升';
@@ -249,14 +251,14 @@ export function transYell(abilityId: string) {
       yell.skillDescTrans = 'SP技能得分提升5%';
       break;
     case 'lba-stamina_add':
-      yell.icon = 'stamina-add';
+      yell.icon = 'live_stamina-add';
       yell.skill = 'スタミナアップ';
       yell.skillDesc = 'スタミナ210上昇';
       yell.skillTrans = '体力提升';
       yell.skillDescTrans = '体力提升210';
       break;
     case 'lba-technique_add':
-      yell.icon = 'technique-add';
+      yell.icon = 'live_technique-add';
       yell.skill = 'クリティカルアップ';
       yell.skillDesc = 'クリティカル300上昇';
       yell.skillTrans = '暴击率提升';

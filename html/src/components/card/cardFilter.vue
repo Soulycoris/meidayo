@@ -45,7 +45,7 @@
             </div>
             <div class="flex flex-wrap">
               <template v-for="item in characterStore.character">
-                <div class="w-30% flex flex-wrap items-center" v-if="item.type == CharacterType['Normal']">
+                <div class="w-30% flex flex-wrap items-center" v-if="item.type !== CharacterType['Npc']">
                   <input type="checkbox" :id="item.id" :value="item.id" v-model="searchForm.character" />
                   <label class="flex items-center m1" :for="item.id">
                     <img class="img-max w8" :src="memberIcon(item.assetId)" />

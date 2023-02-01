@@ -2,11 +2,11 @@
   <div class="skill-icon w-100% max-w-32 max-h-32 flex justify-center items-center relative" :style="scale ? `transform:scale(${scale})` : ''">
     <div class="w100% h100% flex relative overflow-hidden">
       <img :src="`/img/skill_icon/${curSkillBg}.png`" alt="" />
-      <img class="w100% ha absolute invert" v-if="curSkill1" :class="{ 'w80% bottom-0': curSkill2 }" :src="skillIconUrl(curSkill1)" alt="" />
+      <img class="w100% ha absolute invert" v-if="curSkill1" :class="{ 'w75% bottom-0': curSkill2 }" :src="skillIconUrl(curSkill1)" alt="" />
       <img class="w50% ha absolute top-0 right-0 invert" v-if="curSkill2" :src="skillIconUrl(curSkill2)" alt="" />
       <img class="w30% ha absolute bottom-1 right-1 z-1 invert" v-if="curSkill3" :src="skillIconUrl(curSkill3)" alt="" />
       <div class="skill-3-mark w75% h30% absolute bottom-0 right--7.5 z-0" :class="curSkillMark" v-if="curSkillMark"></div>
-      <div class="box-border w100% h100% absolute top-0 b-6 b-black rd-3">
+      <div class="w100% h100% absolute top-0 b-6 b-solid b-black rd-3 box-border">
         <div class="absolute top--1.5 left--1.5 pt-1 pb-.25 pl-1 pr-1 bg-black lh-none text-size-lg" style="border-top-left-radius: 15px;" v-if="curSkillType">{{ curSkillType }}</div>
         <div class="absolute bottom--1.5 left--1.5 pt-.25 pb-1 pl-1 pr-1 bg-black lh-none text-size-lg" style="border-bottom-left-radius: 15px; letter-spacing: -2px" v-if="curSkillLevel">
           <span class="text-size-base" style="letter-spacing: -1px">Lv</span>
